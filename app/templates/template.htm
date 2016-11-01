@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+
+    <head>
+		{% block head %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>bonus</title>
+        <link rel="shortcut icon" href="" type="static/image/x-icon">
+        <link rel="apple-touch-icon-precomposed" href="static/images/apple-touch-icon.png">
+        <link id="data-uikit-theme" rel="stylesheet" href="static/css/uikit.docs.min.css">
+        <link rel="stylesheet" href="static/css/docs.css">
+        <link rel="stylesheet" href="static/vendor/highlight/highlight.css">
+        <script src="static/vendor/jquery.js"></script>
+        <script src="static/js/uikit.min.js"></script>
+        <script src="static/vendor/highlight/highlight.js"></script>
+		<script src="static/src/js/components/datepicker.js"></script>
+		<script src="static/src/js/components/form-select.js"></script>
+		<script src="static/src/js/components/timepicker.js"></script>
+		<script src="static/src/js/components/autocomplete.js"></script>
+        <script src="static/js/docs.js"></script>
+		{% endblock %}
+    </head>
+
+    <body>
+			
+			
+	        <nav class="tm-navbar uk-navbar uk-navbar-attached">
+            <div class="uk-container uk-container-center">
+
+                <a class="uk-navbar-brand uk-hidden-small" href="/">hello</a>
+
+                <ul class="uk-navbar-nav uk-hidden-small uk-text-bold">
+                    <li><a href="/" class="uk-text-bold">Home</a></li>
+
+                </ul>
+
+                <a href="#tm-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+
+                
+            </div>
+        </nav>
+		{% block content %}{% endblock %}
+
+		{% block footer %}
+        <div class="tm-footer" style="background-color:#436A9C;">
+            <div class="uk-container uk-container-center uk-text-center">
+
+
+                <div class="uk-panel">
+                    <p>Template by <a href="http://getuikit.com/">UIkit</a><br class="uk-hidden-small">developer © 2016</p>
+                </div>
+
+            </div>
+        </div>
+		{% endblock %}
+
+</body>
+</html>
