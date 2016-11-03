@@ -10,22 +10,8 @@ app = Flask(__name__)
 
 app.config.from_pyfile('config.py')
 
-from app.controller.view import view
-app.register_blueprint(view, url_prefix='/')
-
-from app.controller.api import api
-app.register_blueprint(api, url_prefix='/api')
-app.register_blueprint(api, url_prefix='/api/gpio')
-
-from app.controller.device import device
-app.register_blueprint(device, url_prefix='/device')
-
-from app.controller.member import member
-app.register_blueprint(member, url_prefix='/member')
-
-from app.controller.public import public
-app.register_blueprint(public, url_prefix='/public')
-
+from app.core.core import core
+app.register_blueprint(core, url_prefix='/')
 
 
 @app.errorhandler(404)
@@ -60,6 +46,3 @@ def page_not_found(e):
 	resp = Response(error, status=403, mimetype='application/json')
 	return resp
 
-
-from app.controller.blink import blink
-app.register_blueprint(blink, url_prefix='/blink')
