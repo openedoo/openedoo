@@ -13,6 +13,8 @@ app.config.from_pyfile('config.py')
 from app.core import core
 app.register_blueprint(core, url_prefix='/')
 
+from app.hello import hello
+app.register_blueprint(hello, url_prefix='/hello')
 
 @app.errorhandler(400)
 def page_not_found(e):
@@ -50,4 +52,3 @@ def page_not_found(e):
 	error = json.dumps(error)
 	resp = Response(error, status=500, mimetype='application/json')
 	return resp
-
