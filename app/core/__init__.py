@@ -11,4 +11,3 @@ import json
 @core.route('/')
 def newbot():
 	return "hello world"
-

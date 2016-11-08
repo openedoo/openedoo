@@ -4,9 +4,15 @@ from sqlalchemy.ext.automap import automap_base
 import json
 from datetime import datetime, date
 import datetime
+from sqlalchemy.orm import relationship, backref,create_session,Session, sessionmaker
 
 
+
+#Base = declarative_base()
+engine = create_engine('mysql://root:aris1996@localhost:3306/openedoo')
 Base = declarative_base()
+metadata = MetaData(bind=engine)
+auto_map = automap_base()
 
 class od_session(Base):
 	__tablename__ = 'od_user_session'
@@ -24,7 +30,7 @@ class od_users(Base):
 	__tablename__ = 'od_user'
 	user_id = Column(Integer,primary_key=True,autoincrement=True)
 	username = Column(String(16))
-	password = Column(String(16))
+	password = Column(Text())
 	access_token = Column(Text())
 	public_key = Column(Text())
 	private_key = Column(Text())
@@ -33,8 +39,7 @@ class od_users(Base):
 	created = Column(DateTime())
 	last_login = Column(DateTime())
 	user_profile = Column(Text())
-	def __init__(self,user_id, username,password,access_token,public_key,private_key,status,role,created,last_login,user_profile):
-		self.user_id = user_id
+	def __init__(self,username,password,access_token,public_key,private_key,status,role,created,last_login,user_profile):
 		self.username = username
 		self.password = password
 		self.access_token = access_token
@@ -45,11 +50,32 @@ class od_users(Base):
 		self.created = created
 		self.last_login = last_login
 		self.user_profile = user_profile
-'''	def __repr__(self):
-		return "<User(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)>" % (self.user_id, self.username, self.password, self.access_token,self.public_key,self.private_key,self.status,self.role,self.created,self.last_login,self.device,self.user_profile)
-'''
+	'''
+	def insert(data):
+		Session = sessionmaker(bind=engine)
+		session = Session()
+		Base.metadata.create_all(engine)
+
+		data = od_users(
+			username=self.username,
+			password=self.password,
+			access_token= self.access_token,
+			public_key= self.public_key,
+			private_key=self.private_key,
+			status=self.status,
+			role=self.role,
+			created=self.created,
+			last_login=self.last_login,
+			user_profile=self.user_profile,
+		)
+
+
+		session.add(data)
+		session.commit()
+		'''
+
 def db_create():
-	engine = create_engine('mysql://root:ayambakar@localhost:3306/db_baru')
+	engine = create_engine('mysql://root:aris1996@localhost:3306/openedoo')
 	metadata = MetaData(bind=engine)
 	auto_map = automap_base()
 	Base.metadata.create_all(engine)

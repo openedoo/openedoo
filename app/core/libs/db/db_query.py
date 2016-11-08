@@ -7,10 +7,11 @@ import json
 from datetime import datetime, date
 import datetime
 
+
 ##table declaration
 from db_tables import od_session, od_users
 
-engine = create_engine('mysql://root:ayambakar@localhost:3306/db_baru')
+engine = create_engine('mysql://root:aris1996@localhost:3306/openedoo')
 Base = declarative_base()
 metadata = MetaData(bind=engine)
 auto_map = automap_base()
@@ -56,24 +57,21 @@ def update_table_user2(namatable,filtering,nilai_optional,dict_update):
 
 def insertdb(new):
 	try:
-		session = sessionmaker()
-		session.configure(bind=engine)
+		Session = sessionmaker(bind=engine)
+		session = Session()
 		Base.metadata.create_all(engine)
-		s = session()
-		Base.metadata.create_all(engine)
-		s.add(new)
-		s.commit()
-		engine.dispose()
-		return True
-	except Exception:
-		return False
+		session.add(new)
+		session.commit()
+
+	except Exception as e:
+		print e
 
 def deletedb(namatable,data):
 	try:
 		namatable = namatable
 		session = sessionmaker()
 		session.configure(bind=engine)
-		Base.metadata.create_all(engine)	
+		Base.metadata.create_all(engine)
 		s = session()
 		Base.metadata.create_all(engine)
 		jack = s.query(namatable).get(data)
