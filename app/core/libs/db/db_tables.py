@@ -33,7 +33,8 @@ class od_users(Base):
 	created = Column(DateTime())
 	last_login = Column(DateTime())
 	user_profile = Column(Text())
-	def __init__(self,user_id, username,password,access_token,public_key,private_key,status,role,created,last_login,user_profile):
+	user_profile_asd = Column(Text())
+	def __init__(self,user_id, username,password,access_token,public_key,private_key,status,role,created,last_login,user_profile,user_profile_asd):
 		self.user_id = user_id
 		self.username = username
 		self.password = password
@@ -45,6 +46,7 @@ class od_users(Base):
 		self.created = created
 		self.last_login = last_login
 		self.user_profile = user_profile
+		self.user_profile_asd = user_profile_asd
 '''	def __repr__(self):
 		return "<User(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)>" % (self.user_id, self.username, self.password, self.access_token,self.public_key,self.private_key,self.status,self.role,self.created,self.last_login,self.device,self.user_profile)
 '''

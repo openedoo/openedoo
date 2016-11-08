@@ -4,14 +4,17 @@ from flask import g
 from flask import Response
 from flask import request
 import json
-
-
+import config
 app = Flask(__name__)
 
-app.config.from_pyfile('config.py')
-
+#app.config.from_pyfile('config.py')
+#app.config.from_object('config.DevelopmentConfig')
+app.config.from_object(config.DevelopmentConfig)
 from app.core import core
 app.register_blueprint(core, url_prefix='/')
+
+from app.core.hard import hard
+app.register_blueprint(hard, url_prefix='/hard')
 
 
 @app.errorhandler(400)
