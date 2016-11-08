@@ -8,3 +8,4 @@ click
 Jinja2
 alembic
 manager
+flask-migrate
