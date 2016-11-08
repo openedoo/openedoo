@@ -32,7 +32,7 @@ def addmember():
         datajs = {'token':acakpass,'password':passwordhash,'acess_token':access_token,'public_key':public_key}
         userprofile = {"email":loadjson['email'],"phone":loadjson['phone'],"name":loadjson['name']}
         user_profile = json.dumps(userprofile)
-        print passwordhash
+        
         try:
             data = od_users(
                 username=loadjson['username'],

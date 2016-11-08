@@ -6,3 +6,5 @@ Werkzeug
 itsdangerous
 click
 Jinja2
+alembic
+manager
