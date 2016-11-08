@@ -6,7 +6,7 @@ from app import app
 from app.core.libs.db.db_query import Base
 
 migrate = Migrate(app, Base)
-
+#
 manager = Manager(app)
 manager.add_command('dbase', MigrateCommand)
 
