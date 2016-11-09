@@ -1,6 +1,7 @@
 from functools import wraps
 from flask import request, abort
-from db.ormdua import Users,selectdb
+from db import selectdb
+from db.db_tables import Users
 from tools import cocokpw,hashingpw,checkpass2
 
 def check_auth(username, password):
