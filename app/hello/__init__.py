@@ -2,6 +2,7 @@ from flask import Blueprint, render_template
 from flask import request
 from flask import Response
 import json
+from app.core.libs import query
 from app.core.libs.db.db_query import insertdb, deletedb, selectdb
 from app.core.libs.db.db_tables import od_users
 from app.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
@@ -10,9 +11,6 @@ from flask import abort
 
 
 hello = Blueprint('hello', __name__)
-
-now = datetime.now()
-sekarang = now.strftime('%Y-%m-%d %H:%M:%S')
 
 @hello.route('/', methods=['POST', 'GET'])
 def index():
@@ -23,40 +21,15 @@ def addmember():
     if request.method == 'POST':
         loadjson = json.loads(request.data)
         password = loadjson['password']
-        public_key = 'NULL'
-        private_key = 'NULL'
-
-        acakpass = (randomword(16)+password)
-        passwordhash = hashingpw2(password)
-        access_token = hashingpw(acakpass)
-        datajs = {'token':acakpass,'password':passwordhash,'acess_token':access_token,'public_key':public_key}
-        userprofile = {"email":loadjson['email'],"phone":loadjson['phone'],"name":loadjson['name']}
-        user_profile = json.dumps(userprofile)
-
+        username = loadjson['username']
+        name = loadjson['name']
+        email = loadjson['email']
+        phone = loadjson['phone']
         try:
-            
-            data = od_users(
-                username=loadjson['username'],
-                password=passwordhash,
-                access_token= access_token,
-                public_key= public_key,
-                private_key=private_key,
-                status='0',
-                role='0',
-                created=sekarang,
-                last_login=sekarang,
-                user_profile=str(user_profile),
-            )
-            try:
-                insertdb(data)
-
-            except Exception as e:
-                print e
-
+            query.addmember(username=username, password=password, name=name, email=email, phone=phone)
         except Exception as e:
             return e
-        response = Response(user_profile, status=201, mimetype='application/json')
-        return response
+        return "Successfully add member"
     else:
         return "Coba"
 
