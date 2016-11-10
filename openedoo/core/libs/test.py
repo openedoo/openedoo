@@ -1,1 +1,1 @@
-from app.core.libs import blueprint
+from openedoo import app
