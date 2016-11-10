@@ -1,7 +1,8 @@
-from core.http import response
+from core.libs import response
 from flask import Flask,abort
 import json
-import config
+from openedoo.config import config
+
 app = Flask(__name__)
 
 app.config.from_object(config.Development)

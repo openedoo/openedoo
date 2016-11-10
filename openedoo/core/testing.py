@@ -12,4 +12,3 @@ def newbot():
 @testing.route('/bac')
 def newbot2():
 	return "rendi"
-
