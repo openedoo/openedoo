@@ -1,9 +1,10 @@
+
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 import json
 
-with open('app/config.json') as data_file:
+with open('config.json') as data_file:
     data_json = json.loads(data_file.read())
 
 
@@ -16,12 +17,17 @@ class config(object):
 class Production(config):
 	DEBUG = False
 	SECRET_KEY = data_json['secret_key']
+	CRYPT_LEVEL = 12
 
 class Development(config):
 	DEVELOPMENT = True
 	DEBUG = True
 	SECRET_KEY = data_json['secret_key']
+	CRYPT_LEVEL = 12
 
 class Testing(config):
 	TESTING = True
 	SECRET_KEY = data_json['secret_key']
+	CRYPT_LEVEL = 12
+
+SQLALCHEMY_DATABASE_URI = config.DB

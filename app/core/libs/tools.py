@@ -60,11 +60,3 @@ def getredis(key):
 		return json.loads(data)
 	except Exception:
 		return False
-'''
-@rp!:bed3766e39c9f18561b4bed7d78ca3f98694c0775f60f711e9f56832
-@rp!:bed3766e39c9f18561b4bed7d78ca3f98694c0775f60f711e9f56832
-@rp!:bed3766e39c9f18561b4bed7d78ca3f98694c0775f60f711e9f56832
-
-
-print hashingpw('wRMnJCsVqrKfuy7v79XxrLi4YlayAu31')
-'''

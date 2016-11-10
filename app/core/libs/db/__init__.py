@@ -8,7 +8,10 @@ from datetime import datetime, date
 
 ##table declaration
 from db_tables import od_session, od_users
+from app import config
 
+config = config.DB
+print config
 engine = create_engine('mysql://root:ayambakar@localhost:3306/db_baru')
 Base = declarative_base()
 metadata = MetaData(bind=engine)
