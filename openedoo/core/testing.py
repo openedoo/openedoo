@@ -1,4 +1,4 @@
-from app.core.libs import blueprint,response,redirect,request
+from openedoo.core.libs import blueprint,response,redirect,request
 #from flask import Blueprint
 testing = blueprint('newbot_', __name__)
 
