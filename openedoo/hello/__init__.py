@@ -2,10 +2,10 @@ from flask import Blueprint, render_template
 from flask import request
 from flask import Response
 import json
-from app.core.libs import query
-from app.core.libs.db.db_query import insertdb, deletedb, selectdb
-from app.core.libs.db.db_tables import od_users
-from app.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
+from openedoo.core.libs import query
+from openedoo.core.libs.db.db_query import insertdb, deletedb, selectdb
+from openedoo.core.libs.db.db_tables import od_users
+from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
 from datetime import datetime,timedelta
 from flask import abort
 
