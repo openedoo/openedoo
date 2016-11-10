@@ -2,7 +2,11 @@ from flask import Blueprint, render_template
 from flask import request
 from flask import Response
 import json
+<<<<<<< HEAD
 from openedoo.core.libs import query
+=======
+#from openedoo.core.libs import query
+>>>>>>> e4fc786bcf06d693abb31b90a334aceb6e055954
 from openedoo.core.libs.db.db_query import insertdb, deletedb, selectdb
 from openedoo.core.libs.db.db_tables import od_users
 from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
@@ -15,7 +19,7 @@ hello = Blueprint('hello', __name__)
 @hello.route('/', methods=['POST', 'GET'])
 def index():
     return "Hello Hello Hello"
-
+'''
 @hello.route('/add/', methods=['POST', 'GET'])
 def addmember():
     if request.method == 'POST':
@@ -32,7 +36,7 @@ def addmember():
         return "Successfully add member"
     else:
         return "Coba"
-
+'''
 @hello.route('/delete/', methods=['GET', 'POST'])
 def delmember():
     if request.method == 'POST':

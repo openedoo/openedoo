@@ -12,7 +12,7 @@ from core.testing import testing
 app.register_blueprint(testing, url_prefix='/test')
 
 
-from app.hello import hello
+from .hello import hello
 app.register_blueprint(hello, url_prefix='/hello')
 
 @app.errorhandler(400)

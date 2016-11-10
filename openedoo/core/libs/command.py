@@ -7,7 +7,7 @@ from manager import Manager
 manager = Manager()
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
-BASE = os.path.join(BASE_DIR, 'app')
+BASE = os.path.join(BASE_DIR, 'openedoo')
 
 def file(dir, name):
     try:
@@ -31,8 +31,8 @@ def create(name):
         os.mkdir(dir)
         try:
             with open(os.path.join(BASE, "__init__.py"), "a") as f:
-                f.write("\n \nfrom app.{modul} import {modul}".format(modul=name))
-                f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
+                f.write("\n \nfrom openedoo.{modul} import {modul}".format(modul=name))
+                f.write("\nopenedoo.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
                 f.close()
         except Exception as e:
             print "Error Writing __init__.py"
@@ -49,7 +49,7 @@ def create(name):
 @manager.command
 def runserver():
     """Run your app"""
-    from app import app
+    from openedoo import app
     app.debug = True
     app.run(host='0.0.0.0', port=9888)
 
@@ -59,8 +59,8 @@ def migrate():
 
     from flask.ext.script import Manager
     from flask.ext.migrate import Migrate, MigrateCommand
-    from app import app
-    from app.core.libs.db.db_query import Base
+    from openedoo import app
+    from openedoo.core.libs.db.db_query import Base
 
     migrate = Migrate(app, Base)
 
@@ -74,8 +74,8 @@ def initdb():
     from flask.ext.script import Manager
     from flask.ext.migrate import Migrate, MigrateCommand
 
-    from app import app
-    from app.core.libs.db.db_query import Base
+    from openedoo import app
+    from openedoo.core.libs.db.db_query import Base
 
     migrate = Migrate(app, Base)
 
