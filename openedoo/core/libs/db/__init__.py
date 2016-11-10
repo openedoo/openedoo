@@ -8,7 +8,7 @@ from datetime import datetime, date
 
 ##table declaration
 from db_tables import od_session, od_users
-from app import config
+from openedoo import config
 
 engine = create_engine('mysql://root:ayambakar@localhost:3306/db_baru')
 Base = declarative_base()
@@ -25,7 +25,7 @@ class query(object):
 			session = sessionmaker()
 			session.configure(bind=engine)
 	 		Base.metadata.create_all(engine)
-			s = session()	
+			s = session()
 			if ('value' in value_column):
 				kueridb = s.query(tables).filter(column == value_column['value'])
 			else:
@@ -52,7 +52,7 @@ class query(object):
 		#namatable = tables
 		session = sessionmaker()
 		session.configure(bind=engine)
-		Base.metadata.create_all(engine)	
+		Base.metadata.create_all(engine)
 		s = session()
 		Base.metadata.create_all(engine)
 		jack = s.query(tables).get(data)
