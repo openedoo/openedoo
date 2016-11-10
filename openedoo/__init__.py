@@ -1,11 +1,21 @@
 from core.libs import response
 from flask import Flask,abort
 import json
-from openedoo.config import config
+import config
 
 app = Flask(__name__)
 
-app.config.from_object(config.Development)
+with open('config.json') as data_file:
+	data_json = json.loads(data_file.read())
+
+if data_json['config']=="Development":
+	app.config.from_object(config.Development)
+elif data_json['config']=="Production":
+	app.config.from_object(config.Production)
+elif data_json['config']=="Testing":
+	app.config.from_object(config.Testing)
+else:
+	pp.config.from_object(config.Development)
 
 
 from core.testing import testing

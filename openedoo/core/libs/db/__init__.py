@@ -10,7 +10,8 @@ from datetime import datetime, date
 from db_tables import od_session, od_users
 from openedoo import config
 
-engine = create_engine('mysql://root:ayambakar@localhost:3306/db_baru')
+
+engine = create_engine(config.DB)
 Base = declarative_base()
 metadata = MetaData(bind=engine)
 auto_map = automap_base()

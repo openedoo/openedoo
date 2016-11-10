@@ -5,8 +5,9 @@ import json
 from datetime import datetime, date
 import datetime
 from sqlalchemy.orm import relationship, backref,create_session,Session, sessionmaker
+from openedoo import config
 
-engine = create_engine('mysql://root:ayambakar@localhost:3306/db_baru')
+engine = create_engine(config.DB)
 Base = declarative_base()
 metadata = MetaData(bind=engine)
 auto_map = automap_base()
@@ -48,8 +49,4 @@ class od_users(Base):
 		self.created = created
 		self.last_login = last_login
 		self.user_profile = user_profile
-def db_create():
-	engine = create_engine('mysql://root:ayambakar@localhost:3306/db_baru')
-	metadata = MetaData(bind=engine)
-	auto_map = automap_base()
-	Base.metadata.create_all(engine)
+

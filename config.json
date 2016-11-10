@@ -2,12 +2,12 @@
     "db":
         {
             "db_engine": "mysql",
-            "db_id": "root",
-            "db_password" : "ayambakar",
+            "db_id": "DB_ID",
+            "db_password" : "DB_PASSWORD",
             "db_host" : "localhost",
             "db_port" : "3306",
-            "db_name" : "db_baru"
+            "db_name" : "DB_NAME"
         },
-    "config": "Development",
+    "config": "Production",
     "secret_key" : "aksaramaya_openedoo"
 }
