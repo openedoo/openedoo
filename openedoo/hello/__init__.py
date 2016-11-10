@@ -2,13 +2,9 @@ from flask import Blueprint, render_template
 from flask import request
 from flask import Response
 import json
-<<<<<<< HEAD
-from openedoo.core.libs import query
-=======
 #from openedoo.core.libs import query
->>>>>>> e4fc786bcf06d693abb31b90a334aceb6e055954
-from openedoo.core.libs.db.db_query import insertdb, deletedb, selectdb
-from openedoo.core.libs.db.db_tables import od_users
+#from openedoo.core.libs.db.db_query import insertdb, deletedb, selectdb
+#from openedoo.core.libs.db.db_tables import od_users
 from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
 from datetime import datetime,timedelta
 from flask import abort

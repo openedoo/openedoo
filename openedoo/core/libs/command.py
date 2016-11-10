@@ -79,6 +79,10 @@ def initdb():
 
     migrate = Migrate(app, Base)
 
+@manager.command
+def test():
+    from openedoo.core.libs import test
+    print test.coba
 
 if __name__ == '__main__':
     manager.main()
