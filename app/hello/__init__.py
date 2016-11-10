@@ -26,7 +26,7 @@ def addmember():
         email = loadjson['email']
         phone = loadjson['phone']
         try:
-            query.addmember(username=username, password=password, name=name, email=email, phone=phone)
+            query.add_member(username=username, password=password, name=name, email=email, phone=phone)
         except Exception as e:
             return e
         return "Successfully add member"

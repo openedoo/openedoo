@@ -1,15 +1,16 @@
 from flask import abort, request, Response
 from datetime import datetime, timedelta
-from app.core.libs.db.db_query import insertdb
+from app.core.libs.db.db_query import insertdb, selectdb
 from app.core.libs.db.db_tables import od_users
 from app.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
 import json
+from flask import abort
 
 now = datetime.now()
 sekarang = now.strftime('%Y-%m-%d %H:%M:%S')
 
 
-def addmember(username, password, email, name, phone):
+def add_member(username, password, email, name, phone):
     userprofile = {"email":email,"phone":phone,"name":name}
     user_profile = json.dumps(userprofile)
     public_key = 'NULL'
@@ -39,3 +40,12 @@ def addmember(username, password, email, name, phone):
     except Exception as e:
         return e
     return user_profile
+
+def login_member(username, password):
+    try:
+        data = selectdb(od_users,None, None)
+        if len(data) < 1:
+            abort(403)
+        return data
+    except Exception as e:
+        return "Error"
