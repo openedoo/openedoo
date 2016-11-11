@@ -1,9 +1,8 @@
 
-from flask import Blueprint, render_template
+from openedoo.core.libs import blueprint, render_template, response, request, abort
 import json
-from flask import jsonify, abort, Flask, g, request, Response
 
-core = Blueprint('newbot_member', __name__)
+core = blueprint('newbot_member', __name__)
 
 from flask import jsonify, abort, Flask, g, request, Response
 import json

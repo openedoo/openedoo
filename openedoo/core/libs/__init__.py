@@ -3,7 +3,7 @@ from flask import Flask
 from flask import g
 from flask import Response
 from flask import request
-
+from flask import abort
 def blueprint(name,init):
 	blueprint = Blueprint(name,init)
 	return blueprint
@@ -11,3 +11,5 @@ def blueprint(name,init):
 response = Response
 request = request
 redirect = redirect
+abort = abort
+render_template = render_template
