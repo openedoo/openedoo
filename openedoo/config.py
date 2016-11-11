@@ -1,4 +1,5 @@
 
+
 import os
 #basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,8 +12,8 @@ with open('config.json') as data_file:
 class config(object):
 	DEBUG = True
 	TESTING = False
-	CSRF_ENABLED = True	
-	DB = ('%s://%s:%s@%s:%s/%s' % (data_json['db']['db_engine'],data_json['db']['db_id'],data_json['db']['db_password'],data_json['db']['db_host'],data_json['db']['db_port'],data_json['db']['db_name']))
+	CSRF_ENABLED = True
+	SQLALCHEMY_DATABASE_URI = ('%s://%s:%s@%s:%s/%s' % (data_json['db']['db_engine'],data_json['db']['db_id'],data_json['db']['db_password'],data_json['db']['db_host'],data_json['db']['db_port'],data_json['db']['db_name']))
 
 class Production(config):
 	DEBUG = False
@@ -27,4 +28,5 @@ class Testing(config):
 	TESTING = True
 	SECRET_KEY = data_json['secret_key']
 
-SQLALCHEMY_DATABASE_URI = config.DB
+SQLALCHEMY_DATABASE_URI = config.SQLALCHEMY_DATABASE_URI
+#SQLALCHEMY_DATABASE_URI = "mysql://root:aris1996@localhost:3306/openedoo"

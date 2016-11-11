@@ -11,17 +11,15 @@ BASE = os.path.join(BASE_DIR, 'openedoo')
 
 def file(dir, name):
     try:
-        file = open(os.path.join(dir, name), "a")
-        with file as f:
+        with open(os.path.join(dir, name), "a") as f:
             dir_name = os.path.basename(os.path.normpath(dir))
-            f.write("from flask import Blueprint\n\n{dir} = Blueprint('{dir}', __name__)".format(dir=dir_name))
-
+            f.write("from flask import Blueprint\n\n{dir} = Blueprint('{dir}', __name__)\n\n".format(dir=dir_name))
+            f.write("@{}.route('/', methods=['POST', 'GET'])".format(dir_name))
+            f.write("\ndef index():\n\treturn \"Hello World\"")
             f.close()
     except Exception as e:
         raise "error creating "+name
 
-def main():
-    manager.main()
 
 @manager.command
 def create(name):
@@ -32,7 +30,7 @@ def create(name):
         try:
             with open(os.path.join(BASE, "__init__.py"), "a") as f:
                 f.write("\n \nfrom openedoo.{modul} import {modul}".format(modul=name))
-                f.write("\nopenedoo.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
+                f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
                 f.close()
         except Exception as e:
             print "Error Writing __init__.py"
@@ -67,22 +65,14 @@ def migrate():
     manager = Manager(app)
     manager.add_command('dbase', MigrateCommand)
 
-@manager.command
-def initdb():
-    """Make migrations your database"""
-
-    from flask.ext.script import Manager
-    from flask.ext.migrate import Migrate, MigrateCommand
-
-    from openedoo import app
-    from openedoo.core.libs.db.db_query import Base
-
-    migrate = Migrate(app, Base)
 
 @manager.command
 def test():
     from openedoo.core.libs import test
     print test.coba
+
+def main():
+    manager.main()
 
 if __name__ == '__main__':
     manager.main()

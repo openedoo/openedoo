@@ -11,7 +11,7 @@ from db_tables import od_session, od_users
 from openedoo import config
 
 
-engine = create_engine(config.DB)
+engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
 Base = declarative_base()
 metadata = MetaData(bind=engine)
 auto_map = automap_base()
