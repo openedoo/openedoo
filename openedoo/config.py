@@ -1,0 +1,31 @@
+
+
+import os
+
+import json
+
+with open('config.json') as data_file:
+    data_json = json.loads(data_file.read())
+
+
+class config(object):
+	DEBUG = True
+	TESTING = False
+	CSRF_ENABLED = True
+	SQLALCHEMY_DATABASE_URI = ('%s://%s:%s@%s:%s/%s' % (data_json['db']['db_engine'],data_json['db']['db_id'],data_json['db']['db_password'],data_json['db']['db_host'],data_json['db']['db_port'],data_json['db']['db_name']))
+
+class Production(config):
+	DEBUG = False
+	SECRET_KEY = data_json['secret_key']
+
+class Development(config):
+	DEVELOPMENT = True
+	DEBUG = True
+	SECRET_KEY = data_json['secret_key']
+
+class Testing(config):
+	TESTING = True
+	SECRET_KEY = data_json['secret_key']
+
+
+SQLALCHEMY_DATABASE_URI = config.SQLALCHEMY_DATABASE_URI

@@ -6,3 +6,6 @@ Werkzeug
 itsdangerous
 click
 Jinja2
+alembic
+flask-migrate
+Flask-Script
