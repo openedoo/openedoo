@@ -22,6 +22,7 @@ class query(object):
 		self = "welcome to help menu"
 
 	def select_db(self,tables,column,**value_column):
+		'''equvalent with select * from tables where column = value_column, this didn't support with order by or join table'''
 		try:
 			session = sessionmaker()
 			session.configure(bind=engine)
@@ -38,6 +39,7 @@ class query(object):
 			return False
 			
 	def update_db(self,tables,column,value_column,dict_update):
+		'''for update row in tables'''
 		namatable = namatable
 		session = sessionmaker()
 		session.configure(bind=engine)
@@ -50,19 +52,18 @@ class query(object):
 		except Exception:
 			return False
 	def delete_db(self,tables,data):
-#		try:
-		#namatable = tables
-		session = sessionmaker()
-		session.configure(bind=engine)
-		Base.metadata.create_all(engine)
-		s = session()
-		Base.metadata.create_all(engine)
-		jack = s.query(tables).get(data)
-		s.delete(jack)
-		s.commit()
-		return True
-#		except Exception as e:
-#			return False
+		try:
+			session = sessionmaker()
+			session.configure(bind=engine)
+			Base.metadata.create_all(engine)
+			s = session()
+			Base.metadata.create_all(engine)
+			jack = s.query(tables).get(data)
+			s.delete(jack)
+			s.commit()
+			return True
+		except Exception as e:
+			return False
 
 	def insert_db(self,new):
 		try:
