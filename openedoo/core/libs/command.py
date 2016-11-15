@@ -2,9 +2,12 @@
 
 import os
 import sys
-from manager import Manager
+from flask.ext.script import Server, Manager, Shell
+from flask.ext.migrate import Migrate, MigrateCommand
+from openedoo import app
+from openedoo.core.libs.db.db_tables import Base
 
-manager = Manager()
+manager = Manager(app)
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
 BASE = os.path.join(BASE_DIR, 'openedoo')
@@ -19,8 +22,6 @@ def file(dir, name):
             f.close()
     except Exception as e:
         raise "error creating "+name
-
-
 
 @manager.command
 def create(name):
@@ -45,12 +46,11 @@ def create(name):
         print "error >> \"{} is Exist\"".format(name)
         sys.exit(0)
 
-@manager.command
-def runserver():
-    """Run your app"""
-    from openedoo import app
-    app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+manager.add_command('runserver', Server())
+manager.add_command('shell', Shell())
+migrate = Migrate(app, Base)
+manager.add_command('db', MigrateCommand)
+
 
 def main():
-    manager.main()
+    manager.run()
