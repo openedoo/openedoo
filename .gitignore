@@ -1,4 +1,5 @@
 *.pyc
 *.swp
 *.save
-config.json
+pip-selfcheck.json
+venv/
