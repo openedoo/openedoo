@@ -1,4 +1,3 @@
-
 from openedoo.core.libs import blueprint, render_template, response, request, abort
 import json
 
