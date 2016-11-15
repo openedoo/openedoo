@@ -2,7 +2,6 @@ from core.libs import response
 from flask import Flask,abort
 import json
 import config
-
 app = Flask(__name__)
 
 with open('config.json') as data_file:
@@ -15,15 +14,11 @@ elif data_json['config']=="Production":
 elif data_json['config']=="Testing":
 	app.config.from_object(config.Testing)
 else:
-	pp.config.from_object(config.Development)
-
-
-from core.testing import testing
-app.register_blueprint(testing, url_prefix='/test')
-
+	app.config.from_object(config.Development)
 
 from .hello import hello
 app.register_blueprint(hello, url_prefix='/hello')
+
 
 @app.errorhandler(400)
 def page_not_found(e):

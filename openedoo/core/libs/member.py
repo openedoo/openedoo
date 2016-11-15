@@ -1,14 +1,15 @@
 from flask import abort, request, Response
 from datetime import datetime, timedelta
-from app.core.libs.db.db_query import insertdb, selectdb
-from app.core.libs.db.db_tables import od_users
-from app.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
+from openedoo.core.libs.db import query
+from openedoo.core.libs.db.db_tables import od_users
+from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
 import json
 from flask import abort
 
 now = datetime.now()
 sekarang = now.strftime('%Y-%m-%d %H:%M:%S')
 
+query = query()
 
 def registration(username, password, email, name, phone):
     userprofile = {"email":email,"phone":phone,"name":name}
@@ -19,7 +20,6 @@ def registration(username, password, email, name, phone):
     acakpass = (randomword(16)+password)
     passwordhash = hashingpw2(password)
     access_token = hashingpw(acakpass)
-
     try:
         data = od_users(
             username=username,
@@ -27,23 +27,23 @@ def registration(username, password, email, name, phone):
             access_token= access_token,
             public_key= public_key,
             private_key=private_key,
-            status='0',
+            status=1,
             role='0',
             created=sekarang,
             last_login=sekarang,
-            user_profile=str(user_profile),
+            user_profile=str(user_profile)
         )
         try:
-            insertdb(data)
+            query.insert_db(new=data)
         except Exception as e:
-            return e
+            raise e
     except Exception as e:
-        return e
+        raise e
     return user_profile
 
 def login(username, password):
     try:
-        data = selectdb(od_users,None, None)
+        data = query.selectdb(od_users,None, None)
         if len(data) < 1:
             abort(403)
         return data

@@ -49,30 +49,7 @@ def runserver():
     """Run your app"""
     from openedoo import app
     app.debug = True
-    app.run(host='0.0.0.0', port=9888)
-
-@manager.command
-def migrate():
-    """Migrate your database"""
-
-    from flask.ext.script import Manager
-    from flask.ext.migrate import Migrate, MigrateCommand
-    from openedoo import app
-    from openedoo.core.libs.db.db_query import Base
-
-    migrate = Migrate(app, Base)
-
-    manager = Manager(app)
-    manager.add_command('dbase', MigrateCommand)
-
-
-@manager.command
-def test():
-    from openedoo.core.libs import test
-    print test.coba
+    app.run(host='0.0.0.0', port=5000)
 
 def main():
-    manager.main()
-
-if __name__ == '__main__':
     manager.main()

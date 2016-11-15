@@ -28,5 +28,6 @@ class Testing(config):
 	TESTING = True
 	SECRET_KEY = data_json['secret_key']
 
+
 SQLALCHEMY_DATABASE_URI = config.SQLALCHEMY_DATABASE_URI
 #SQLALCHEMY_DATABASE_URI = "mysql://root:aris1996@localhost:3306/openedoo"

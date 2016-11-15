@@ -36,6 +36,7 @@ class query(object):
 			return list1
 		except Exception:
 			return False
+			
 	def update_db(self,tables,column,value_column,dict_update):
 		namatable = namatable
 		session = sessionmaker()
@@ -65,14 +66,11 @@ class query(object):
 
 	def insert_db(self,new):
 		try:
-			session = sessionmaker()
-			session.configure(bind=engine)
+			Session = sessionmaker(bind=engine)
+			session = Session()
 			Base.metadata.create_all(engine)
-			s = session()
-			Base.metadata.create_all(engine)
-			s.add(new)
-			s.commit()
-			engine.dispose()
+			session.add(new)
+			session.commit()
 			return True
-		except Exception:
+		except Exception as e:
 			return False

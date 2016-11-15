@@ -37,8 +37,7 @@ class od_users(Base):
 	created = Column(DateTime())
 	last_login = Column(DateTime())
 	user_profile = Column(Text())
-	def __init__(self,user_id, username,password,access_token,public_key,private_key,status,role,created,last_login,user_profile):
-		self.user_id = user_id
+	def __init__(self,username,password,access_token,public_key,private_key,status,role,created,last_login,user_profile):
 		self.username = username
 		self.password = password
 		self.access_token = access_token
