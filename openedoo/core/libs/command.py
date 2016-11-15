@@ -2,8 +2,8 @@
 
 import os
 import sys
-from flask.ext.script import Server, Manager, Shell
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask_script import Server, Manager, Shell
+from flask_migrate import Migrate, MigrateCommand
 from openedoo import app
 from openedoo.core.libs.db.db_tables import Base
 
