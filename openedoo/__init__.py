@@ -16,10 +16,6 @@ elif data_json['config']=="Testing":
 else:
 	app.config.from_object(config.Development)
 
-from .hello import hello
-app.register_blueprint(hello, url_prefix='/hello')
-
-
 @app.errorhandler(400)
 def page_not_found(e):
 	error = { 'status' : 'bad requests' }
@@ -56,3 +52,6 @@ def page_not_found(e):
 	error = json.dumps(error)
 	resp = response(error, status=500, mimetype='application/json')
 	return resp
+
+from .hello import hello
+app.register_blueprint(hello, url_prefix='/hello')

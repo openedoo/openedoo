@@ -1,7 +1,6 @@
 
 
 import os
-#basedir = os.path.abspath(os.path.dirname(__file__))
 
 import json
 
@@ -30,4 +29,3 @@ class Testing(config):
 
 
 SQLALCHEMY_DATABASE_URI = config.SQLALCHEMY_DATABASE_URI
-#SQLALCHEMY_DATABASE_URI = "mysql://root:aris1996@localhost:3306/openedoo"

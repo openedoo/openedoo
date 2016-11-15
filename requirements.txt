@@ -7,6 +7,5 @@ itsdangerous
 click
 Jinja2
 alembic
-manager
 flask-migrate
-manage.py
+Flask-Script

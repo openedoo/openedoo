@@ -1,9 +1,0 @@
-PERBAIKAN
-
-table user =
-  id_user pada __init__ dihilangkan, karena autoincrement, jadi tak perlu dikasih value
-
-pada insertdb
-  lebih sdikit code, tapi intinya sama
-
-fix error pada CRUD member
