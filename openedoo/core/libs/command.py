@@ -13,12 +13,13 @@ def file(dir, name):
     try:
         with open(os.path.join(dir, name), "a") as f:
             dir_name = os.path.basename(os.path.normpath(dir))
-            f.write("from flask import Blueprint\n\n{dir} = Blueprint('{dir}', __name__)\n\n".format(dir=dir_name))
+            f.write("from openedoo.core.libs import blueprint\n\n{dir} = blueprint('{dir}', __name__)\n\n".format(dir=dir_name))
             f.write("@{}.route('/', methods=['POST', 'GET'])".format(dir_name))
             f.write("\ndef index():\n\treturn \"Hello World\"")
             f.close()
     except Exception as e:
         raise "error creating "+name
+
 
 
 @manager.command
