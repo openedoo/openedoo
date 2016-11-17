@@ -53,5 +53,9 @@ def page_not_found(e):
 	resp = response(error, status=500, mimetype='application/json')
 	return resp
 
-from .hello import hello
+from .module_hello import hello
 app.register_blueprint(hello, url_prefix='/hello')
+
+ 
+from openedoo.module_coba import coba
+app.register_blueprint(coba, url_prefix='/coba')
