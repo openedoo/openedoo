@@ -17,11 +17,11 @@ def registration(username, password, email, name, phone):
 
     acak_pass = (randomword(16)+password)
     password_hash = hashingpw2(password)
-    access_token = hashingpw(acakpass)
+    access_token = hashingpw(acak_pass)
     try:
         data = od_users(
             username=username,
-            password=passwordhash,
+            password=password_hash,
             access_token= access_token,
             public_key= public_key,
             private_key=private_key,

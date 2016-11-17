@@ -1,29 +1,13 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 899ce86fdc0d2e665452a8dcba430a9ee39f418f
 {
     "db":
         {
             "db_engine": "mysql",
-<<<<<<< HEAD
             "db_id": "root",
-            "db_password" : "aris1996",
+            "db_password" : "ayambakar",
             "db_host" : "localhost",
             "db_port" : "3306",
-            "db_name" : "openedoo"
-        },
-    "config": "Testing",
-    "secret_key" : "aksaramaya_openedoo"
-}
-=======
-            "db_id": "db_id",
-            "db_password" : "db_password",
-            "db_host" : "localhost",
-            "db_port" : "3306",
-            "db_name" : "db_name"
+            "db_name" : "db_baru"
         },
     "config": "Development",
     "secret_key" : "aksaramaya_openedoo"
 }
->>>>>>> 899ce86fdc0d2e665452a8dcba430a9ee39f418f
