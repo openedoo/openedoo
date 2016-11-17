@@ -29,7 +29,7 @@ def create(name):
     try:
         os.mkdir(dir)
         try:
-            with open(os.path.join(BASE, "__init__.py"), "a") as f:
+            with open(os.path.join(BASE, "route.py"), "a") as f:
                 f.write("\n \nfrom openedoo.module_{modul} import {modul}".format(modul=name))
                 f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
                 f.close()
