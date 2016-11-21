@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import request
 from flask import Response
 import json
-from openedoo.core.member import member
+import member
 from openedoo.core.db import query
 from openedoo.core.db.db_tables import od_users
 from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
@@ -13,13 +13,13 @@ from flask import abort
 
 query = query()
 
-hello = Blueprint('hello', __name__)
+member = Blueprint('hello', __name__)
 
-@hello.route('/', methods=['POST', 'GET'])
+@member.route('/', methods=['POST', 'GET'])
 def index():
     return "Hello Hello Hello"
 
-@hello.route('/add/', methods=['POST','GET'])
+@member.route('/add/', methods=['POST','GET'])
 def add():
     if request.method == 'POST':
         load_json = json.loads(request.data)
@@ -38,11 +38,14 @@ def add():
         if (username or email or password) is None:
             abort(401)
         member.registration(username,password,email,name,phone)
-        return "Berhasil"
+        payload = {'messege':'registration sucessful'}
+        payload = json.dumps(payload)
+        resp = Response(payload, status=200, mimetype='application/json')
+        return resp
     except Exception as e:
-        return "GAGAL"
+        return e
 
-@hello.route('/delete/', methods=['GET','POST'])
+@member.route('/delete/', methods=['GET','POST'])
 def delete():
     if request.method == 'POST':
         load_json = json.loads(request.data)
@@ -51,7 +54,7 @@ def delete():
         user_id = request.args.get('id')
     return member.delete(user_id=user_id)
 
-@hello.route('/find/', methods=['GET', 'POST'])
+@member.route('/find/', methods=['GET', 'POST'])
 def find():
     if request.method == 'POST':
         load_json = json.loads(request.data)
@@ -60,7 +63,7 @@ def find():
         #member.object.order_by(user_id=user_id)
         return member.object.show_data()
 
-@hello.route('/update/', methods=['GET','POST'])
+@member.route('/update/', methods=['GET','POST'])
 def update():
     if request.method == 'POST':
         load_json = json.loads(request.data)

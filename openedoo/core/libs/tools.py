@@ -11,7 +11,7 @@ def hashingpw(password):
 	try:
 		hashpw = hashlib.sha224()
 		hashpw.update(password)
-		data = ('@rp!:%s' % hashpw.hexdigest())
+		data = hashpw.hexdigest()
 		return data
 	except Exception:
 		return False
@@ -19,7 +19,7 @@ def cocokpw(password,passworddb):
 	try:
 		hashpw = hashlib.sha224()
 		hashpw.update(password)
-		data = ('@rp!:%s' % hashpw.hexdigest())
+		data = hashpw.hexdigest()
 		if data == passworddb:
 			return True
 		else:

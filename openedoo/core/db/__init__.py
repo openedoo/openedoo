@@ -35,12 +35,12 @@ class query(object):
 			list1 = list(s.execute(kueridb))
 			engine.dispose()
 			return list1
-		except Exception:
+		except Exception as e:
 			return False
 			
 	def update_db(self,tables,column,value_column,dict_update):
 		'''for update row in tables'''
-		namatable = namatable
+		#namatable = namatable
 		session = sessionmaker()
 		session.configure(bind=engine)
  		Base.metadata.create_all(engine)
@@ -48,9 +48,10 @@ class query(object):
 		try:
 			s.query(tables).filter(column==value_column).update(dict_update)
 			s.commit()
+			engine.dispose()
 			return True
-		except Exception:
-			return False
+		except Exception as e:
+			return e
 	def delete_db(self,tables,data):
 		try:
 			session = sessionmaker()
@@ -61,6 +62,7 @@ class query(object):
 			jack = s.query(tables).get(data)
 			s.delete(jack)
 			s.commit()
+			engine.dispose()
 			return True
 		except Exception as e:
 			return False
@@ -72,6 +74,7 @@ class query(object):
 			Base.metadata.create_all(engine)
 			session.add(new)
 			session.commit()
+			engine.dispose()
 			return True
 		except Exception as e:
 			return False
