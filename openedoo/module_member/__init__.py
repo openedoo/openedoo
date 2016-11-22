@@ -8,6 +8,7 @@ from openedoo.core.db.db_tables import od_users
 from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
 from datetime import datetime,timedelta
 from flask import abort
+from member import aktivasi, edit_password
 
 
 
@@ -63,7 +64,23 @@ def find():
         #member.object.order_by(user_id=user_id)
         return member.object.show_data()
 
-@member.route('/update/', methods=['GET','POST'])
-def update():
+@member.route('/activation/<key>')
+def activation(key):
+    try:
+        aktivasi(key)
+    except Exception as e:
+        raise e
+
+@member.route('/password/', methods=['POST','GET'])
+def password():
     if request.method == 'POST':
         load_json = json.loads(request.data)
+        try:
+            edit_password(
+                user_id=load_json['user_id'],
+                password_old=load_json['old_password'],
+                password_new=load_json['new_password'],
+                password_confirm=load_json['confirm_password']
+            )
+        except Exception as e:
+            raise

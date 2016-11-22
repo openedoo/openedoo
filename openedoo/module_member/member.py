@@ -16,14 +16,14 @@ query = query()
 def registration(username, password, email, name, phone):
     user_check = query.select_db(od_users, od_users.username, value=username)
     if user_check:
-        return {'messege':'username is exist'}
+        return {'message':'username is exist'}
     user_profile = {"email":email,"phone":phone,"name":name}
     user_profile_json = json.dumps(user_profile)
     public_key = 'NULL'
     private_key = 'NULL'
     test_mail = '@' in parseaddr(email)[1]
     if test_mail == False:
-        return {'messege':'invalid mail'}
+        return {'message':'invalid mail'}
 
     acak_pass = (randomword(16)+password)
     password_hash = hashingpw2(password)
@@ -86,7 +86,8 @@ def aktivasi(access_token):
     hash_pass = hashingpw(acak_pass)
     data_dict = {'public_key':acak_pass,'private_key':hash_pass,'status':1,'role':3}
     query.update_db(tables=od_users,column=od_users.access_token,value_column=access_token,dict_update=data_dict)
-    return userdb
+    return {"message":"Activation Success"}
+
 def edit_password(user_id,password_old, password_new, password_confirm):
     if password_new != password_confirm:
         return {'messege':'new password not match'}
@@ -102,5 +103,5 @@ def edit_password(user_id,password_old, password_new, password_confirm):
 def edit_profile(user_id,user_profile):
     query.update_db(tables=od_users,column=od_users.user_id,value_column=user_id,dict_update=data_dict)
     return {'messege':'user profile succesfull to edit'}
-print edit_password(1,"rendi","rendi","rendi")
+#print edit_password(1,"rendi","rendi","rendi")
 object = search()
