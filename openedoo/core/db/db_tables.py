@@ -12,22 +12,10 @@ Base = declarative_base()
 metadata = MetaData(bind=engine)
 auto_map = automap_base()
 
-class od_session(Base):
-	__tablename__ = 'od_user_session'
-	session_id = Column(Integer, primary_key=True,autoincrement=True)
-	user_id = Column(Integer)
-	token_session = Column(Text())
-	created = Column(DateTime())
-	def __init__(self,session_id,user_id,token_session,created):
-		self.session_id = session_id
-		self.user_id = user_id
-		self.token_session = token_session
-		self.created = created
-
 class od_users(Base):
 	__tablename__ = 'od_user'
 	user_id = Column(Integer,primary_key=True,autoincrement=True)
-	username = Column(String(16))
+	username = Column(String(16), unique=True)
 	password = Column(Text())
 	access_token = Column(Text())
 	public_key = Column(Text())
