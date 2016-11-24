@@ -6,9 +6,7 @@ import member as Member
 from openedoo.core.libs.tools import *
 from flask import abort
 from member import aktivasi, edit_password
->>>>>>> 68cc21b8dea76fd2135c7e61ab2a81674fd7035c
 
-query = query()
 
 member = Blueprint('hello', __name__, url_prefix='/beta/member')
 
@@ -25,9 +23,6 @@ def add():
         email = load_json['email']
         name = load_json['name']
         phone = load_json['phone']
-<<<<<<< HEAD
-=======
-
     try:
         if (username or email or password) is None:
             abort(401)
@@ -39,7 +34,6 @@ def add():
         return resp
     except Exception as e:
         print e
->>>>>>> 68cc21b8dea76fd2135c7e61ab2a81674fd7035c
 
 #        if (username or email or password) is None:
 #            abort(401)
@@ -67,17 +61,16 @@ def find():
         #member.object.order_by(user_id=user_id)
         return member.object.show_data()
 
-<<<<<<< HEAD
 @member.route('/update', methods=['GET','POST'])
 def update():
     if request.method == 'POST':
         load_json = json.loads(request.data)
 
 @member.route('/test',methods=['GET'])
-@token_auth_header
+#@token_auth_header
 def check():
     return "akla"
-=======
+
 @member.route('/activation/<key>')
 def activation(key):
     aktivasi = json.dumps(Member.aktivasi(key))
@@ -118,4 +111,3 @@ def logout():
 @Member.login_required
 def coba():
     return 'a'
->>>>>>> 68cc21b8dea76fd2135c7e61ab2a81674fd7035c

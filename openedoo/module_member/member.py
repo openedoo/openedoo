@@ -134,9 +134,5 @@ def edit_password(user_id,password_old, password_new, password_confirm):
 def edit_profile(user_id,user_profile):
     query.update_db(tables=od_users,column=od_users.user_id,value_column=user_id,dict_update=data_dict)
     return {'messege':'user profile succesfull to edit'}
-<<<<<<< HEAD
-#print edit_password(1,"rendi","rendi","rendi")
-=======
 
->>>>>>> 68cc21b8dea76fd2135c7e61ab2a81674fd7035c
 object = search()

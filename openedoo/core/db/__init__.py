@@ -7,7 +7,7 @@ import json
 from datetime import datetime, date
 
 ##table declaration
-from db_tables import od_session, od_users
+from db_tables import od_users
 from openedoo import config
 
 

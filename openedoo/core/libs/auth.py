@@ -15,6 +15,7 @@ def check_token(token):
             return True
     except Exception:
         return abort(401)
+
 def get_user_id(token):
     try:
         user_check = query.select_db(od_users, od_users.public_key, value=token)
@@ -23,6 +24,7 @@ def get_user_id(token):
             return True
     except Exception:
         return abort(401)
+        
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
