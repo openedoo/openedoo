@@ -1,13 +1,12 @@
 from datetime import datetime, timedelta
 from openedoo.core.db import query
 from openedoo.core.db.db_tables import od_users
-from openedoo.core.libs.tools import hashingpw
-from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
+from openedoo.core.libs.tools import *
+from openedoo.core.libs.auth import *
 import json
 from email.utils import parseaddr
 from functools import wraps
 from openedoo.core.libs import session
-
 now_temp = datetime.now()
 now = now_temp.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -25,9 +24,9 @@ def registration(username, password, email, name, phone):
     if test_mail == False:
         return {'message':'invalid mail'}
 
-    acak_pass = (randomword(16)+username)
-    password_hash = hashingpw2(password)
-    access_token = hashingpw2(acak_pass)
+    acak_pass = (random_word(16)+username)
+    password_hash = hashing_password_2(password)
+    access_token = hashing_password(acak_pass)
     try:
         data = od_users(
             username=username,
@@ -49,12 +48,12 @@ def registration(username, password, email, name, phone):
 def delete(user_id):
     try:
         if len(query.select_db(tables=od_users, column=od_users.user_id, value=user_id)) < 1 :
-            response = json.dumps({"Status":"User not Found"})
+            response = json.dumps({"message":"User not Found"})
         else:
             query.delete_db(tables=od_users, data=user_id)
-            response = {"Status":"Success"}
+            response = {"message":"Success"}
     except Exception as e:
-        response = {"Status":"Failed"}
+        response = {"message":"Failed"}
     return response
 
 class search(object):
@@ -65,7 +64,7 @@ class search(object):
     def by_id(self, user_id):
         data = query.select_db(tables=od_users, column=od_users.user_id, value=user_id)
         if len(data) < 1:
-            self.response = {"Status":"User not Found"}
+            self.response = {"message":"User not Found"}
         for index in range(len(data)):
             self.response = {
                 "{}".format(data[index][1]):{
@@ -77,62 +76,64 @@ class search(object):
     def show_data(self):
         return self.response
 
-def aktivasi(access_token):
+def activation(access_token):
     try:
         userdb = query.select_db(tables=od_users, column=od_users.access_token, value=access_token)
         user_id = userdb[0][0]
         if userdb is [] or userdb[0][6]:
-            return {'messege':'user is active'}
+            return {'message':'user is active'}
     except Exception as e:
-        return {'messege':'user not found'}
-    acak_pass = randomword(64)
-    hash_pass = hashingpw(acak_pass)
+        return {'message':'user not found'}
+    acak_pass = (random_word(64)+userdb[0][1])
+    acak_pass = hashing_password(acak_pass)
+    hash_pass = hashing_password(acak_pass)
     data_dict = {'public_key':acak_pass,'private_key':hash_pass,'status':1,'role':3}
     query.update_db(tables=od_users,column=od_users.access_token,value_column=access_token,dict_update=data_dict)
     return {"message":"Activation Success"}
 
+###nanti tak hapus dan pindah ke tools.auth
 def login(username, password):
     check_user = query.select_db(tables=od_users, column=od_users.username, value=username)
     if len(check_user) < 1:
-        return {"Message":"User not found"}
+        return {"message":"User not found"}
     else:
         check_password = cocokpw2(password=5140411201, password_input=password)
         if check_password == True:
             session['username'] = username
-            return {"Message":"Login Success"}
+            return {"message":"Login Success"}
         else:
-            return {"Message":"Wrong Password"}
+            return {"message":"Wrong Password"}
 
-def login_required(f):
+def read_session(f):
     @wraps(f)
     def wrap(*args, **kwargs):
         if 'username' in session:
 			return f(*args, **kwargs)
         else:
-            return {"Message":"You must Login first"}
+            return {"message":"You must Login first"}
     return wrap
 
 
 def logout():
     session.clear()
-    return {"Message":"Log out"}
-
+    return {"message":"Log out"}
+###nanti tak hapus dan pindah ke tools.auth
 
 def edit_password(user_id,password_old, password_new, password_confirm):
     if password_new != password_confirm:
-        return {'messege':'new password not match'}
+        return {'message':'new password not match'}
     userdb = query.select_db(tables=od_users,column=od_users.user_id,value=user_id)
-    if checkpass2(userdb[0][2],password_old) != True:
-        return {'messege':'password invalid'}
-    elif checkpass2(userdb[0][2],password_new) == True:
-        return {'messege':'prohibited using same password'}
-    password_hash = hashingpw2(password_new)
+    if check_password_2(userdb[0][2],password_old) != True:
+        return {'message':'password invalid'}
+    elif check_password_2(userdb[0][2],password_new) == True:
+        return {'message':'prohibited using same password'}
+    password_hash = hashing_password_2(password_new)
     data_dict = {'password':password_hash}
     query.update_db(tables=od_users,column=od_users.user_id,value_column=user_id,dict_update=data_dict)
-    return {'messege':'password has change'}
+    return {'message':'password has change'}
 
 def edit_profile(user_id,user_profile):
     query.update_db(tables=od_users,column=od_users.user_id,value_column=user_id,dict_update=data_dict)
-    return {'messege':'user profile succesfull to edit'}
+    return {'message':'user profile succesfull to edit'}
 
 object = search()

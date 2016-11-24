@@ -1,12 +1,10 @@
-from flask import Blueprint
-from flask import request
-from flask import Response
+from openedoo.core.libs import *
 import json
-import member as Member
+import module_member
+#from module_member import registration,activation
 from openedoo.core.libs.tools import *
 from flask import abort
-from member import aktivasi, edit_password
-
+from openedoo.core.libs.auth import login as user_login
 
 member = Blueprint('hello', __name__, url_prefix='/beta/member')
 
@@ -14,34 +12,29 @@ member = Blueprint('hello', __name__, url_prefix='/beta/member')
 def index():
     return "Hello Hello Hello"
 
-@member.route('/add', methods=['POST','GET'])
+@member.route('/register', methods=['POST','GET'])
 def add():
-    if request.method == 'POST':
-        load_json = json.loads(request.data)
-        username = load_json['username']
-        password = load_json['password']
-        email = load_json['email']
-        name = load_json['name']
-        phone = load_json['phone']
+    try:
+        if request.method == 'POST':
+            load_json = json.loads(request.data)
+            username = load_json['username']
+            password = load_json['password']
+            email = load_json['email']
+            name = load_json['name']
+            phone = load_json['phone']
+    except Exception as e:
+        abort(500)
     try:
         if (username or email or password) is None:
             abort(401)
-        Member.registration(username,password,email,name,phone)
-        payload = {'message':'registration sucessful'}
+        payload = module_member.registration(username,password,email,name,phone)
+        #payload = {'message':'registration successful'}
         payload = json.dumps(payload)
         resp = Response(payload, status=200, mimetype='application/json')
         print resp
         return resp
     except Exception as e:
-        print e
-
-#        if (username or email or password) is None:
-#            abort(401)
-    member = M.registration(username,password,email,name,phone)
-    payload = {'messege':'registration sucessful'}
-    payload = json.dumps(payload)
-    resp = Response(payload, status=200, mimetype='application/json')
-    return resp
+        abort(401)
 
 @member.route('/delete', methods=['GET','POST'])
 def delete():
@@ -50,16 +43,16 @@ def delete():
         user_id = load_json['user_id']
     else:
         user_id = request.args.get('id')
-    return member.delete(user_id=user_id)
+    return delete(user_id=user_id)
 
 @member.route('/find', methods=['GET', 'POST'])
 def find():
     if request.method == 'POST':
         load_json = json.loads(request.data)
         user_id = load_json['user_id']
-        Member.object.by_id(user_id=user_id)
+        module_member.object.by_id(user_id=user_id)
         #member.object.order_by(user_id=user_id)
-        return member.object.show_data()
+        return module_member.object.show_data()
 
 @member.route('/update', methods=['GET','POST'])
 def update():
@@ -71,18 +64,21 @@ def update():
 def check():
     return "akla"
 
-@member.route('/activation/<key>')
+@member.route('/activation/<key>',methods=['GET'])
 def activation(key):
-    aktivasi = json.dumps(Member.aktivasi(key))
+#    print key
+    print key
+    print module_member.activation(key)
+    aktivasi = json.dumps(module_member.activation(key))
     resp = Response(aktivasi, status=200, mimetype='application/json')
     return resp
 
-@member.route('/password/', methods=['POST','GET'])
+@member.route('/password', methods=['POST','GET'])
 def password():
     if request.method == 'POST':
         load_json = json.loads(request.data)
 
-        edit = json.dumps(Member.edit_password(
+        edit = json.dumps(module_member.edit_password(
             user_id=load_json['user_id'],
             password_old=load_json['old_password'],
             password_new=load_json['new_password'],
@@ -92,22 +88,27 @@ def password():
 
     return resp
 
-@member.route('/login/', methods=['POST', 'GET'])
+@member.route('/login', methods=['POST', 'GET'])
 def login():
-    if request.method == 'POST':
-        load_json = json.loads(request.data)
-        log = json.dumps(Member.login(password=load_json['password'], username=load_json['username']))
-        resp = Response(log, status=200, mimetype='application/json')
-        return resp
+    try:
+        if request.method == 'POST':
+            load_json = json.loads(request.data)
+            print load_json
+            check_login = user_login(load_json['username'] ,load_json['password'])
+            log = json.dumps(check_login)
+            resp = Response(log, status=200, mimetype='application/json')
+            return resp
+    except Exception as e:
+        abort(500)
 
-@member.route('/logout/')
-@Member.login_required
+@member.route('/logout')
+#@Member.login_required
 def logout():
-    log = json.dumps(Member.logout())
+    log = json.dumps(logout())
     resp = Response(log, status=200, mimetype='application/json')
     return resp
 
 @member.route('/coba')
-@Member.login_required
+#@Member.login_required
 def coba():
     return 'a'

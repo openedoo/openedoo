@@ -4,10 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import Signer, URLSafeSerializer as urlsafe
 import redis,json
 
-def randomword(length):
+def random_word(length):
 	return ''.join(random.choice(string.lowercase+string.uppercase+string.digits) for i in range(length))
 
-def hashingpw(password):
+def hashing_password(password):
 	try:
 		hashpw = hashlib.sha224()
 		hashpw.update(password)
@@ -15,7 +15,7 @@ def hashingpw(password):
 		return data
 	except Exception:
 		return False
-def cocokpw(password,passworddb):
+def check_password(password_input,password_hash):
 	try:
 		hashpw = hashlib.sha224()
 		hashpw.update(password)
@@ -27,21 +27,27 @@ def cocokpw(password,passworddb):
 	except Exception:
 		return False
 
-def hashingpw2(password):
-	me = generate_password_hash(password)
-	return me
+def hashing_password_2(password):
+	hashpw = generate_password_hash(password)
+	return hashpw
 
-def checkpass2(password,password_input):
-	choice = check_password_hash(password,password_input)
-	return choice
-def gettoken(username):
-	acak = randomword(4)
-	data = (acak+username)
-	s = urlsafe('generate:grupi.org')
+def check_password_2(password_hash,password_input):
+	check = check_password_hash(password_hash,password_input)
+	return check
+
+def session_encode(string_input):
+	data = (random_word(16)+"."+string_input+"."+random_word(16))
+	s = urlsafe('generate:openedoo')
 	b = s.dumps(data)
 	return b
 
-def setredis(key,data,secnd):
+def session_decode(string_input):
+	s = urlsafe('generate:openedoo')
+	data = s.loads(string_input)
+	words = data.split(".")
+	return words[1]
+
+def set_redis(key,data,secnd):
 	try:
 		r = redis.StrictRedis()
 		data = json.dumps(data)
@@ -53,7 +59,7 @@ def setredis(key,data,secnd):
 	except Exception:
 		return False
 
-def getredis(key):
+def get_redis(key):
 	try:
 		r = redis.StrictRedis()
 		data = r.get(key)

@@ -1,30 +1,49 @@
 from functools import wraps
-from flask import request, abort
+from openedoo.core.libs import request, abort, session
 from openedoo.core.db import query
 from openedoo.core.db.db_tables import od_users
-from tools import cocokpw,hashingpw,checkpass2
-
+from tools import *
+query_auth = query()
 def check_auth(username, password):
     return username == 'admin' and password == 'secret'
 
 def check_token(token):
     try:
-        user_check = query.select_db(od_users, od_users.public_key, value=token)
+        user_check = query_auth.select_db(od_users, od_users.public_key, value=token)
         password = user_check[0][5]
-        if password == hashingpw(token):
-            return True
-    except Exception:
+        if password != hashing_password(token) or user_check[0][6] == 0 :
+            return abort(401)
+        set_redis(token,user_check[0][1],86400)
+        return True
+    except Exception as e:
         return abort(401)
+        
+def login(username, password):
+    try:
+        check_user = query_auth.select_db(tables=od_users, column=od_users.username, value=username)
+        if len(check_user) < 1:
+            return {"message":"User not found","token":""}
+        check_password = check_password_2(password_hash= check_user[0][2], password_input=password)
+        if check_password != True:
+            return {"message":"Wrong Password","token":""}
+        sasy = session_encode(check_user[0][3])
+        print session_decode(sasy)
+        print sasy
+        session['username']= sasy
+        return {"message":"Login Success","token":check_user[0][5]}
+    except Exception as e:
+        print e
+        abort(500)
 
 def get_user_id(token):
     try:
         user_check = query.select_db(od_users, od_users.public_key, value=token)
         password = a[0][5]
-        if password == hashingpw(token):
+        if password == hashing_password(token):
             return True
-    except Exception:
+    except Exception as e:
         return abort(401)
-        
+
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
