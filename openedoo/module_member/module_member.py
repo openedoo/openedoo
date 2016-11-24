@@ -6,7 +6,7 @@ from openedoo.core.libs.auth import *
 import json
 from email.utils import parseaddr
 from functools import wraps
-from openedoo.core.libs import session
+from openedoo.core.libs import session, Response
 now_temp = datetime.now()
 now = now_temp.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -91,6 +91,7 @@ def activation(access_token):
     query.update_db(tables=od_users,column=od_users.access_token,value_column=access_token,dict_update=data_dict)
     return {"message":"Activation Success"}
 
+#SUDAH ADA DI AUTH
 ###nanti tak hapus dan pindah ke tools.auth
 def login(username, password):
     check_user = query.select_db(tables=od_users, column=od_users.username, value=username)
@@ -104,19 +105,22 @@ def login(username, password):
         else:
             return {"message":"Wrong Password"}
 
+#SUDAH DIPINDAH DI AUTH
 def read_session(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if 'username' in session:
-			return f(*args, **kwargs)
-        else:
-            return {"message":"You must Login first"}
+        cookie = False
+        if session['username'] is False:
+            error = json.dumps({"message":"You must Login first"})
+            return Response(error, status=401, mimetype='application/json')
+        return f(*args, **kwargs)
     return wrap
 
-
+#SUDAH DIPINDAH DI AUTH
+# SIAP DIHAPUS
 def logout():
-    session.clear()
-    return {"message":"Log out"}
+    session['username'] = False
+    return {"Message":"Log out"}
 ###nanti tak hapus dan pindah ke tools.auth
 
 def edit_password(user_id,password_old, password_new, password_confirm):

@@ -5,6 +5,8 @@ import module_member
 from openedoo.core.libs.tools import *
 from flask import abort
 from openedoo.core.libs.auth import login as user_login
+from openedoo.core.libs.auth import read_session, logout as user_logout
+
 
 member = Blueprint('hello', __name__, url_prefix='/beta/member')
 
@@ -37,6 +39,7 @@ def add():
         abort(401)
 
 @member.route('/delete', methods=['GET','POST'])
+@read_session
 def delete():
     if request.method == 'POST':
         load_json = json.loads(request.data)
@@ -59,11 +62,6 @@ def update():
     if request.method == 'POST':
         load_json = json.loads(request.data)
 
-@member.route('/test',methods=['GET'])
-#@token_auth_header
-def check():
-    return "akla"
-
 @member.route('/activation/<key>',methods=['GET'])
 def activation(key):
 #    print key
@@ -74,10 +72,10 @@ def activation(key):
     return resp
 
 @member.route('/password', methods=['POST','GET'])
+@read_session
 def password():
     if request.method == 'POST':
         load_json = json.loads(request.data)
-
         edit = json.dumps(module_member.edit_password(
             user_id=load_json['user_id'],
             password_old=load_json['old_password'],
@@ -93,7 +91,6 @@ def login():
     try:
         if request.method == 'POST':
             load_json = json.loads(request.data)
-            print load_json
             check_login = user_login(load_json['username'] ,load_json['password'])
             log = json.dumps(check_login)
             resp = Response(log, status=200, mimetype='application/json')
@@ -102,13 +99,12 @@ def login():
         abort(500)
 
 @member.route('/logout')
-#@Member.login_required
 def logout():
-    log = json.dumps(logout())
+    log = json.dumps(user_logout())
     resp = Response(log, status=200, mimetype='application/json')
     return resp
 
-@member.route('/coba')
-#@Member.login_required
-def coba():
-    return 'a'
+@member.route('/session')
+def asession():
+    print session['username']
+    return "sss"

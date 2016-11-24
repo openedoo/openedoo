@@ -1,5 +1,5 @@
 from functools import wraps
-from openedoo.core.libs import request, abort, session
+from openedoo.core.libs import request, abort, session, Response
 from openedoo.core.db import query
 from openedoo.core.db.db_tables import od_users
 from tools import *
@@ -17,7 +17,7 @@ def check_token(token):
         return True
     except Exception as e:
         return abort(401)
-        
+
 def login(username, password):
     try:
         check_user = query_auth.select_db(tables=od_users, column=od_users.username, value=username)
@@ -52,6 +52,20 @@ def requires_auth(f):
             return abort(401)
         return f(*args, **kwargs)
     return decorated
+
+def read_session(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        cookie = False
+        if session['username'] is False:
+            error = json.dumps({"message":"You must Login first"})
+            return Response(error, status=401, mimetype='application/json')
+        return f(*args, **kwargs)
+    return wrap
+
+def logout():
+    session['username'] = False
+    return {"Message":"Log out"}
 
 def token_auth_header(f):
     @wraps(f)
