@@ -11,8 +11,6 @@ now = now_temp.strftime('%Y-%m-%d %H:%M:%S')
 
 query = query()
 
-
-
 def registration(username, password, email, name, phone):
     user_check = query.select_db(od_users, od_users.username, value=username)
     if user_check:
@@ -25,7 +23,7 @@ def registration(username, password, email, name, phone):
     if test_mail == False:
         return {'messege':'invalid mail'}
 
-    acak_pass = (randomword(16)+password)
+    acak_pass = (randomword(16)+username)
     password_hash = hashingpw2(password)
     access_token = hashingpw(acak_pass)
     try:
@@ -102,5 +100,5 @@ def edit_password(user_id,password_old, password_new, password_confirm):
 def edit_profile(user_id,user_profile):
     query.update_db(tables=od_users,column=od_users.user_id,value_column=user_id,dict_update=data_dict)
     return {'messege':'user profile succesfull to edit'}
-print edit_password(1,"rendi","rendi","rendi")
+#print edit_password(1,"rendi","rendi","rendi")
 object = search()

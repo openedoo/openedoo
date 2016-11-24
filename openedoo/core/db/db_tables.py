@@ -53,7 +53,18 @@ class roles(Base):
 	role_id = Column(Integer, primary_key=True,autoincrement=True)
 	role = Column(String(64))
 	role_status = Column(Text)
-	def __init__(self,role_id,role,max_device,role_status):
-		self.role_id = role_id
+	def __init__(self,role,max_device,role_status):
 		self.role = role
 		self.role_status = role_status
+class tryout(Base):
+	__tablename__ = 'od_module_tryout'
+	id_soal = Column(Integer, primary_key=True,autoincrement=True)
+	soal_text = Column(Text)
+	soal_pilihan = Column(Text)
+	soal_jawab = Column(Text)
+	soal_bobot = Column(Integer)
+	def __init__(self,soal_text,soal_pilihan,soal_jawab,soal_bobot):
+		self.soal_text = soal_text
+		self.soal_pilihan = soal_pilihan
+		self.soal_jawab = soal_jawab
+		self.soal_bobot = soal_bobot
