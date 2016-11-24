@@ -5,13 +5,13 @@ from openedoo.core.libs.tools import hashingpw
 from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
 import json
 from email.utils import parseaddr
+from functools import wraps
+from openedoo.core.libs import session
 
 now_temp = datetime.now()
 now = now_temp.strftime('%Y-%m-%d %H:%M:%S')
 
 query = query()
-
-
 
 def registration(username, password, email, name, phone):
     user_check = query.select_db(od_users, od_users.username, value=username)
@@ -27,7 +27,7 @@ def registration(username, password, email, name, phone):
 
     acak_pass = (randomword(16)+password)
     password_hash = hashingpw2(password)
-    access_token = hashingpw(acak_pass)
+    access_token = hashingpw2(acak_pass)
     try:
         data = od_users(
             username=username,
@@ -42,9 +42,9 @@ def registration(username, password, email, name, phone):
             user_profile=str(user_profile_json)
         )
         query.insert_db(new=data)
-        return user_profile_json
-    except Exception:
-        return False
+        return True
+    except Exception as e:
+        print e
 
 def delete(user_id):
     try:
@@ -75,18 +75,48 @@ class search(object):
             }
 
     def show_data(self):
-        return self.respons
+        return self.response
 
 def aktivasi(access_token):
-    userdb = query.select_db(tables=od_users, column=od_users.access_token, value=access_token)
-    user_id = userdb[0][0]
-    if userdb is [] or userdb[0][6]:
-        return {'messege':'user is active or not exists'}
+    try:
+        userdb = query.select_db(tables=od_users, column=od_users.access_token, value=access_token)
+        user_id = userdb[0][0]
+        if userdb is [] or userdb[0][6]:
+            return {'messege':'user is active'}
+    except Exception as e:
+        return {'messege':'user not found'}
     acak_pass = randomword(64)
     hash_pass = hashingpw(acak_pass)
     data_dict = {'public_key':acak_pass,'private_key':hash_pass,'status':1,'role':3}
     query.update_db(tables=od_users,column=od_users.access_token,value_column=access_token,dict_update=data_dict)
     return {"message":"Activation Success"}
+
+def login(username, password):
+    check_user = query.select_db(tables=od_users, column=od_users.username, value=username)
+    if len(check_user) < 1:
+        return {"Message":"User not found"}
+    else:
+        check_password = cocokpw2(password=5140411201, password_input=password)
+        if check_password == True:
+            session['username'] = username
+            return {"Message":"Login Success"}
+        else:
+            return {"Message":"Wrong Password"}
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'username' in session:
+			return f(*args, **kwargs)
+        else:
+            return {"Message":"You must Login first"}
+    return wrap
+
+
+def logout():
+    session.clear()
+    return {"Message":"Log out"}
+
 
 def edit_password(user_id,password_old, password_new, password_confirm):
     if password_new != password_confirm:
@@ -100,8 +130,9 @@ def edit_password(user_id,password_old, password_new, password_confirm):
     data_dict = {'password':password_hash}
     query.update_db(tables=od_users,column=od_users.user_id,value_column=user_id,dict_update=data_dict)
     return {'messege':'password has change'}
+
 def edit_profile(user_id,user_profile):
     query.update_db(tables=od_users,column=od_users.user_id,value_column=user_id,dict_update=data_dict)
     return {'messege':'user profile succesfull to edit'}
-#print edit_password(1,"rendi","rendi","rendi")
+
 object = search()

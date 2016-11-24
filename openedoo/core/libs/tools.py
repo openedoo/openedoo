@@ -1,8 +1,9 @@
 import hashlib
 import random, string
 from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import Signer, URLSafeSerializer as urlsafe
+from itsdangerous import Signer, URLSafeSerializer as urlsafeoogl
 import redis,json
+
 
 def randomword(length):
 	return ''.join(random.choice(string.lowercase+string.uppercase+string.digits) for i in range(length))
@@ -47,7 +48,6 @@ def setredis(key,data,secnd):
 		data = json.dumps(data)
 		dataset = (str(key),str(data))
 		a = r.set('%s' %key,'%s' %data)
-		#rdis.bgsave()
 		b = r.expire('%s' %key, secnd)
 		return a
 	except Exception:

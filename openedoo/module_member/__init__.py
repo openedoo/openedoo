@@ -2,19 +2,16 @@ from flask import Blueprint
 from flask import request
 from flask import Response
 import json
-import member
+import member as Member
 from openedoo.core.db import query
 from openedoo.core.db.db_tables import od_users
-from openedoo.core.libs.tools import randomword,hashingpw,cocokpw,setredis,getredis,hashingpw2,checkpass2
-from datetime import datetime,timedelta
+from openedoo.core.libs.tools import *
 from flask import abort
 from member import aktivasi, edit_password
 
-
-
 query = query()
 
-member = Blueprint('hello', __name__)
+member = Blueprint('hello', __name__, url_prefix='/beta/member')
 
 @member.route('/', methods=['POST', 'GET'])
 def index():
@@ -29,22 +26,18 @@ def add():
         email = load_json['email']
         name = load_json['name']
         phone = load_json['phone']
-    else:
-        username = request.args.get('username')
-        password = request.args.get('password')
-        email = request.args.get('email')
-        name = request.args.get('name')
-        phone = request.args.get('phone')
+
     try:
         if (username or email or password) is None:
             abort(401)
-        member.registration(username,password,email,name,phone)
-        payload = {'messege':'registration sucessful'}
+        Member.registration(username,password,email,name,phone)
+        payload = {'message':'registration sucessful'}
         payload = json.dumps(payload)
         resp = Response(payload, status=200, mimetype='application/json')
+        print resp
         return resp
     except Exception as e:
-        return e
+        print e
 
 @member.route('/delete/', methods=['GET','POST'])
 def delete():
@@ -60,27 +53,47 @@ def find():
     if request.method == 'POST':
         load_json = json.loads(request.data)
         user_id = load_json['user_id']
-        member.object.by_id(user_id=user_id)
+        Member.object.by_id(user_id=user_id)
         #member.object.order_by(user_id=user_id)
         return member.object.show_data()
 
 @member.route('/activation/<key>')
 def activation(key):
-    try:
-        aktivasi(key)
-    except Exception as e:
-        raise e
+    aktivasi = json.dumps(Member.aktivasi(key))
+    resp = Response(aktivasi, status=200, mimetype='application/json')
+    return resp
 
 @member.route('/password/', methods=['POST','GET'])
 def password():
     if request.method == 'POST':
         load_json = json.loads(request.data)
-        try:
-            edit_password(
-                user_id=load_json['user_id'],
-                password_old=load_json['old_password'],
-                password_new=load_json['new_password'],
-                password_confirm=load_json['confirm_password']
-            )
-        except Exception as e:
-            raise
+
+        edit = json.dumps(Member.edit_password(
+            user_id=load_json['user_id'],
+            password_old=load_json['old_password'],
+            password_new=load_json['new_password'],
+            password_confirm=load_json['confirm_password']
+        ))
+        resp = Response(edit, status=200, mimetype='application/json')
+
+    return resp
+
+@member.route('/login/', methods=['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        load_json = json.loads(request.data)
+        log = json.dumps(Member.login(password=load_json['password'], username=load_json['username']))
+        resp = Response(log, status=200, mimetype='application/json')
+        return resp
+
+@member.route('/logout/')
+@Member.login_required
+def logout():
+    log = json.dumps(Member.logout())
+    resp = Response(log, status=200, mimetype='application/json')
+    return resp
+
+@member.route('/coba')
+@Member.login_required
+def coba():
+    return 'a'
