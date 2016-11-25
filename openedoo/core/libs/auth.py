@@ -27,12 +27,9 @@ def login(username, password):
         if check_password != True:
             return {"message":"Wrong Password","token":""}
         sasy = session_encode(check_user[0][3])
-        print session_decode(sasy)
-        print sasy
-        session['username']= sasy
+        session['username'] = sasy
         return {"message":"Login Success","token":check_user[0][5]}
     except Exception as e:
-        print e
         abort(500)
 
 def get_user_id(token):
@@ -56,11 +53,15 @@ def requires_auth(f):
 def read_session(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        cookie = False
-        if session['username'] is False:
-            error = json.dumps({"message":"You must Login first"})
+        session.permanent = True
+        try:
+            if session['username'] is False:
+                error = json.dumps({"message":"You must Login first"})
+                return Response(error, status=401, mimetype='application/json')
+            return f(*args, **kwargs)
+        except KeyError:
+            error = json.dumps({"message":"Your Session is time out, login first"})
             return Response(error, status=401, mimetype='application/json')
-        return f(*args, **kwargs)
     return wrap
 
 def logout():
@@ -80,7 +81,6 @@ def token_auth_params(f):
     @wraps(f)
     def token_decorator2(*args,**kwargs):
         token =  request.args.get('token')
-        print token
         if check_token(token) != True:
             abort(401)
         return f(*args, **kwargs)

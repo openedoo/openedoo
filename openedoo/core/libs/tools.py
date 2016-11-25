@@ -27,11 +27,11 @@ def check_password(password_input,password_hash):
 	except Exception:
 		return False
 
-def hashing_password_2(password):
+def hashing_werkzeug(password):
 	hashpw = generate_password_hash(password)
 	return hashpw
 
-def check_password_2(password_hash,password_input):
+def check_werkzeug(password_hash,password_input):
 	check = check_password_hash(password_hash,password_input)
 	return check
 

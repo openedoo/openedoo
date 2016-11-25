@@ -33,7 +33,6 @@ def add():
         #payload = {'message':'registration successful'}
         payload = json.dumps(payload)
         resp = Response(payload, status=200, mimetype='application/json')
-        print resp
         return resp
     except Exception as e:
         abort(401)
@@ -64,9 +63,6 @@ def update():
 
 @member.route('/activation/<key>',methods=['GET'])
 def activation(key):
-#    print key
-    print key
-    print module_member.activation(key)
     aktivasi = json.dumps(module_member.activation(key))
     resp = Response(aktivasi, status=200, mimetype='application/json')
     return resp
@@ -103,8 +99,3 @@ def logout():
     log = json.dumps(user_logout())
     resp = Response(log, status=200, mimetype='application/json')
     return resp
-
-@member.route('/session')
-def asession():
-    print session['username']
-    return "sss"

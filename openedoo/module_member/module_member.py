@@ -25,7 +25,7 @@ def registration(username, password, email, name, phone):
         return {'message':'invalid mail'}
 
     acak_pass = (random_word(16)+username)
-    password_hash = hashing_password_2(password)
+    password_hash = hasing_werkzeug(password)
     access_token = hashing_password(acak_pass)
     try:
         data = od_users(
@@ -43,7 +43,7 @@ def registration(username, password, email, name, phone):
         query.insert_db(new=data)
         return True
     except Exception as e:
-        print e
+        return e
 
 def delete(user_id):
     try:
@@ -91,47 +91,17 @@ def activation(access_token):
     query.update_db(tables=od_users,column=od_users.access_token,value_column=access_token,dict_update=data_dict)
     return {"message":"Activation Success"}
 
-#SUDAH ADA DI AUTH
-###nanti tak hapus dan pindah ke tools.auth
-def login(username, password):
-    check_user = query.select_db(tables=od_users, column=od_users.username, value=username)
-    if len(check_user) < 1:
-        return {"message":"User not found"}
-    else:
-        check_password = cocokpw2(password=5140411201, password_input=password)
-        if check_password == True:
-            session['username'] = username
-            return {"message":"Login Success"}
-        else:
-            return {"message":"Wrong Password"}
 
-#SUDAH DIPINDAH DI AUTH
-def read_session(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        cookie = False
-        if session['username'] is False:
-            error = json.dumps({"message":"You must Login first"})
-            return Response(error, status=401, mimetype='application/json')
-        return f(*args, **kwargs)
-    return wrap
-
-#SUDAH DIPINDAH DI AUTH
-# SIAP DIHAPUS
-def logout():
-    session['username'] = False
-    return {"Message":"Log out"}
-###nanti tak hapus dan pindah ke tools.auth
 
 def edit_password(user_id,password_old, password_new, password_confirm):
     if password_new != password_confirm:
         return {'message':'new password not match'}
     userdb = query.select_db(tables=od_users,column=od_users.user_id,value=user_id)
-    if check_password_2(userdb[0][2],password_old) != True:
+    if check_werkzeug(userdb[0][2],password_old) != True:
         return {'message':'password invalid'}
-    elif check_password_2(userdb[0][2],password_new) == True:
+    elif check_werkzeug(userdb[0][2],password_new) == True:
         return {'message':'prohibited using same password'}
-    password_hash = hashing_password_2(password_new)
+    password_hash = hasing_werkzeug(password_new)
     data_dict = {'password':password_hash}
     query.update_db(tables=od_users,column=od_users.user_id,value_column=user_id,dict_update=data_dict)
     return {'message':'password has change'}
