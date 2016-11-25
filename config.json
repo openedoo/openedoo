@@ -3,10 +3,10 @@
         {
             "db_engine": "mysql",
             "db_id": "root",
-            "db_password" : "aris1996",
+            "db_password" : "ayambakar",
             "db_host" : "localhost",
             "db_port" : "3306",
-            "db_name" : "openedoo"
+            "db_name" : "db_baru"
         },
     "config": "Development",
     "secret_key" : "aksaramaya_openedoo"

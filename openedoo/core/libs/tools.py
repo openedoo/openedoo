@@ -3,6 +3,8 @@ import random, string
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import Signer, URLSafeSerializer as urlsafe
 import redis,json
+import smtplib
+
 
 def random_word(length):
 	return ''.join(random.choice(string.lowercase+string.uppercase+string.digits) for i in range(length))
@@ -66,3 +68,23 @@ def get_redis(key):
 		return json.loads(data)
 	except Exception:
 		return False
+def send_email(mail_user, mail_password, mail_recipient, subject, body):
+	FROM = mail_user
+	TO = mail_recipient if type(mail_recipient) is list else [mail_recipient]
+	SUBJECT = subject
+	TEXT = body
+
+	# Prepare actual message
+	message = """From: %s\nTo: %s\nSubject: %s\n\n%s
+	""" % (FROM, ", ".join(TO), SUBJECT, TEXT)
+	try:
+		server = smtplib.SMTP_SSL("mail.openedoo.org", 465)
+		server.ehlo()
+		#server.starttls()
+		server.login(mail_user, mail_password)
+		server.sendmail(FROM, TO, message)
+		server.close()
+		return 'successfully sent the mail'
+	except Exception as e:
+		return "failed to send mail"
+
