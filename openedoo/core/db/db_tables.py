@@ -12,22 +12,10 @@ Base = declarative_base()
 metadata = MetaData(bind=engine)
 auto_map = automap_base()
 
-class od_session(Base):
-	__tablename__ = 'od_user_session'
-	session_id = Column(Integer, primary_key=True,autoincrement=True)
-	user_id = Column(Integer)
-	token_session = Column(Text())
-	created = Column(DateTime())
-	def __init__(self,session_id,user_id,token_session,created):
-		self.session_id = session_id
-		self.user_id = user_id
-		self.token_session = token_session
-		self.created = created
-
 class od_users(Base):
 	__tablename__ = 'od_user'
 	user_id = Column(Integer,primary_key=True,autoincrement=True)
-	username = Column(String(16))
+	username = Column(String(16), unique=True)
 	password = Column(Text())
 	access_token = Column(Text())
 	public_key = Column(Text())
@@ -48,3 +36,23 @@ class od_users(Base):
 		self.created = created
 		self.last_login = last_login
 		self.user_profile = user_profile
+class roles(Base):
+	__tablename__ = 'od_user_role'
+	role_id = Column(Integer, primary_key=True,autoincrement=True)
+	role = Column(String(64))
+	role_status = Column(Text)
+	def __init__(self,role,max_device,role_status):
+		self.role = role
+		self.role_status = role_status
+class tryout(Base):
+	__tablename__ = 'od_module_tryout'
+	id_soal = Column(Integer, primary_key=True,autoincrement=True)
+	soal_text = Column(Text)
+	soal_pilihan = Column(Text)
+	soal_jawab = Column(Text)
+	soal_bobot = Column(Integer)
+	def __init__(self,soal_text,soal_pilihan,soal_jawab,soal_bobot):
+		self.soal_text = soal_text
+		self.soal_pilihan = soal_pilihan
+		self.soal_jawab = soal_jawab
+		self.soal_bobot = soal_bobot

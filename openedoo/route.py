@@ -1,5 +1,7 @@
-#from flask import Flask
 from openedoo import app
 
-from .hello import hello
-app.register_blueprint(hello, url_prefix='/hello')
+from openedoo.module_member import member
+app.register_blueprint(member, url_prefix='/beta/member')
+
+from openedoo.core import core
+app.register_blueprint(core, url_prefix='/')

@@ -3,4 +3,5 @@
 *.save
 pip-selfcheck.json
 venv/
-config.json
+*.json
+__pycache__/
