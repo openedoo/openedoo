@@ -23,7 +23,7 @@ def login(username, password):
         check_user = query_auth.select_db(tables=od_users, column=od_users.username, value=username)
         if len(check_user) < 1:
             return {"message":"User not found","token":""}
-        check_password = check_password_2(password_hash= check_user[0][2], password_input=password)
+        check_password = check_werkzeug(password_hash= check_user[0][2], password_input=password)
         if check_password != True:
             return {"message":"Wrong Password","token":""}
         sasy = session_encode(check_user[0][3])
