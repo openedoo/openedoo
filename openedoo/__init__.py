@@ -2,6 +2,7 @@ from flask import Flask,abort
 import json
 import config
 from datetime import timedelta
+
 app = Flask(__name__)
 
 app.permanent_session_lifetime = timedelta(minutes=10)

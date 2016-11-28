@@ -8,7 +8,7 @@ from openedoo.core.libs.auth import login as user_login
 from openedoo.core.libs.auth import read_session, logout as user_logout
 
 
-member = Blueprint('hello', __name__, url_prefix='/beta/member')
+member = Blueprint('hello', __name__)
 
 @member.route('/', methods=['POST', 'GET'])
 def index():

@@ -1,7 +1,9 @@
+
 from core.libs import response
 from flask import abort
 from openedoo import app
 import json
+
 
 @app.errorhandler(400)
 def page_not_found(e):
@@ -27,12 +29,14 @@ def page_not_found(e):
 	error = json.dumps(error)
 	resp = response(error, status=404, mimetype='application/json')
 	return resp
+
 @app.errorhandler(405)
 def page_not_found(e):
 	error = { 'status' : 'methods not allowed' }
 	error = json.dumps(error)
 	resp = response(error, status=405, mimetype='application/json')
 	return resp
+
 @app.errorhandler(500)
 def page_not_found(e):
 	error = { 'status' : 'bad requests' }
