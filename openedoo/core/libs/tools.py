@@ -68,6 +68,7 @@ def get_redis(key):
 		return json.loads(data)
 	except Exception:
 		return False
+
 def send_email(mail_user, mail_password, mail_recipient, subject, body):
 	FROM = mail_user
 	TO = mail_recipient if type(mail_recipient) is list else [mail_recipient]

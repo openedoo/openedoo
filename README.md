@@ -1,6 +1,6 @@
 # WELCOME TO OPENEDOO
 
-![N|Solid](http://cp.ayoklinik.com:8000/img/logo.svg)
+![N|Solid](http://openedoo.org/images/openedoo.svg)
 
 ## Coming Soon
 #### on (we dont know)
