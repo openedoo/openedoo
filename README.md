@@ -2,8 +2,7 @@
 
 ![N|Solid](http://openedoo.org/images/openedoo.svg)
 
-## Coming Soon
-#### on (we dont know)
+## Version 0.1
 
 #### how to use
 ```
