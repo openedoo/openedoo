@@ -12,7 +12,7 @@ member = Blueprint('hello', __name__)
 
 @member.route('/', methods=['POST', 'GET'])
 def index():
-    return "Hello Hello Hello"
+    return "Hello World"
 
 @member.route('/register', methods=['POST','GET'])
 def add():
@@ -30,13 +30,11 @@ def add():
         if (username or email or password) is None:
             abort(401)
         payload = module_member.registration(username,password,email,name,phone)
-        #payload = {'message':'registration successful'}
         payload = json.dumps(payload)
         resp = Response(payload, status=200, mimetype='application/json')
         return resp
     except Exception as e:
         abort(401)
-
 @member.route('/delete', methods=['GET','POST'])
 @read_session
 def delete():
@@ -53,7 +51,6 @@ def find():
         load_json = json.loads(request.data)
         user_id = load_json['user_id']
         module_member.object.by_id(user_id=user_id)
-        #member.object.order_by(user_id=user_id)
         return module_member.object.show_data()
 
 @member.route('/update', methods=['GET','POST'])
