@@ -44,9 +44,6 @@ def create(name):
     except BaseException:
         print "error >> \"{} is Exist\"".format(name)
         sys.exit(0)
-@manager.command
-def test():
-    test.unittest.runner()
 
 @manager.command
 def runserver():

@@ -21,5 +21,5 @@ class MyTestCase(unittest.TestCase):
          headers.append(('Content-Length', json_data_length))
          response = self.app.post('/persons',  data)
 
-def main():
-    unittest.runner()
+if __name__=='__main__':
+    unittest.main()
