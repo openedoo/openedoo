@@ -3,6 +3,7 @@
 ![N|Solid](http://openedoo.org/images/openedoo.svg)
 
 ## Version 0.1
+[![Build Status](https://travis-ci.org/openedoo/openedoo.svg?branch=master)](https://travis-ci.org/openedoo/openedoo)
 
 #### how to use
 ```
