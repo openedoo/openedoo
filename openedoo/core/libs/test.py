@@ -5,7 +5,6 @@ import json
 
 class MyTestCase(unittest.TestCase):
     def setUp(self):
-             app['TESTING'] = True
              self.app = app.test_client()
 
     def test_json_post(self):
@@ -21,3 +20,6 @@ class MyTestCase(unittest.TestCase):
          json_data_length = len(json_data)
          headers.append(('Content-Length', json_data_length))
          response = self.app.post('/persons',  data)
+
+def main():
+    unittest.runner()
