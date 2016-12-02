@@ -4,8 +4,10 @@ import os
 import sys
 from flask_script import Server, Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-from openedoo import app
 from openedoo.core.db.db_tables import Base
+from openedoo import app
+import unittest
+import json
 
 manager = Manager(app)
 
@@ -55,13 +57,10 @@ manager.add_command('shell', Shell())
 migrate = Migrate(app, Base)
 manager.add_command('db', MigrateCommand)
 
-from openedoo import app
-import unittest
-import json
 
 class MyTestCase(unittest.TestCase):
     def setUp(self):
-             self.app = app.test_client()
+        self.app = app.test_client()
 
     def test_json_post(self):
          headers = [('Content-Type', 'application/json')]
@@ -83,6 +82,7 @@ class MyTestCase(unittest.TestCase):
 
 @manager.command
 def test():
+    print "no problemo"
     pass
 
 def main():

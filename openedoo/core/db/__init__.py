@@ -21,7 +21,7 @@ class query(object):
 	def __init__(self):
 		self = "welcome to help menu"
 
-	def select_db(self,tables,column,**value_column):
+	def select_db(self,tables,column,page=0,page_size=None,**value_column):
 		'''equvalent with select * from tables where column = value_column, this didn't support with order by or join table'''
 		try:
 			session = sessionmaker()
@@ -32,6 +32,10 @@ class query(object):
 				kueridb = s.query(tables).filter(column == value_column['value'])
 			else:
 				kueridb = s.query(tables)
+			if page_size != None:
+				kueridb = kueridb.limit(page_size)
+			if page != 0:
+				kueridb = kueridb.offset(page*page_size)
 			list1 = list(s.execute(kueridb))
 			engine.dispose()
 			return list1
