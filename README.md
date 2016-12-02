@@ -12,6 +12,29 @@ git clone https://github.com/openedoo/openedoo
 pip install -r requirements.txt
 ```
 
+#### Please change config.json
+
+change your configuration with replace your config.json.example to config.json,
+
+###### ALERT if you don't change the configuration your db can be fail
+
+```
+{
+    "db":
+        {
+            "db_engine": "mysql",
+            "db_id": "db_user",
+            "db_password" : "db_password",
+            "db_host" : "localhost",
+            "db_port" : "3306",
+            "db_name" : "openedoo"
+        },
+    "config": "Development",
+    "secret_key" : "aksaramaya_openedoo"
+}
+
+```
+
 #### Migrate Database
 ```
 python manage.py db init

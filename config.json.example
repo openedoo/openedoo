@@ -2,19 +2,11 @@
     "db":
         {
             "db_engine": "mysql",
-<<<<<<< HEAD:config.json.example
-            "db_id": "db_id",
-            "db_password" : "password",
-            "db_host" : "localhost",
-            "db_port" : "3306",
-            "db_name" : "db_openedoo"
-=======
             "db_id": "db_user",
             "db_password" : "db_password",
             "db_host" : "localhost",
             "db_port" : "3306",
             "db_name" : "openedoo"
->>>>>>> 5fe2f7ac07efa857ce6ac4aec07d1907589f1446:config.json
         },
     "config": "Development",
     "secret_key" : "aksaramaya_openedoo"
