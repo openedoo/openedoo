@@ -4,3 +4,5 @@
 pip-selfcheck.json
 venv/
 __pycache__/
+migrations/
+config.json
