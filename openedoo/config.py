@@ -1,9 +1,23 @@
 import os
 import json
 
-with open('config.json') as data_file:
-    data_json = json.loads(data_file.read())
-
+try:
+	with open('config.json') as data_file:
+		data_json = json.loads(data_file.read())
+except Exception as e:
+	data_json = {
+    "db":
+        {
+            "db_engine": "mysql",
+            "db_id": "db_id",
+            "db_password" : "password",
+            "db_host" : "localhost",
+            "db_port" : "3306",
+            "db_name" : "db_openedoo"
+        },
+    "config": "Development",
+    "secret_key" : "aksaramaya_openedoo"
+}
 
 class config(object):
 	DEBUG = True

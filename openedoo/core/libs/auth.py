@@ -3,6 +3,7 @@ from openedoo.core.libs import request, abort, session, Response
 from openedoo.core.db import query
 from openedoo.core.db.db_tables import od_users
 from tools import *
+
 query_auth = query()
 def check_auth(username, password):
     return username == 'admin' and password == 'secret'
@@ -28,9 +29,10 @@ def login(username, password):
             return {"message":"Wrong Password","token":""}
         sasy = session_encode(check_user[0][3])
         session['username'] = sasy
+        print "hahah"
         return {"message":"Login Success","token":check_user[0][5]}
     except Exception as e:
-        abort(500)
+        return e
 
 def get_user_id(token):
     try:

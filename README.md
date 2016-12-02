@@ -29,3 +29,8 @@ python manage.py create "module_name"
 ```
 python manage.py runserver
 ```
+
+http://openedoo.org core v0.1 has realease [0]. Hopely, openedoo can build any open platfrom for education, please help me to develope and contribute to openedoo [1] [2] with your idea or code .
+[0](https://github.com/openedoo/openedoo/issues)
+[1](https://github.com/openedoo/openedoo)
+[2](https://telegram.me/openedoo)

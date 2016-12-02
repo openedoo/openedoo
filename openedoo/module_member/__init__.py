@@ -3,7 +3,6 @@ import json
 import module_member
 #from module_member import registration,activation
 from openedoo.core.libs.tools import *
-from flask import abort
 from openedoo.core.libs.auth import login as user_login
 from openedoo.core.libs.auth import read_session, logout as user_logout
 
@@ -64,7 +63,7 @@ def update():
 @member.route('/activation/<key>',methods=['GET'])
 def activation(key):
     aktivasi = json.dumps(module_member.activation(key))
-    resp = Response(aktivasi, status=200, mimetype='application/json')
+    resp = response(aktivasi, status=200, mimetype='application/json')
     return resp
 
 @member.route('/password', methods=['POST','GET'])
@@ -89,7 +88,7 @@ def login():
             load_json = json.loads(request.data)
             check_login = user_login(load_json['username'] ,load_json['password'])
             log = json.dumps(check_login)
-            resp = Response(log, status=200, mimetype='application/json')
+            resp = response(log, status=200, mimetype='application/json')
             return resp
     except Exception as e:
         abort(500)

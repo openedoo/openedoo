@@ -4,8 +4,10 @@ import os
 import sys
 from flask_script import Server, Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-from openedoo import app
 from openedoo.core.db.db_tables import Base
+from openedoo import app
+import unittest
+import json
 
 manager = Manager(app)
 
@@ -45,7 +47,6 @@ def create(name):
         print "error >> \"{} is Exist\"".format(name)
         sys.exit(0)
 
-
 @manager.command
 def runserver():
     app.run(
@@ -56,6 +57,33 @@ manager.add_command('shell', Shell())
 migrate = Migrate(app, Base)
 manager.add_command('db', MigrateCommand)
 
+
+class MyTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = app.test_client()
+
+    def test_json_post(self):
+         headers = [('Content-Type', 'application/json')]
+         data = {
+            "username":"demo2",
+            "password":"demo2",
+            "email":"demo2@gmail.com",
+            "name":"Demo2",
+            "phone":"0888"
+         }
+         json_data = json.dumps(data)
+         json_data_length = len(json_data)
+         headers.append(('Content-Length', json_data_length))
+         response = self.app.post('/beta/member/register',  data)
+
+    def logout(self):
+        return self.app.get('/logout', follow_redirects=True)
+
+
+@manager.command
+def test():
+    print "no problemo"
+    pass
 
 def main():
     manager.run()

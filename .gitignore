@@ -3,6 +3,6 @@
 *.save
 pip-selfcheck.json
 venv/
-*.json
 __pycache__/
 migrations/
+config.json
