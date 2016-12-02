@@ -3,7 +3,6 @@ import json
 import module_member
 #from module_member import registration,activation
 from openedoo.core.libs.tools import *
-from flask import abort
 from openedoo.core.libs.auth import login as user_login
 from openedoo.core.libs.auth import read_session, logout as user_logout
 

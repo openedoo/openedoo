@@ -1,6 +1,6 @@
 
 from core.libs import response
-from flask import abort
+from openedoo.core.libs import abort
 from openedoo import app
 import json
 
