@@ -10,8 +10,8 @@ from datetime import datetime, date
 from db_tables import od_users
 from openedoo import config
 
-
 engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
+database_name = config.database_name
 Base = declarative_base()
 metadata = MetaData(bind=engine)
 auto_map = automap_base()
@@ -82,3 +82,20 @@ class query(object):
 			return True
 		except Exception as e:
 			return False
+	def create_database(self,database_name):
+		try:
+			engine_new = create_engine(config.DB_URI)
+			connection_engine = engine_new.connect()
+			connection_engine.execute("commit")
+			connection_engine.execute("create database {database}".format(database=database_name))
+			connection_engine.close()
+			return True
+		except Exception as e:
+			message = {'message':'database exist'}
+			return message
+	def drop_table(self,name_table):
+		sql = text('DROP TABLE IF EXISTS {name_table};'.format(name_table=name_table))
+		result = engine.execute(sql)
+		return result
+
+#print drop_table(database_name)

@@ -5,14 +5,28 @@ import sys
 from flask_script import Server, Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 from openedoo.core.db.db_tables import Base
+from openedoo.core.db import query
 from openedoo import app
+from openedoo import config
 import unittest
 import json
+
+query = query()
 
 manager = Manager(app)
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
 BASE = os.path.join(BASE_DIR, 'openedoo')
+
+def migrate():
+    #query.drop_table('alembic_version')
+    query.create_database(config.database_name)
+    migrate = Migrate(app, Base)
+    return migrate
+
+manager.add_command('shell', Shell())
+migrate = migrate()
+manager.add_command('db', MigrateCommand)
 
 def file(dir, file, apps):
     try:
@@ -53,32 +67,6 @@ def runserver():
         host='0.0.0.0',
         port=5000
     )
-manager.add_command('shell', Shell())
-migrate = Migrate(app, Base)
-manager.add_command('db', MigrateCommand)
-
-
-class MyTestCase(unittest.TestCase):
-    def setUp(self):
-        self.app = app.test_client()
-
-    def test_json_post(self):
-         headers = [('Content-Type', 'application/json')]
-         data = {
-            "username":"demo2",
-            "password":"demo2",
-            "email":"demo2@gmail.com",
-            "name":"Demo2",
-            "phone":"0888"
-         }
-         json_data = json.dumps(data)
-         json_data_length = len(json_data)
-         headers.append(('Content-Length', json_data_length))
-         response = self.app.post('/beta/member/register',  data)
-
-    def logout(self):
-        return self.app.get('/logout', follow_redirects=True)
-
 
 @manager.command
 def test():

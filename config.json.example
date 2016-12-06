@@ -6,7 +6,8 @@
             "db_password" : "password",
             "db_host" : "localhost",
             "db_port" : "3306",
-            "db_name" : "db_openedoo"
+            "db_name" : "db_openedoo",
+            "db_prefix" : "openedoo"
         },
     "config": "Development",
     "secret_key" : "aksaramaya_openedoo"

@@ -11,9 +11,10 @@ engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
 Base = declarative_base()
 metadata = MetaData(bind=engine)
 auto_map = automap_base()
+database_prefix = config.database_prefix
 
 class od_users(Base):
-	__tablename__ = 'od_user'
+	__tablename__ = '{db_prefix}_user'.format(db_prefix=database_prefix)
 	user_id = Column(Integer,primary_key=True,autoincrement=True)
 	username = Column(String(16), unique=True)
 	password = Column(Text())
@@ -37,7 +38,7 @@ class od_users(Base):
 		self.last_login = last_login
 		self.user_profile = user_profile
 class od_roles(Base):
-	__tablename__ = 'od_user_role'
+	__tablename__ = '{db_prefix}_user_role'.format(db_prefix=database_prefix)
 	role_id = Column(Integer, primary_key=True,autoincrement=True)
 	role = Column(String(64))
 	role_status = Column(Text)
@@ -45,7 +46,7 @@ class od_roles(Base):
 		self.role = role
 		self.role_status = role_status
 class od_tryout(Base):
-	__tablename__ = 'od_module_tryout'
+	__tablename__ = '{db_prefix}_module_tryout'.format(db_prefix=database_prefix)
 	tryout_id = Column(Integer, primary_key=True,autoincrement=True)
 	tryout_question = Column(Text)
 	tryout_selection = Column(Text)

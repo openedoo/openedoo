@@ -7,6 +7,8 @@ import json
 from email.utils import parseaddr
 from functools import wraps
 from openedoo.core.libs import session, Response
+
+
 now_temp = datetime.now()
 now = now_temp.strftime('%Y-%m-%d %H:%M:%S')
 
