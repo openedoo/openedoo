@@ -61,12 +61,59 @@ def create(name):
         print "error >> \"{} is Exist\"".format(name)
         sys.exit(0)
 
+GITHUB_REPOS_API = 'https://api.github.com/repos/'
+
+import base64
+import json
+import urllib2
+import sys
+import os
+
+def write_file(item, dir_name):
+    name = item['name']
+    req = urllib2.Request(item['url'], headers={'User-Agent' : "Magic Browser"})
+    res = urllib2.urlopen(req).read()
+    coded_string = json.loads(res)['content']
+    contents = base64.b64decode(coded_string)
+    print os.path.join(dir_name, name)
+    f = open(os.path.join(dir_name, name), 'w')
+    f.write(contents)
+    f.close
+
+def write_files(url, dir_name, recursive=True):
+    print 'url', url
+    os.makedirs(dir_name)
+    github_dir = json.loads(urllib2.urlopen(url).read())
+    for item in github_dir:
+        if item['type'] == 'file':
+            write_file(item, dir_name)
+        elif item['type'] == 'dir':
+            write_files(item['url'], dir_name=os.path.join(dir_name, item['name']))
+
 @manager.command
 def runserver():
     app.run(
         host='0.0.0.0',
         port=5000
     )
+
+
+@manager.command
+def install(name, recursive=False):
+    """ Install Module """
+    github_openedoo = 'openedoo/openedoo/contents/openedoo/'
+
+    new_dir_name = name
+    if os.path.exists(new_dir_name):
+        raise 'Directory', new_dir_name, 'already exists'
+    # use contents api
+    path = github_openedoo + name
+
+    write_files(GITHUB_REPOS_API + path, new_dir_name, recursive=recursive)
+
+
+
+
 
 @manager.command
 def test():
