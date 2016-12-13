@@ -8,5 +8,5 @@ def install(package):
 		raise "please install pip"
 
 # Example
-if __name__ == '__main__':
-	install('nltk')
+#if __name__ == '__main__':
+#	install('nltk')
