@@ -90,19 +90,3 @@ def send_email(mail_user, mail_password, mail_recipient, subject, body):
 		return 'successfully sent the mail'
 	except Exception as e:
 		return "failed to send mail"
-
-def download_zip(url):
-    # Open the url
-    try:
-        f = urlopen(url)
-        print "downloading " + url
-
-        # Open our local file for writing
-        with open("temp/"+os.path.basename(url), "wb") as local_file:
-            local_file.write(f.read())
-
-    #handle errors
-    except HTTPError, e:
-        print "HTTP Error:", e.code, url
-    except URLError, e:
-        print "URL Error:", e.reason, url

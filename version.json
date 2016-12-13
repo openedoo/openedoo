@@ -1,0 +1,6 @@
+{
+	"name":"openedoo_core",
+	"version":"0.0.1",
+	"modul_include":"openedoo_core",
+	"pip_modul":["flask","sqlalchemy","MySQL-python","redis","Werkzeug","itsdangerous","click","Jinja2","alembic","flask-migrate","Flask-Script"]
+}
