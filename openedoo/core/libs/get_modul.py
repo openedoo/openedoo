@@ -3,9 +3,10 @@ import json
 import random
 import base64
 import os
+from git import Repo
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
-BASE = os.path.join(BASE_DIR, 'openedoo')
+BASE = os.path.join(BASE_DIR, 'moduls')
 
 def get_url(url="https://api.github.com/orgs/openedoo/repos"):
 	try:
@@ -56,23 +57,28 @@ def find_modul(modul_name=None):
 	data = check_modul_available()
 	number_akhir = len(data)
 	number_awal = 0
-	output = {'message':'modul not found'}
+	output = None
+
+
 	for number_awal in xrange(number_awal,number_akhir):
 		jumlah = (number_awal+1)-1
-		if modul_name in data[jumlah]['name']:
+		if modul_name == data[jumlah]['name']:
 			output = {'url':data[jumlah]['url'],'url_requirement':data[jumlah]['url_requirement'],\
 			'url_git':data[jumlah]['url_git'],'name':data[jumlah]['name']}
 			return output
 		else:
 			pass
 	return output
+
 def install_git(url=None,directory=None,name_modul=None):
+	directory = 'moduls/{}'.format(name_modul)
 	if url == None:
 		return "your url is None"
 	if name_modul == None:
 		return "please input your modul"
-	if directory is None:
-		directory = ("{base_dir}/openedoo".format(base_dir=BASE))
-	Repo.clone_from(url,directory)
-	message = {'message':'your modul had installed'}
+	try:
+		Repo.clone_from(url,directory)
+		message = {'message':'your modul had installed'}
+	except Exception:
+		message = {"message":"install failed"}
 	return message

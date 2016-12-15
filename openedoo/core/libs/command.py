@@ -10,6 +10,7 @@ from openedoo import app
 from openedoo import config
 import unittest
 import json
+from openedoo.core.libs.get_modul import *
 
 query = query()
 
@@ -99,30 +100,23 @@ def runserver():
 
 
 @manager.command
-def install(name, recursive=False):
-    """ Install Module """
-    github_openedoo = 'openedoo/openedoo/contents/openedoo/'
-
-    new_dir_name = name
-    if os.path.exists(new_dir_name):
-        raise 'Directory', new_dir_name, 'already exists'
-    # use contents api
-    path = github_openedoo + name
-
-    write_files(GITHUB_REPOS_API + path, new_dir_name, recursive=recursive)
-
-
-@manager.command
 def checkmodule():
     """ Check Module Available """
-    from openedoo.core.libs.get_modul import check_modul_available
 
     list_module = check_modul_available()
     print "Module Available : "
     for available in list_module:
         print available['name']
 
-
+@manager.command
+def install(name):
+    """ Install modul """
+    data = find_modul(modul_name=name)
+    try:
+        install_git(url=data['url_git'],name_modul=name)
+        print "Modul installed"
+    except Exception:
+        print "Modul not found"
 
 
 @manager.command
