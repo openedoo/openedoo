@@ -112,6 +112,16 @@ def install(name, recursive=False):
     write_files(GITHUB_REPOS_API + path, new_dir_name, recursive=recursive)
 
 
+@manager.command
+def checkmodule():
+    """ Check Module Available """
+    from openedoo.core.libs.get_modul import check_modul_available
+
+    list_module = check_modul_available()
+    print "Module Available : "
+    for available in list_module:
+        print available['name']
+
 
 
 
