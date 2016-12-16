@@ -49,7 +49,7 @@ def check_modul_requirement(url=None):
 	data = json.loads(data)
 	return data
 	#except Exception as e:
-	#	return e
+		return e
 
 def find_modul(modul_name=None):
 	if modul_name is None:
@@ -86,3 +86,19 @@ def install_git(url=None,directory=None,name_modul=None):
 	except Exception:
 		message = {"message":"install failed"}
 	return message
+def add_version(name_module=None,version_modul=None):
+	if name_module == None :
+		return "please insert your name_module"
+	if version_modul == None :
+		version = "0.1.0"
+	try:
+		filename = 'version.json'
+		with open(filename,'r') as data_file:
+			data_json = json.loads(data_file.read())
+		os.remove(filename)
+		new_data={'name_module':name_module,'version_modul':version_modul}
+		data_json['modul_installed'].append(new_data)
+		with open(filename,'w') as data_file:
+			json.dump(data_json, data_file)
+	except Exception as e:
+		return e
