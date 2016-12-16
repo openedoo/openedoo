@@ -11,6 +11,7 @@ from openedoo import config
 import unittest
 import json
 from openedoo.core.libs.get_modul import *
+import shutil
 
 query = query()
 
@@ -18,7 +19,18 @@ manager = Manager(app)
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
 BASE = os.path.join(BASE_DIR, 'openedoo')
+def delete_modul(name):
+    file = open("{direktory}/route.py".format(direktory=BASE),"r+")
+    readfile = file.readlines()
+    file.seek(0)
+    delete = ("\n \nfrom openedoo.module_{modul} import {modul}".format(modul=name))
+    for line in readfile:
+        if str(name) not in line:
+            file.writelines(line)
 
+    file.truncate()
+    file.close()
+    shutil.rmtree('{dir_file}/moduls/{name}'.format(dir_file=BASE_DIR,name=name))
 def migrate():
     #query.drop_table('alembic_version')
     query.create_database(config.database_name)
@@ -41,7 +53,7 @@ def file(dir, file, apps):
 
 @manager.command
 def create(name):
-    """Create your app module"""
+    """Create your app modul"""
     dir = os.path.join(BASE, str("module_{}".format(name)))
     try:
         os.mkdir(dir)
@@ -62,34 +74,13 @@ def create(name):
         print "error >> \"{} is Exist\"".format(name)
         sys.exit(0)
 
-GITHUB_REPOS_API = 'https://api.github.com/repos/'
-
-import base64
-import json
-import urllib2
-import sys
-import os
-
-def write_file(item, dir_name):
-    name = item['name']
-    req = urllib2.Request(item['url'], headers={'User-Agent' : "Magic Browser"})
-    res = urllib2.urlopen(req).read()
-    coded_string = json.loads(res)['content']
-    contents = base64.b64decode(coded_string)
-    print os.path.join(dir_name, name)
-    f = open(os.path.join(dir_name, name), 'w')
-    f.write(contents)
-    f.close
-
-def write_files(url, dir_name, recursive=True):
-    print 'url', url
-    os.makedirs(dir_name)
-    github_dir = json.loads(urllib2.urlopen(url).read())
-    for item in github_dir:
-        if item['type'] == 'file':
-            write_file(item, dir_name)
-        elif item['type'] == 'dir':
-            write_files(item['url'], dir_name=os.path.join(dir_name, item['name']))
+@manager.command
+def delete(name):
+    """Delete your app modul"""
+    try:
+        delete_modul(name)
+    except Exception as e:
+        print e
 
 @manager.command
 def runserver():
@@ -100,7 +91,7 @@ def runserver():
 
 
 @manager.command
-def checkmodule():
+def check_modul():
     """ Check Module Available """
 
     list_module = check_modul_available()
@@ -115,6 +106,14 @@ def install(name):
     try:
         install_git(url=data['url_git'],name_modul=name)
         print "Modul installed"
+        print data
+        try:
+            with open(os.path.join(BASE, "route.py"), "a") as f:
+                f.write("\nfrom moduls.{modul} import {modul}".format(modul=data['requirement']['name']))
+                f.write("\napp.register_blueprint({modulename}, url_prefix='{url_endpoint}')".format(modulename=data['requirement']['name'],url_endpoint=data['requirement']['url_endpoint']))
+                f.close()
+        except Exception as e:
+            print "Error Writing __init__.py"
     except Exception:
         print "Modul not found"
 

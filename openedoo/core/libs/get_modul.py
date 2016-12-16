@@ -63,8 +63,12 @@ def find_modul(modul_name=None):
 	for number_awal in xrange(number_awal,number_akhir):
 		jumlah = (number_awal+1)-1
 		if modul_name == data[jumlah]['name']:
+			try:
+				get_url_requirement = check_modul_requirement(data[jumlah]['url_requirement'])
+			except Exception as e:
+				return e
 			output = {'url':data[jumlah]['url'],'url_requirement':data[jumlah]['url_requirement'],\
-			'url_git':data[jumlah]['url_git'],'name':data[jumlah]['name']}
+			'url_git':data[jumlah]['url_git'],'name':data[jumlah]['name'],'requirement':get_url_requirement}
 			return output
 		else:
 			pass
