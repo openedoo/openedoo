@@ -10,3 +10,11 @@ from openedoo.module_tryout import tryout
 app.register_blueprint(tryout, url_prefix='/tryout')
 
  
+
+
+
+
+
+
+
+

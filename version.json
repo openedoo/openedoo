@@ -1,7 +1,1 @@
-{
-	"name":"openedoo_core",
-	"version":"0.1.0",
-	"modul_include":"openedoo_core",
-	"pip_modul":["flask","sqlalchemy","MySQL-python","redis","Werkzeug","itsdangerous","click","Jinja2","alembic","flask-migrate","Flask-Script"],
-	"modul_installed":[]
-}
+{"modul_include": "openedoo_core", "modul_installed": [], "pip_modul": ["flask", "sqlalchemy", "MySQL-python", "redis", "Werkzeug", "itsdangerous", "click", "Jinja2", "alembic", "flask-migrate", "Flask-Script"], "version": "0.1.0", "name": "openedoo_core"}

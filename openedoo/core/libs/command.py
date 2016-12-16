@@ -79,11 +79,13 @@ def delete(name):
     """Delete your app modul"""
     try:
         delete_modul(name)
+        del_version(name)
     except Exception as e:
         print e
 
 @manager.command
 def runserver():
+    """ run server with wekezeug """
     app.run(
         host='0.0.0.0',
         port=5000
@@ -103,12 +105,15 @@ def check_modul():
 def install(name):
     """ Install modul """
     data = find_modul(modul_name=name)
+    if os.path.exists('moduls/{name}'.format(name=name)):
+        return "modul exist"
     try:
         install_git(url=data['url_git'],name_modul=name)
         if os.path.isfile('moduls/__init__.py') is False:
             open(os.path.join('moduls', '__init__.py'), "a")
         print "Modul installed"
         print data
+        add_version(name_module=data['requirement']['name'],version_modul=data['requirement']['version'])
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
                 f.write("\nfrom moduls.{modul} import {modul}".format(modul=data['requirement']['name']))

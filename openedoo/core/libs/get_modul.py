@@ -42,14 +42,11 @@ def check_modul_available(url="https://api.github.com/orgs/openedoo/repos"):
 def check_modul_requirement(url=None):
 	if url is None:
 		return "your field is null"
-	#try:
 	response = get_url(url)
 	content = response['content']
 	data = base64.b64decode(content)
 	data = json.loads(data)
 	return data
-	#except Exception as e:
-		return e
 
 def find_modul(modul_name=None):
 	if modul_name is None:
@@ -58,7 +55,6 @@ def find_modul(modul_name=None):
 	number_akhir = len(data)
 	number_awal = 0
 	output = None
-
 
 	for number_awal in xrange(number_awal,number_akhir):
 		jumlah = (number_awal+1)-1
@@ -102,3 +98,22 @@ def add_version(name_module=None,version_modul=None):
 			json.dump(data_json, data_file)
 	except Exception as e:
 		return e
+def del_version(name_module=None):
+	filename = 'version.json'
+	if name_module == None:
+		return "please insert your modul name"
+	with open(filename,'r') as data_file:
+		data_json = json.loads(data_file.read())
+	number_akhir = len(data_json['modul_installed'])
+	number_awal = 0
+	print data_json['modul_installed'][0]['name_module']
+	for number_awal in xrange(number_awal,number_akhir):
+		jumlah = (number_awal+1)-1
+		if name_module == data_json['modul_installed'][jumlah]['name_module']:
+			os.remove(filename)
+			del data_json['modul_installed'][jumlah]
+			with open(filename,'w') as data_file:
+				json.dump(data_json, data_file)
+		else:
+			pass
+	return "modul has deleted"
