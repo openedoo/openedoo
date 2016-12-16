@@ -42,14 +42,14 @@ def check_modul_available(url="https://api.github.com/orgs/openedoo/repos"):
 def check_modul_requirement(url=None):
 	if url is None:
 		return "your field is null"
-	try:
-		response = get_url(url)
-		content = response['content']
-		data = base64.b64decode(content)
-		data = json.loads(data)
-		return data
-	except Exception as e:
-		return e
+	#try:
+	response = get_url(url)
+	content = response['content']
+	data = base64.b64decode(content)
+	data = json.loads(data)
+	return data
+	#except Exception as e:
+	#	return e
 
 def find_modul(modul_name=None):
 	if modul_name is None:
