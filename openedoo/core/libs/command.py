@@ -54,12 +54,12 @@ def file(dir, file, apps):
 @manager.command
 def create(name):
     """Create your app modul"""
-    dir = os.path.join(BASE, str("module_{}".format(name)))
+    dir = os.path.join('moduls', str("modul_{}".format(name)))
     try:
         os.mkdir(dir)
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
-                f.write("\n \nfrom openedoo.module_{modul} import {modul}".format(modul=name))
+                f.write("\n \nfrom moduls.modul_{modul} import {modul}".format(modul=name))
                 f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
                 f.close()
         except Exception as e:
@@ -105,6 +105,8 @@ def install(name):
     data = find_modul(modul_name=name)
     try:
         install_git(url=data['url_git'],name_modul=name)
+        if os.path.isfile('moduls/__init__.py') is False:
+            open(os.path.join('moduls', '__init__.py'), "a")
         print "Modul installed"
         print data
         try:
