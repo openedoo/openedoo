@@ -105,6 +105,8 @@ def install(name):
     data = find_modul(modul_name=name)
     try:
         install_git(url=data['url_git'],name_modul=name)
+        if os.path.isfile('moduls/__init__.py') is False:
+            open(os.path.join('moduls', '__init__.py'), "a")
         print "Modul installed"
         print data
         try:
