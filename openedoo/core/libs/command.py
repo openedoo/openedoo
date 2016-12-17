@@ -12,6 +12,7 @@ import unittest
 import json
 from openedoo.core.libs.get_modul import *
 import shutil
+import time
 
 query = query()
 
@@ -79,6 +80,7 @@ def delete(name):
     try:
         delete_module(name)
         del_version(name)
+        print "{name} has deleted".format(name=name)
     except Exception as e:
         print "module has deleted"
 
@@ -111,7 +113,6 @@ def install(name):
         if os.path.isfile('modules/__init__.py') is False:
             open(os.path.join('modules', '__init__.py'), "a")
         print "Module installed"
-        print data
         add_version(name_module=data['requirement']['name'],version_modul=data['requirement']['version'])
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
@@ -124,7 +125,43 @@ def install(name):
         print e
         print "Module not found"
 
+@manager.command
+def git(url,name):
+    """ Install module from your git """
+    if os.path.exists('modules/{name}'.format(name=name)):
+        return "module exist"
+    try:
+        install_git(url=url,name_modul=name)
+        if os.path.isfile('modules/__init__.py') is False:
+            open(os.path.join('modules', '__init__.py'), "a")
+        print "Module installed"
+        time.sleep(0.2)
+        data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
+        requirement_json = json.loads(data_requirement.read())
+        add_version(name_module=requirement_json['name'],version_modul=requirement_json['version'])
+        try:
+            with open(os.path.join(BASE, "route.py"), "a") as f:
+                f.write("\nfrom modules.{module_folder} import {module}".format(\
+                    module_folder=requirement_json['name'],\
+                    module=name))
+                f.write("\napp.register_blueprint({modulename}, url_prefix='{url_endpoint}')".format(\
+                    modulename=requirement_json['name'],\
+                    url_endpoint=requirement_json['url_endpoint']))
+                f.close()
+        except Exception as e:
+            print "Error Writing __init__.py"
+    except Exception as e:
+        print e
+        print "Module not found"
 
+@manager.command
+def modul_installed():
+    data = open("version.json","r")
+    data_json  = json.loads(data.read())
+    if data_json['modul_installed'] == []:
+        return "no modul hasn't installed"
+    for available in data_json['modul_installed']:
+        print available['name_module']
 @manager.command
 def test():
     print "no problemo"
