@@ -23,7 +23,7 @@ def delete_module(name):
     file = open("{direktory}/route.py".format(direktory=BASE),"r+")
     readfile = file.readlines()
     file.seek(0)
-    delete = ("\n \nfrom openedoo.module_{module} import {module}".format(module=name))
+    delete = ("\n \nfrom openedoo.{module} import {module}".format(module=name))
     for line in readfile:
         if str(name) not in line:
             file.writelines(line)
@@ -56,18 +56,19 @@ def create(name):
     if os.path.isfile('modules/__init__.py') is False:
         os.mkdir('modules')
         open(os.path.join('modules', '__init__.py'), "a")
-    dir = os.path.join('modules', str("module_{}".format(name)))
+    dir = os.path.join('modules', str("{}".format(name)))
     try:
         os.mkdir(dir)
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
-                f.write("\n \nfrom modules.module_{module} import {module}".format(module=name))
+                f.write("\n \nfrom modules.{module} import {module}".format(module=name))
                 f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
                 f.close()
         except Exception as e:
             print "Error Writing __init__.py"
-
+        
         try:
+            add_version(name_module=name,version_modul='0.1')
             file(dir, file="__init__.py", apps=name)
             print "...... Successfully created app {}.......".format(name)
         except Exception as e:
@@ -114,7 +115,7 @@ def install(url):
         if os.path.isfile('modules/__init__.py') is False:
             os.mkdir('modules')
             open(os.path.join('modules', '__init__.py'), "a")
-        
+
         words = url.split('/')
         if '.' in words[-1]:
             word = words[-1].split('.')
@@ -131,7 +132,7 @@ def install(url):
         time.sleep(0.2)
         data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
         requirement_json = json.loads(data_requirement.read())
-        add_version(name_module=requirement_json['name'],version_modul=requirement_json['version'])
+        add_version(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
                 f.write("\nfrom modules.{module_folder} import {module}".format(\
@@ -150,11 +151,11 @@ def install(url):
 @manager.command
 def installed():
     """print all modul has installed"""
-    data = open("version.json","r")
+    data = open("manifest.json","r")
     data_json  = json.loads(data.read())
-    if data_json['module_installed'] == []:
+    if data_json['installed_module'] == []:
         return "no module hasn't installed"
-    for available in data_json['module_installed']:
+    for available in data_json['installed_module']:
         print available['name_module']
 @manager.command
 def test():
