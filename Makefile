@@ -1,7 +1,7 @@
 IMAGE_NAME := aksaramaya/openedoo
 IMAGE_TAG := 0.1
 
-.PHONY: all clean build push dev pushdev
+.PHONY: all clean build push
 
 all: build
 
@@ -16,9 +16,3 @@ clean:
 push:
 	docker push $(IMAGE_NAME):$(IMAGE_TAG)
 	docker push $(IMAGE_NAME):latest
-
-dev:
-        docker build -t $(IMAGE_NAME):$(IMAGE_TAG)-dev .
-
-pushdev:
-	docker push $(IMAGE_NAME):$(IMAGE_TAG)-dev
