@@ -3,7 +3,7 @@
         {
             "db_engine": "mysql",
             "db_id": "db_id",
-            "db_password" : "password",
+            "db_password" : "your_password",
             "db_host" : "localhost",
             "db_port" : "3306",
             "db_name" : "db_openedoo",
