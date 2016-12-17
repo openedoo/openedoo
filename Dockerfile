@@ -16,3 +16,4 @@ COPY . $APP
 
 RUN apk del make gcc libc-dev g++
 WORKDIR $APP
+RUN cat config.json.example | sed "s/db_id/root/g" | sed "s/db_id/pass123/g" | sed "s/localhost/od-db/g" > config.json
