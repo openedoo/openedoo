@@ -25,7 +25,7 @@ python manage.py create "module_name"
 
 ### Runserver
 ```bash
-python manage.py runserver
+python manage.py run
 ```
 
 ## Docker Compose
@@ -51,4 +51,13 @@ $ docker-compose start
 $ docker-compose stop od
 $ docker-compose run od python manage.py create "test"
 $ docker-compose start od
+```
+
+### Manage Module
+```bash
+$ docker-compose stop od
+$ docker-compose run od bash
+[from_od]$ python manage.py create "test"
+[from_od]$ python manage.py remove test
+[from_od]$ python manage.py install https://github.com/openedoo/module_hello
 ```
