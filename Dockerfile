@@ -11,9 +11,7 @@ RUN mkdir -p $APP
 COPY requirements.txt $APP
 RUN pip install -r $APP/requirements.txt
 
-# Bundle app source
-COPY . $APP
-
 RUN apk del make gcc libc-dev g++
+RUN chmod +x init.sh;cp init.sh /;
 WORKDIR $APP
-RUN cat config.json.example | sed "s/db_id/root/g" | sed "s/db_id/pass123/g" | sed "s/localhost/od-db/g" > config.json
+ENTRYPOINT ["/init.sh"]
