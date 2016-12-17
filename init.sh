@@ -1,14 +1,10 @@
 #!/bin/bash
 cd /opt/od
 CMDDOCK=$@
-MYSQL_ADDR="oddb"
-MYSQL_PORT="3306"
-MYSQL_PASSWORD="pass123"
-
 if [ -z "$CMDDOCK" ]
 then
   printf "Waiting database connection"
-  until mysql -h"$MYSQL_ADDR" -P "$MYSQL_PORT" -uroot -p "$MYSQL_PASSWORD" &> /dev/null
+  while ! mysqladmin ping -h oddb -u root -ppass123 2>/tmp/error
   do
     printf "."
     sleep 1
