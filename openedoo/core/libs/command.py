@@ -74,7 +74,7 @@ def create(name):
         sys.exit(0)
 
 @manager.command
-def delete(name):
+def remove(name):
     """Delete your app module"""
     if os.path.exists('modules/{name}'.format(name=name))==False:
         return "module not found"
@@ -86,7 +86,7 @@ def delete(name):
         print "module has deleted"
 
 @manager.command
-def runserver():
+def run():
     """ run server with wekezeug """
     app.run(
         host='0.0.0.0',
@@ -95,7 +95,7 @@ def runserver():
 
 
 @manager.command
-def check_module():
+def check():
     """ Check Module Available """
 
     list_module = check_modul_available()
@@ -103,31 +103,9 @@ def check_module():
     for available in list_module:
         print available['name']
 
-@manager.command
-def install(name):
-    """ Install module """
-    data = find_modul(modul_name=name)
-    if os.path.exists('modules/{name}'.format(name=name)):
-        return "module exist"
-    try:
-        install_git(url=data['url_git'],name_modul=name)
-        if os.path.isfile('modules/__init__.py') is False:
-            open(os.path.join('modules', '__init__.py'), "a")
-        print "Module installed"
-        add_version(name_module=data['requirement']['name'],version_modul=data['requirement']['version'])
-        try:
-            with open(os.path.join(BASE, "route.py"), "a") as f:
-                f.write("\nfrom modules.{module} import {module}".format(module=data['requirement']['name']))
-                f.write("\napp.register_blueprint({modulename}, url_prefix='{url_endpoint}')".format(modulename=data['requirement']['name'],url_endpoint=data['requirement']['url_endpoint']))
-                f.close()
-        except Exception as e:
-            print "Error Writing __init__.py"
-    except Exception as e:
-        print e
-        print "Module not found"
 
 @manager.command
-def install_git(url):
+def install(url):
     """ Install module from your git """
     try:
         if os.path.isfile('modules/__init__.py') is False:
@@ -166,7 +144,7 @@ def install_git(url):
         print "Module not found"
 
 @manager.command
-def module_installed():
+def installed():
     """print all modul has installed"""
     data = open("version.json","r")
     data_json  = json.loads(data.read())
