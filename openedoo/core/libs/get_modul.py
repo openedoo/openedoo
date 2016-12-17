@@ -26,7 +26,7 @@ def check_modul_available(url="https://api.github.com/orgs/openedoo/repos"):
 		jumlah = (number_awal+1)-1
 		modul = data[jumlah]
 		cek_modul = data[jumlah]['name']
-		if 'modul' in cek_modul:
+		if 'module_' in cek_modul:
 			modul_url = modul['contents_url']
 			modul_url_original = modul_url.replace("{+path}", "")
 			modul_url_requirement = modul_url.replace("{+path}", "requirement.json")
@@ -71,7 +71,7 @@ def find_modul(modul_name=None):
 	return output
 
 def install_git(url=None,directory=None,name_modul=None):
-	directory = 'moduls/{}'.format(name_modul)
+	directory = 'modules/{}'.format(name_modul)
 	if url == None:
 		return "your url is None"
 	if name_modul == None:
@@ -106,7 +106,6 @@ def del_version(name_module=None):
 		data_json = json.loads(data_file.read())
 	number_akhir = len(data_json['modul_installed'])
 	number_awal = 0
-	print data_json['modul_installed'][0]['name_module']
 	for number_awal in xrange(number_awal,number_akhir):
 		jumlah = (number_awal+1)-1
 		if name_module == data_json['modul_installed'][jumlah]['name_module']:

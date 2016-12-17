@@ -19,18 +19,17 @@ manager = Manager(app)
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
 BASE = os.path.join(BASE_DIR, 'openedoo')
-def delete_modul(name):
+def delete_module(name):
     file = open("{direktory}/route.py".format(direktory=BASE),"r+")
     readfile = file.readlines()
     file.seek(0)
-    delete = ("\n \nfrom openedoo.module_{modul} import {modul}".format(modul=name))
+    delete = ("\n \nfrom openedoo.module_{module} import {module}".format(module=name))
     for line in readfile:
         if str(name) not in line:
             file.writelines(line)
-
     file.truncate()
     file.close()
-    shutil.rmtree('{dir_file}/moduls/{name}'.format(dir_file=BASE_DIR,name=name))
+    shutil.rmtree('{dir_file}/modules/{name}'.format(dir_file=BASE_DIR,name=name))
 def migrate():
     #query.drop_table('alembic_version')
     query.create_database(config.database_name)
@@ -53,13 +52,13 @@ def file(dir, file, apps):
 
 @manager.command
 def create(name):
-    """Create your app modul"""
-    dir = os.path.join('moduls', str("modul_{}".format(name)))
+    """Create your app module"""
+    dir = os.path.join('modules', str("module_{}".format(name)))
     try:
         os.mkdir(dir)
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
-                f.write("\n \nfrom moduls.modul_{modul} import {modul}".format(modul=name))
+                f.write("\n \nfrom modules.module_{module} import {module}".format(module=name))
                 f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
                 f.close()
         except Exception as e:
@@ -76,12 +75,12 @@ def create(name):
 
 @manager.command
 def delete(name):
-    """Delete your app modul"""
+    """Delete your app module"""
     try:
-        delete_modul(name)
+        delete_module(name)
         del_version(name)
     except Exception as e:
-        print e
+        print "module has deleted"
 
 @manager.command
 def runserver():
@@ -93,7 +92,7 @@ def runserver():
 
 
 @manager.command
-def check_modul():
+def check_module():
     """ Check Module Available """
 
     list_module = check_modul_available()
@@ -103,26 +102,27 @@ def check_modul():
 
 @manager.command
 def install(name):
-    """ Install modul """
+    """ Install module """
     data = find_modul(modul_name=name)
-    if os.path.exists('moduls/{name}'.format(name=name)):
-        return "modul exist"
+    if os.path.exists('modules/{name}'.format(name=name)):
+        return "module exist"
     try:
         install_git(url=data['url_git'],name_modul=name)
-        if os.path.isfile('moduls/__init__.py') is False:
-            open(os.path.join('moduls', '__init__.py'), "a")
-        print "Modul installed"
+        if os.path.isfile('modules/__init__.py') is False:
+            open(os.path.join('modules', '__init__.py'), "a")
+        print "Module installed"
         print data
         add_version(name_module=data['requirement']['name'],version_modul=data['requirement']['version'])
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
-                f.write("\nfrom moduls.{modul} import {modul}".format(modul=data['requirement']['name']))
+                f.write("\nfrom modules.{module} import {module}".format(module=data['requirement']['name']))
                 f.write("\napp.register_blueprint({modulename}, url_prefix='{url_endpoint}')".format(modulename=data['requirement']['name'],url_endpoint=data['requirement']['url_endpoint']))
                 f.close()
         except Exception as e:
             print "Error Writing __init__.py"
-    except Exception:
-        print "Modul not found"
+    except Exception as e:
+        print e
+        print "Module not found"
 
 
 @manager.command
