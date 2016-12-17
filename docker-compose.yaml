@@ -1,0 +1,11 @@
+version: '2'
+services:
+  od-db:
+    image: "mariadb"
+    container_name: "od-db"
+    environment:
+    - "MYSQL_ROOT_PASSWORD=pass123"
+  od:
+    image: "aksaramaya/openedoo"
+    ports:
+    - "5000:5000"

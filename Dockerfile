@@ -11,8 +11,7 @@ RUN mkdir -p $APP
 COPY requirements.txt $APP
 RUN pip install -r $APP/requirements.txt
 
-# Bundle app source
-COPY . $APP
-
 RUN apk del make gcc libc-dev g++
+RUN chmod +x init.sh;cp init.sh /;
 WORKDIR $APP
+ENTRYPOINT ["/init.sh"]

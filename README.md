@@ -32,7 +32,7 @@ python manage.py runserver
 
 ### Setup DB
 ```bash
-$ docker run --name openedoodb -e MYSQL_ROOT_PASSWORD=pass123 -d mariadb
+$ docker run --name od-db -e MYSQL_ROOT_PASSWORD=pass123 -d mariadb
 ```
 
 ### Run And Play
@@ -43,9 +43,9 @@ $ docker run --name od --link openedoodb:openedoodb -p 5000:5000 -it aksaramaya/
     "db":
         {
             "db_engine": "mysql",
-            "db_id": "openedoodb",
+            "db_id": "root",
             "db_password" : "pass123",
-            "db_host" : "localhost",
+            "db_host" : "od-db",
             "db_port" : "3306",
             "db_name" : "db_openedoo",
             "db_prefix" : "openedoo"
