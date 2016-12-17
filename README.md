@@ -28,34 +28,27 @@ python manage.py create "module_name"
 python manage.py runserver
 ```
 
-## Docker Images
+## Docker Compose
 
-### Setup DB
+### Setup
 ```bash
-$ docker run --name od-db -e MYSQL_ROOT_PASSWORD=pass123 -d mariadb
+$ docker-compose up -d
+$ curl
+```
+
+### Stop Services
+```bash
+$ docker-compose stop
 ```
 
 ### Run And Play
 ```bash
-$ docker run --name od --link openedoodb:openedoodb -p 5000:5000 -it aksaramaya/openedoo bash
-# cat config.json
-{
-    "db":
-        {
-            "db_engine": "mysql",
-            "db_id": "root",
-            "db_password" : "pass123",
-            "db_host" : "od-db",
-            "db_port" : "3306",
-            "db_name" : "db_openedoo",
-            "db_prefix" : "openedoo"
-        },
-    "config": "Development",
-    "secret_key" : "aksaramaya_openedoo"
-}
+$ docker-compose start
 ```
 
-### Remove Image
+### Create Module
 ```bash
-docker rm od
+$ docker-compose stop od
+$ docker-compose run od python manage.py create "test"
+$ docker-compose start od
 ```
