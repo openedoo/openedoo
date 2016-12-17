@@ -150,11 +150,11 @@ def install(url):
 @manager.command
 def installed():
     """print all modul has installed"""
-    data = open("version.json","r")
+    data = open("manifest.json","r")
     data_json  = json.loads(data.read())
-    if data_json['module_installed'] == []:
+    if data_json['installed_module'] == []:
         return "no module hasn't installed"
-    for available in data_json['module_installed']:
+    for available in data_json['installed_module']:
         print available['name_module']
 @manager.command
 def test():

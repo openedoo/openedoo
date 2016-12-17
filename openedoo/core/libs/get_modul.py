@@ -94,7 +94,7 @@ def install_git(url=None,directory=None,name_modul=None):
 	except Exception:
 		message = {"message":"install failed"}
 	return message
-def add_version(name_module=None,version_modul=None):
+def add_version(name_module=None,version_modul=None,url=None):
 	if name_module == None :
 		return "please insert your name_module"
 	if version_modul == None :
@@ -104,8 +104,8 @@ def add_version(name_module=None,version_modul=None):
 		with open(filename,'r') as data_file:
 			data_json = json.loads(data_file.read())
 		os.remove(filename)
-		new_data={'name_module':name_module,'version_modul':version_modul}
-		data_json['modul_installed'].append(new_data)
+		new_data={'name_module':name_module,'version_module':version_modul,'url_module':url}
+		data_json['installed_module'].append(new_data)
 		with open(filename,'w') as data_file:
 			json.dump(data_json, data_file)
 	except Exception as e:
@@ -116,7 +116,7 @@ def del_version(name_module=None):
 		return "please insert your modul name"
 	with open(filename,'r') as data_file:
 		data_json = json.loads(data_file.read())
-	number_akhir = len(data_json['modul_installed'])
+	number_akhir = len(data_json['installed_module'])
 	number_awal = 0
 	for number_awal in xrange(number_awal,number_akhir):
 		jumlah = (number_awal+1)-1
