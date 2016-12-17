@@ -4,6 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import Signer, URLSafeSerializer as urlsafe
 import redis,json
 import smtplib
+import os
+from urllib2 import urlopen, URLError, HTTPError
 
 
 def random_word(length):
@@ -88,4 +90,3 @@ def send_email(mail_user, mail_password, mail_recipient, subject, body):
 		return 'successfully sent the mail'
 	except Exception as e:
 		return "failed to send mail"
-

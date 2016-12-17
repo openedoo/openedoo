@@ -8,4 +8,4 @@ import json
 
 @core.route('/')
 def newbot():
-	return "cumming soon"
+	return "openedoo"

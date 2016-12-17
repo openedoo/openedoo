@@ -5,25 +5,21 @@ try:
 	with open('config.json') as data_file:
 		data_json = json.loads(data_file.read())
 except Exception as e:
-	data_json = {
-    "db":
-        {
-            "db_engine": "mysql",
-            "db_id": "db_id",
-            "db_password" : "password",
-            "db_host" : "localhost",
-            "db_port" : "3306",
-            "db_name" : "db_openedoo"
-        },
-    "config": "Development",
-    "secret_key" : "aksaramaya_openedoo"
-}
+	print "please replace config.json with your configuration for example config.json.example"
+	with open('config.json.example') as data_file:
+		data_json = json.loads(data_file.read())
 
 class config(object):
 	DEBUG = True
 	TESTING = False
 	CSRF_ENABLED = True
-	SQLALCHEMY_DATABASE_URI = ('%s://%s:%s@%s:%s/%s' % (data_json['db']['db_engine'],data_json['db']['db_id'],data_json['db']['db_password'],data_json['db']['db_host'],data_json['db']['db_port'],data_json['db']['db_name']))
+	SQLALCHEMY_DATABASE_URI = ('{engine}://{username}:{password}@{host}:{port}/{db_name}'.format(\
+		engine=data_json['db']['db_engine'],\
+		username=data_json['db']['db_id'],\
+		password=data_json['db']['db_password'],\
+		host=data_json['db']['db_host'],\
+		port=data_json['db']['db_port'],\
+		db_name=data_json['db']['db_name']))
 
 class Production(config):
 	DEBUG = False
@@ -38,5 +34,12 @@ class Testing(config):
 	TESTING = True
 	SECRET_KEY = data_json['secret_key']
 
-
+DB_URI = ('{engine}://{username}:{password}@{host}:{port}'.format(\
+		engine=data_json['db']['db_engine'],\
+		username=data_json['db']['db_id'],\
+		password=data_json['db']['db_password'],\
+		host=data_json['db']['db_host'],\
+		port=data_json['db']['db_port'],))
 SQLALCHEMY_DATABASE_URI = config.SQLALCHEMY_DATABASE_URI
+database_name = data_json['db']['db_name']
+database_prefix = data_json['db']['db_prefix']

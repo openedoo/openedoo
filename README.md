@@ -2,16 +2,20 @@
 
 ![N|Solid](http://openedoo.org/images/openedoo.svg)
 
+<<<<<<< HEAD
 ## Version 0.1
 [![Build Status](https://travis-ci.org/openedoo/openedoo.svg?branch=master)](https://travis-ci.org/openedoo/openedoo)
+=======
+## how to use
+>>>>>>> openedoo-v0.1
 
-#### how to use
-```
+```bash
 git clone https://github.com/openedoo/openedoo
 
 pip install -r requirements.txt
 ```
 
+<<<<<<< HEAD
 #### Please change config.json
 
 change your configuration with replace your config.json.example to config.json,
@@ -37,23 +41,54 @@ change your configuration with replace your config.json.example to config.json,
 
 #### Migrate Database
 ```
+=======
+### Migrate Database
+```bash
+>>>>>>> openedoo-v0.1
 python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
 python manage.py --help
 ```
 
-#### Create New Module
-```
+### Create New Module
+```bash
 python manage.py create "module_name"
 ```
 
-#### Runserver
-```
+### Runserver
+```bash
 python manage.py runserver
 ```
 
-http://openedoo.org core v0.1 has realease [0]. Hopely, openedoo can build any open platfrom for education, please help me to develope and contribute to openedoo [1] [2] with your idea or code .
-[0](https://github.com/openedoo/openedoo/issues)
-[1](https://github.com/openedoo/openedoo)
-[2](https://telegram.me/openedoo)
+## Docker Images
+
+### Setup DB
+```bash
+$ docker run --name openedoodb -e MYSQL_ROOT_PASSWORD=pass123 -d mariadb
+```
+
+### Run And Play
+```bash
+$ docker run --name od --link openedoodb:openedoodb -p 5000:5000 -it aksaramaya/openedoo bash
+# cat config.json
+{
+    "db":
+        {
+            "db_engine": "mysql",
+            "db_id": "openedoodb",
+            "db_password" : "pass123",
+            "db_host" : "localhost",
+            "db_port" : "3306",
+            "db_name" : "db_openedoo",
+            "db_prefix" : "openedoo"
+        },
+    "config": "Development",
+    "secret_key" : "aksaramaya_openedoo"
+}
+```
+
+### Remove Image
+```bash
+docker rm od
+```

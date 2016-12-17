@@ -9,3 +9,6 @@ Jinja2
 alembic
 flask-migrate
 Flask-Script
+GitPython
+gitdb2
+smmap2

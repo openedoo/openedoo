@@ -6,3 +6,4 @@ venv/
 __pycache__/
 migrations/
 config.json
+modules/
