@@ -1,13 +1,16 @@
 version: '2'
 services:
-  od-db:
+  oddb:
     image: "mariadb"
-    container_name: "od-db"
+    container_name: "oddb"
     environment:
     - "MYSQL_ROOT_PASSWORD=pass123"
   od:
-    image: "aksaramaya/openedoo"
+    container_name: "od"
+    image: "aksaramaya/openedoo:unstable"
     ports:
     - "5000:5000"
     volumes:
     - .:/opt/od
+    links:
+    - "oddb:oddb"
