@@ -12,6 +12,6 @@ COPY requirements.txt $APP
 RUN pip install -r $APP/requirements.txt
 
 RUN apk del make gcc libc-dev g++
-RUN cp init.sh /
+COPY init.sh /
 WORKDIR $APP
 ENTRYPOINT ["/init.sh"]
