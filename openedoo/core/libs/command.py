@@ -114,7 +114,7 @@ def install(url):
         if os.path.isfile('modules/__init__.py') is False:
             os.mkdir('modules')
             open(os.path.join('modules', '__init__.py'), "a")
-        
+
         words = url.split('/')
         if '.' in words[-1]:
             word = words[-1].split('.')
