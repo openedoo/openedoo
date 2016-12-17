@@ -23,7 +23,7 @@ def delete_module(name):
     file = open("{direktory}/route.py".format(direktory=BASE),"r+")
     readfile = file.readlines()
     file.seek(0)
-    delete = ("\n \nfrom openedoo.module_{module} import {module}".format(module=name))
+    delete = ("\n \nfrom openedoo.{module} import {module}".format(module=name))
     for line in readfile:
         if str(name) not in line:
             file.writelines(line)
