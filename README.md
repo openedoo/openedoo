@@ -30,12 +30,32 @@ python manage.py runserver
 
 ## Docker Images
 
-### Run and play
+### Setup DB
 ```bash
-docker run --name od -p 5000:5000 -it aksaramaya/openedoo bash
+$ docker run --name openedoodb -e MYSQL_ROOT_PASSWORD=pass123 -d mariadb
 ```
 
-### Remove
+### Run And Play
+```bash
+$ docker run --name od --link openedoodb:openedoodb -p 5000:5000 -it aksaramaya/openedoo bash
+# cat config.json
+{
+    "db":
+        {
+            "db_engine": "mysql",
+            "db_id": "openedoodb",
+            "db_password" : "pass123",
+            "db_host" : "localhost",
+            "db_port" : "3306",
+            "db_name" : "db_openedoo",
+            "db_prefix" : "openedoo"
+        },
+    "config": "Development",
+    "secret_key" : "aksaramaya_openedoo"
+}
+```
+
+### Remove Image
 ```bash
 docker rm od
 ```
