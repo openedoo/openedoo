@@ -2,16 +2,12 @@
     "db":
         {
             "db_engine": "mysql",
-            "db_id": "db_user",
-            "db_password" : "db_password",
+            "db_id": "db_id",
+            "db_password" : "password",
             "db_host" : "localhost",
             "db_port" : "3306",
-<<<<<<< HEAD
-            "db_name" : "openedoo"
-=======
             "db_name" : "db_openedoo",
             "db_prefix" : "openedoo"
->>>>>>> openedoo-v0.1
         },
     "config": "Development",
     "secret_key" : "aksaramaya_openedoo"
