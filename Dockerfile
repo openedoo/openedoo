@@ -13,5 +13,6 @@ RUN pip install -r $APP/requirements.txt
 
 RUN apk del make gcc libc-dev g++
 COPY init.sh /
+RUN apk add --update mariadb-client
 WORKDIR $APP
 ENTRYPOINT ["/init.sh"]

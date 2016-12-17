@@ -1,11 +1,16 @@
 #!/bin/bash
 cd /opt/od
 CMDDOCK=$@
+MYSQL_ADDR="oddb"
+MYSQL_PORT="3306"
+MYSQL_PASSWORD="pass123"
+
 if [ -z "$CMDDOCK" ]
 then
-  while ! nc -z oddb 3306
+  printf "Waiting database connection"
+  until mysql -h"$MYSQL_ADDR" -P "$MYSQL_PORT" -uroot -p "$MYSQL_PASSWORD" &> /dev/null
   do
-    echo "Waiting Database Connection.......!!!"
+    printf "."
     sleep 1
   done
   if [ ! -f "/opt/od/config.json" ]
