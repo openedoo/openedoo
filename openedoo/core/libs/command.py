@@ -53,6 +53,9 @@ def file(dir, file, apps):
 @manager.command
 def create(name):
     """Create your app module"""
+    if os.path.isfile('modules/__init__.py') is False:
+        os.mkdir('modules')
+        open(os.path.join('modules', '__init__.py'), "a")
     dir = os.path.join('modules', str("module_{}".format(name)))
     try:
         os.mkdir(dir)
@@ -109,6 +112,7 @@ def install(url):
     """ Install module from your git """
     try:
         if os.path.isfile('modules/__init__.py') is False:
+            os.mkdir('modules')
             open(os.path.join('modules', '__init__.py'), "a")
         
         words = url.split('/')
