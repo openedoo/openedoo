@@ -66,8 +66,9 @@ def create(name):
                 f.close()
         except Exception as e:
             print "Error Writing __init__.py"
-
+        
         try:
+            add_version(name_module=name,version_modul='0.1')
             file(dir, file="__init__.py", apps=name)
             print "...... Successfully created app {}.......".format(name)
         except Exception as e:
@@ -131,7 +132,7 @@ def install(url):
         time.sleep(0.2)
         data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
         requirement_json = json.loads(data_requirement.read())
-        add_version(name_module=requirement_json['name'],version_modul=requirement_json['version'])
+        add_version(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
                 f.write("\nfrom modules.{module_folder} import {module}".format(\

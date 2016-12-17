@@ -99,8 +99,10 @@ def add_version(name_module=None,version_modul=None,url=None):
 		return "please insert your name_module"
 	if version_modul == None :
 		version = "0.1.0"
+	if url == None:
+		url = ""
 	try:
-		filename = 'version.json'
+		filename = 'manifest.json'
 		with open(filename,'r') as data_file:
 			data_json = json.loads(data_file.read())
 		os.remove(filename)
@@ -111,7 +113,7 @@ def add_version(name_module=None,version_modul=None,url=None):
 	except Exception as e:
 		return e
 def del_version(name_module=None):
-	filename = 'version.json'
+	filename = 'manifest.json'
 	if name_module == None:
 		return "please insert your modul name"
 	with open(filename,'r') as data_file:
@@ -120,9 +122,9 @@ def del_version(name_module=None):
 	number_awal = 0
 	for number_awal in xrange(number_awal,number_akhir):
 		jumlah = (number_awal+1)-1
-		if name_module == data_json['modul_installed'][jumlah]['name_module']:
+		if name_module == data_json['installed_module'][jumlah]['name_module']:
 			os.remove(filename)
-			del data_json['modul_installed'][jumlah]
+			del data_json['installed_module'][jumlah]
 			with open(filename,'w') as data_file:
 				json.dump(data_json, data_file)
 		else:
