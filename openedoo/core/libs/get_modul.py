@@ -4,6 +4,7 @@ import random
 import base64
 import os
 from git import Repo
+import git
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
 BASE = os.path.join(BASE_DIR, 'moduls')
@@ -69,7 +70,18 @@ def find_modul(modul_name=None):
 		else:
 			pass
 	return output
-
+def install_git_(url=None):
+	os.chdir('modules/')
+	if url == None:
+		return "your url is None"
+	try:
+		git.Git().clone(url)
+		message = {'message':'your modul had installed'}
+		os.chdir('..')
+	except Exception:
+		message = {"message":"install failed"}
+		os.chdir('..')
+	return message
 def install_git(url=None,directory=None,name_modul=None):
 	directory = 'modules/{}'.format(name_modul)
 	if url == None:

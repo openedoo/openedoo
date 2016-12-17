@@ -14,7 +14,6 @@ from openedoo.core.libs.get_modul import *
 import shutil
 import time
 
-query = query()
 
 manager = Manager(app)
 
@@ -33,7 +32,7 @@ def delete_module(name):
     shutil.rmtree('{dir_file}/modules/{name}'.format(dir_file=BASE_DIR,name=name))
 def migrate():
     #query.drop_table('alembic_version')
-    query.create_database(config.database_name)
+    query().create_database(config.database_name)
     migrate = Migrate(app, Base)
     return migrate
 
@@ -77,6 +76,8 @@ def create(name):
 @manager.command
 def delete(name):
     """Delete your app module"""
+    if os.path.exists('modules/{name}'.format(name=name))==False:
+        return "module not found"
     try:
         delete_module(name)
         del_version(name)
@@ -126,14 +127,24 @@ def install(name):
         print "Module not found"
 
 @manager.command
-def git(url,name):
+def install_git(url):
     """ Install module from your git """
-    if os.path.exists('modules/{name}'.format(name=name)):
-        return "module exist"
     try:
-        install_git(url=url,name_modul=name)
         if os.path.isfile('modules/__init__.py') is False:
             open(os.path.join('modules', '__init__.py'), "a")
+        
+        words = url.split('/')
+        if '.' in words[-1]:
+            word = words[-1].split('.')
+            name = word[0]
+        else:
+            name = words[-1]
+
+        if os.path.exists('modules/{name}'.format(name=name)):
+            return "module exist"
+
+        install_git_(url=url)
+
         print "Module installed"
         time.sleep(0.2)
         data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
@@ -155,15 +166,17 @@ def git(url,name):
         print "Module not found"
 
 @manager.command
-def modul_installed():
+def module_installed():
+    """print all modul has installed"""
     data = open("version.json","r")
     data_json  = json.loads(data.read())
-    if data_json['modul_installed'] == []:
-        return "no modul hasn't installed"
-    for available in data_json['modul_installed']:
+    if data_json['module_installed'] == []:
+        return "no module hasn't installed"
+    for available in data_json['module_installed']:
         print available['name_module']
 @manager.command
 def test():
+    """unit_testing"""
     print "no problemo"
     pass
 
