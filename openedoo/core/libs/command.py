@@ -56,12 +56,12 @@ def create(name):
     if os.path.isfile('modules/__init__.py') is False:
         os.mkdir('modules')
         open(os.path.join('modules', '__init__.py'), "a")
-    dir = os.path.join('modules', str("module_{}".format(name)))
+    dir = os.path.join('modules', str("{}".format(name)))
     try:
         os.mkdir(dir)
         try:
             with open(os.path.join(BASE, "route.py"), "a") as f:
-                f.write("\n \nfrom modules.module_{module} import {module}".format(module=name))
+                f.write("\n \nfrom modules.{module} import {module}".format(module=name))
                 f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
                 f.close()
         except Exception as e:
@@ -114,7 +114,7 @@ def install(url):
         if os.path.isfile('modules/__init__.py') is False:
             os.mkdir('modules')
             open(os.path.join('modules', '__init__.py'), "a")
-        
+
         words = url.split('/')
         if '.' in words[-1]:
             word = words[-1].split('.')
