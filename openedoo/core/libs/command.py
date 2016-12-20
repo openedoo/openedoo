@@ -105,7 +105,7 @@ def check():
     list_module = check_modul_available()
     print "Module Available : "
     for available in list_module:
-        print available['name']
+        print available['name'] +" : "+ available['url_git']
 
 
 @manager.command
