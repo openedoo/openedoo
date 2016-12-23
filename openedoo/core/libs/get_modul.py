@@ -130,3 +130,28 @@ def del_version(name_module=None):
 		else:
 			pass
 	return "modul has deleted"
+def create_version(name_module=None,version_module=None,url_endpoint=None,requirement=None,comment=None):
+	if comment is None:
+		comment = "my module name is {name}".format(name=name_module)
+	if requirement is None:
+		requirement = "openedoo_core"
+	if name_module==None:
+		return "please insert name module"
+	if version_module is None:
+		version_module = "0.1.0"
+	if url_endpoint is None:
+		url_endpoint = {'url_endpoint':''.format(url=name_module),'type':'function'}
+	else:
+		url_endpoint = {'url_endpoint':url_endpoint,'type':'end_point'}
+	data_json = {"name":name_module,
+	"version": version_module,
+	"requirement":requirement,
+	"pip_library":[],
+	"comment":comment,
+	"type":url_endpoint['type'],
+	"url_endpoint":url_endpoint['url_endpoint']}
+	filename = 'requirement.json'
+	with open('modules/{folder}/{filename}'.format(folder=name_module,filename=filename),'w') as data_file:
+		json.dump(data_json, data_file)
+	return "module has created"
+
