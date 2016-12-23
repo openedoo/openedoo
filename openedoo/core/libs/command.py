@@ -86,7 +86,7 @@ def create(name):
                 f.close()
                 print("/route.py edited")
 
-            with open(os.path.join(dir, "requirements.py"), "a") as f:
+            with open(os.path.join(dir, "requirement.json"), "a") as f:
                 f.write('{')
                 f.write('\n\t"name":"{}",'.format(name))
                 f.write('\n\t"version":"0.0.1",')
