@@ -50,6 +50,26 @@ def file(dir, file, apps):
     except Exception as e:
         raise "error creating "+name
 
+def requirements(dir, file):
+    try:
+        import os
+        name=os.path.splitext(file)[0]
+        print file
+        print a
+        with open(os.path.join(dir, str(file)), "a") as f:
+            f.write('{\
+                \n\t"name":"{module_name}}",\
+                \n\t"version":"0.0.1",\
+                \n\t"requirement":"openedoo_core",\
+                \n\t"pip_library":[],\
+                \n"comment":"Comment Here .. ",\
+                \n"type":"end_point",\
+                \n"url_endpoint":"/{module_name}}"\
+            \n}'.format(module_name=a))
+            f.close()
+    except Exception as e:
+        raise "error creating "+name
+
 @manager.command
 def create(name):
     """Create your app module"""
@@ -64,16 +84,34 @@ def create(name):
                 f.write("\n \nfrom modules.{module} import {module}".format(module=name))
                 f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
                 f.close()
+                print("/route.py edited")
+
+            with open(os.path.join(dir, "requirements.py"), "a") as f:
+                f.write('{')
+                f.write('\n\t"name":"{}",'.format(name))
+                f.write('\n\t"version":"0.0.1",')
+                f.write('\n\t"requirement":"openedoo_core",')
+                f.write('\n\t"pip_library":[],')
+                f.write('\n\t"comment":"Comment Here..",')
+                f.write('\n\t"type":"end_point",')
+                f.write('\n\t"url_endpoint":"/'+name+'",')
+                f.write('\n}')
+                f.write('\n')
+                f.close()
+                print(name+"/requirements.py created")
         except Exception as e:
+            print e
             print "Error Writing __init__.py"
-        
+
         try:
             add_version(name_module=name,version_modul='0.1')
             file(dir, file="__init__.py", apps=name)
+            print(name+'/__init__.py created')
             print "...... Successfully created app {}.......".format(name)
         except Exception as e:
             print "error write "+e
-    except BaseException:
+    except BaseException as e:
+        print e
         print "error >> \"{} is Exist\"".format(name)
         sys.exit(0)
 
