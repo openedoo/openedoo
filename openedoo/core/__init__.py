@@ -3,9 +3,11 @@ import json
 
 core = blueprint('newbot_member', __name__)
 
-from flask import jsonify, abort, Flask, g, request, Response
 import json
 
 @core.route('/')
 def newbot():
-	return "openedoo"
+	default_route = {'name' : "openedoo",'version': "0.1.0",'wiki': "https://github.com/openedoo/openedoo/wiki"}
+	data = json.dumps(default_route)
+	resp = response(data, status=200, mimetype='application/json')
+	return resp
