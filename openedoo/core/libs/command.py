@@ -70,7 +70,6 @@ def requirements(dir, file):
     except Exception as e:
         raise "error creating "+name
 
-@manager.command
 def create(name):
     """Create your app module"""
     if os.path.isfile('modules/__init__.py') is False:
@@ -104,7 +103,6 @@ def create(name):
         print "error >> \"{} is Exist\"".format(name)
         sys.exit(0)
 
-@manager.command
 def remove(name):
     """Delete your app module"""
     if os.path.exists('modules/{name}'.format(name=name))==False:
@@ -135,7 +133,7 @@ def check():
         print available['name'] +" : "+ available['url_git']
 
 
-@manager.command
+
 def install(url):
     """ Install module from your git """
     try:
@@ -189,6 +187,41 @@ def test():
     """unit_testing"""
     print "no problemo"
     pass
+
+@manager.option("-r","--remove", dest='module_name', help='remove module')
+@manager.option("-c","--create", dest='name', help='create module')
+@manager.option("-i","--install", dest='git_url', help='install module from git_url')
+def module(module_name, name, git_url):
+    """ Create, Install and Delete Modules """
+    if module_name is not None:
+        remove(module_name)
+    if name is not None:
+        create(name)
+    if git_url is not None:
+        install(install_url)
+
+class Modules:
+    module = Manager(usage="Manage application modules")
+    @module.command
+    def available():
+        """ Check Module Available """
+
+        list_module = check_modul_available()
+        print "Module Available : "
+        for available in list_module:
+            print available['name'] +" : "+ available['url_git']
+
+    @module.command
+    def installed():
+        """print all modul has installed"""
+        data = open("manifest.json","r")
+        data_json  = json.loads(data.read())
+        if data_json['installed_module'] == []:
+            return "no module hasn't installed"
+        for available in data_json['installed_module']:
+            print available['name_module']
+
+#manager.add_command('modules', Modules.module)
 
 def main():
     manager.run()
