@@ -117,6 +117,7 @@ def remove(name):
     except Exception as e:
         print "module has deleted"
 
+@manager.command
 def run():
     """ run server with wekezeug """
     app.run(

@@ -7,3 +7,5 @@ __pycache__/
 migrations/
 config.json
 modules/
+manifest.json
+route.py
