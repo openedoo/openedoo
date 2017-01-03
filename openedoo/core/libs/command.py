@@ -41,7 +41,7 @@ manager.add_command('shell', Shell())
 migrate = migrate()
 manager.add_command('db', MigrateCommand)
 
-def create_file_init(dir, file, apps):
+def create_file_init(dir=None, file=None, apps=None):
     try:
         with open(os.path.join(dir, file), "a") as f:
             f.write("from openedoo.core.libs import blueprint\n\n{dir} = blueprint('{dir}', __name__)\n\n".format(dir=apps))
@@ -51,72 +51,6 @@ def create_file_init(dir, file, apps):
     except Exception as e:
         raise "error creating "+name
 
-def requirements(dir, file):
-    try:
-        import os
-        name=os.path.splitext(file)[0]
-        print file
-        print a
-        with open(os.path.join(dir, str(file)), "a") as f:
-            f.write('{\
-                \n\t"name":"{module_name}}",\
-                \n\t"version":"0.0.1",\
-                \n\t"requirement":"openedoo_core",\
-                \n\t"pip_library":[],\
-                \n"comment":"Comment Here .. ",\
-                \n"type":"end_point",\
-                \n"url_endpoint":"/{module_name}}"\
-            \n}'.format(module_name=a))
-            f.close()
-    except Exception as e:
-        raise "error creating "+name
-
-def create(name):
-    """Create your app module"""
-    if os.path.isfile('modules/__init__.py') is False:
-        os.mkdir('modules')
-        open(os.path.join('modules', '__init__.py'), "a")
-    dir = os.path.join('modules', str("{}".format(name)))
-    try:
-        os.mkdir(dir)
-        try:
-            with open(os.path.join(BASE, "route.py"), "a") as f:
-                f.write("\n \nfrom modules.{module} import {module}".format(module=name))
-                f.write("\napp.register_blueprint({modulename}, url_prefix='/{modulename}')".format(modulename=name))
-                f.close()
-                print("/route.py edited")
-            time.sleep(0.2)
-            create_version(name_module=name,url_endpoint="/{name}".format(name=name))
-
-        except Exception as e:
-            print e
-            print "Error Writing __init__.py"
-
-        try:
-            add_version(name_module=name,version_modul='0.1')
-            create_file_init(dir, file="__init__.py", apps=name)
-            print(name+'/__init__.py created')
-            git.Repo.init(dir)
-            print "... Git init finished ..."
-            print "...... Successfully created app {}.......".format(name)
-        except Exception as e:
-            print "error write "+e
-    except BaseException as e:
-        print e
-        print "error >> \"{} is Exist\"".format(name)
-        sys.exit(0)
-
-def remove(name):
-    """Delete your app module"""
-    if os.path.exists('modules/{name}'.format(name=name))==False:
-        return "module not found"
-    try:
-        delete_module(name)
-        del_version(name)
-        print "{name} has deleted".format(name=name)
-    except Exception as e:
-        print "module has deleted"
-
 @manager.command
 def run():
     """ run server with wekezeug """
@@ -125,86 +59,26 @@ def run():
         port=5000
     )
 
-def check():
-    """ Check Module Available """
-
-    list_module = check_modul_available()
-    print "Module Available : "
-    for available in list_module:
-        print available['name'] +" : "+ available['url_git']
-
-def install(url):
-    """ Install module from your git """
-    try:
-        if os.path.isfile('modules/__init__.py') is False:
-            os.mkdir('modules')
-            open(os.path.join('modules', '__init__.py'), "a")
-
-        words = url.split('/')
-        if '.' in words[-1]:
-            word = words[-1].split('.')
-            name = word[0]
-        else:
-            name = words[-1]
-
-        if os.path.exists('modules/{name}'.format(name=name)):
-            return "module exist"
-
-        install_git_(url=url)
-
-        print "Module installed"
-        time.sleep(0.2)
-        data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
-        requirement_json = json.loads(data_requirement.read())
-        add_version(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
-        try:
-            with open(os.path.join(BASE, "route.py"), "a") as f:
-                f.write("\nfrom modules.{module_folder} import {module}".format(\
-                    module_folder=requirement_json['name'],\
-                    module=name))
-                f.write("\napp.register_blueprint({modulename}, url_prefix='{url_endpoint}')".format(\
-                    modulename=requirement_json['name'],\
-                    url_endpoint=requirement_json['url_endpoint']))
-                f.close()
-        except Exception as e:
-            print "Error Writing __init__.py"
-    except Exception as e:
-        print e
-        print "Module not found"
-'''
-@manager.command
-def installed():
-    """print all modul has installed"""
-    data = open("manifest.json","r")
-    data_json  = json.loads(data.read())
-    if data_json['installed_module'] == []:
-        return "no module hasn't installed"
-    for available in data_json['installed_module']:
-        print available['name_module']
-'''
-
 @manager.command
 def test():
     """unit_testing"""
     print "no problemo"
     pass
 
-'''
-@manager.option("-r","--remove", dest='module_name', help='remove module')
-@manager.option("-c","--create", dest='name', help='create module')
-@manager.option("-i","--install", dest='git_url', help='install module from git_url')
-def module(module_name, name, git_url):
-    """ Create, Install and Delete Modules """
-    if module_name is not None:
-        remove(module_name)
-    if name is not None:
-        create(name)
-    if git_url is not None:
-        install(install_url)
-'''
-
 class Modules:
     module = Manager(usage="Manage application modules")
+
+    @module.option("-n","--name", required=True, dest='name', help='module name')
+    def update(name=None):
+        if name == None:
+            return "please insert name modules"
+        try:
+            direktory = ('modules/{name}/'.format(name=name))
+            git_update = git.cmd.Git(direktory)
+            print git_update.pull()
+        except Exception as e:
+            return e
+
     @module.command
     def available():
         """ Check Module Available """
@@ -241,14 +115,14 @@ class Modules:
                     f.close()
                     print("/route.py edited")
                 time.sleep(0.2)
-                create_version(name_module=name,url_endpoint="/{name}".format(name=name))
+                create_requirement(name_module=name,url_endpoint="/{name}".format(name=name))
 
             except Exception as e:
                 print e
                 print "Error Writing __init__.py"
 
             try:
-                add_version(name_module=name,version_modul='0.1')
+                add_manifest(name_module=name,version_modul='0.1')
                 create_file_init(dir, file="__init__.py", apps=name)
                 print(name+'/__init__.py created')
 
@@ -293,7 +167,7 @@ class Modules:
             time.sleep(0.2)
             data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
             requirement_json = json.loads(data_requirement.read())
-            add_version(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
+            add_manifest(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
             try:
                 with open(os.path.join(BASE, "route.py"), "a") as f:
                     f.write("\nfrom modules.{module_folder} import {module}".format(\
@@ -316,12 +190,12 @@ class Modules:
             return "module not found"
         try:
             delete_module(name)
-            del_version(name)
+            del_manifest(name_module=name)
             print "{name} has deleted".format(name=name)
         except Exception as e:
             print "module has deleted"
 
-manager.add_command('modules', Modules.module)
+manager.add_command('module', Modules.module)
 
 def main():
     manager.run()

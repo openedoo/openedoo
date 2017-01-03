@@ -94,7 +94,7 @@ def install_git(url=None,directory=None,name_modul=None):
 	except Exception:
 		message = {"message":"install failed"}
 	return message
-def add_version(name_module=None,version_modul=None,url=None):
+def add_manifest(name_module=None,version_modul=None,url=None):
 	if name_module == None :
 		return "please insert your name_module"
 	if version_modul == None :
@@ -112,7 +112,7 @@ def add_version(name_module=None,version_modul=None,url=None):
 			json.dump(data_json, data_file)
 	except Exception as e:
 		return e
-def del_version(name_module=None):
+def del_manifest(name_module=None):
 	filename = 'manifest.json'
 	if name_module == None:
 		return "please insert your modul name"
@@ -130,7 +130,8 @@ def del_version(name_module=None):
 		else:
 			pass
 	return "modul has deleted"
-def create_version(name_module=None,version_module=None,url_endpoint=None,requirement=None,comment=None):
+
+def create_requirement(name_module=None,version_module=None,url_endpoint=None,requirement=None,comment=None,url=None):
 	if comment is None:
 		comment = "my module name is {name}".format(name=name_module)
 	if requirement is None:
@@ -149,6 +150,7 @@ def create_version(name_module=None,version_module=None,url_endpoint=None,requir
 	"pip_library":[],
 	"comment":comment,
 	"type":url_endpoint['type'],
+	"url":url,
 	"url_endpoint":url_endpoint['url_endpoint']}
 	filename = 'requirement.json'
 	with open('modules/{folder}/{filename}'.format(folder=name_module,filename=filename),'w') as data_file:
