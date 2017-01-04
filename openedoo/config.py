@@ -12,6 +12,7 @@ except Exception as e:
 class config(object):
 	DEBUG = True
 	TESTING = False
+	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	CSRF_ENABLED = True
 	SQLALCHEMY_DATABASE_URI = ('{engine}://{username}:{password}@{host}:{port}/{db_name}'.format(\
 		engine=data_json['db']['db_engine'],\

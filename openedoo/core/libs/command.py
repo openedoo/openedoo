@@ -4,9 +4,9 @@ import os
 import sys
 from flask_script import Server, Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-from openedoo.core.db.db_tables import Base
+#from openedoo.core.db.db_tables import Base
 from openedoo.core.db import query
-from openedoo import app
+from openedoo import app,db
 from openedoo import config
 import unittest
 import json
@@ -14,7 +14,6 @@ from openedoo.core.libs.get_modul import *
 import shutil
 import time
 import git
-
 
 manager = Manager(app)
 
@@ -34,7 +33,7 @@ def delete_module(name):
 def migrate():
     #query.drop_table('alembic_version')
     query().create_database(config.database_name)
-    migrate = Migrate(app, Base)
+    migrate = Migrate(app, db)
     return migrate
 
 manager.add_command('shell', Shell())
