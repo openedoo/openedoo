@@ -157,3 +157,16 @@ def create_requirement(name_module=None,version_module=None,url_endpoint=None,re
 		json.dump(data_json, data_file)
 	return "module has created"
 
+def check_update_official():
+	filename = 'manifest.json'
+	with open(filename,'r') as data_file:
+		data_json = json.loads(data_file.read())
+	#return data_json
+	number_akhir = len(data_json['installed_module'])
+	number_awal = 0
+	for number_awal in xrange(number_awal,number_akhir):
+		jumlah = (number_awal+1)-1
+		name_installed = data_json['installed_module'][jumlah]
+		data_git = find_modul(name_installed['name'])
+		if StrictVersion(name_installed['version']) < StrictVersion(data_git['requirement']['version']):
+			print "{name} update available {version}".format(name=name_installed['name'],version=data_git['requirement']['version'])

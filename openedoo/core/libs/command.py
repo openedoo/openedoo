@@ -163,7 +163,7 @@ class Modules:
 
             install_git_(url=url)
 
-            print "Module installed"
+            
             time.sleep(0.2)
             data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
             requirement_json = json.loads(data_requirement.read())
@@ -177,11 +177,14 @@ class Modules:
                         modulename=requirement_json['name'],\
                         url_endpoint=requirement_json['url_endpoint']))
                     f.close()
+                    print "Module installed"
             except Exception as e:
                 print "Error Writing __init__.py"
         except Exception as e:
-            print e
             print "Module not found"
+            #a = Module()
+            delete_module(name)
+            del_manifest(name_module=name)
 
     @module.command
     def remove(name):
