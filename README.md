@@ -61,3 +61,4 @@ $ docker-compose run od bash
 [from_od]$ python manage.py remove test
 [from_od]$ python manage.py install https://github.com/openedoo/module_hello
 ```
+[![Build Status](https://travis-ci.org/openedoo/openedoo.svg?branch=master)](https://travis-ci.org/openedoo/openedoo)
