@@ -31,6 +31,17 @@ def delete_module(name):
     file.truncate()
     file.close()
     shutil.rmtree('{dir_file}/modules/{name}'.format(dir_file=BASE_DIR,name=name))
+
+    file = open("{direktory}/tables.py".format(direktory=BASE),"r+")
+    readfile = file.readlines()
+    file.seek(0)
+    #delete = ("\n \nfrom openedoo.{module} import {module}".format(module=name))
+    for line in readfile:
+        if str(name) not in line:
+            file.writelines(line)
+    file.truncate()
+    file.close()
+
 def migrate():
     #query.drop_table('alembic_version')
     query().create_database(config.database_name)
