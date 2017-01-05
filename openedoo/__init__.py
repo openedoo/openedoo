@@ -25,7 +25,7 @@ try:
 
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db = SQLAlchemy(app)
-	import tables
+	from openedoo import tables
 
 
 except Exception as e:

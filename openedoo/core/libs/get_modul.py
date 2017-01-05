@@ -49,6 +49,7 @@ def check_modul_requirement(url=None):
 	data = json.loads(data)
 	return data
 
+
 def find_modul(modul_name=None):
 	if modul_name is None:
 		return "your field is null"
@@ -65,11 +66,13 @@ def find_modul(modul_name=None):
 			except Exception as e:
 				return e
 			output = {'url':data[jumlah]['url'],'url_requirement':data[jumlah]['url_requirement'],\
-			'url_git':data[jumlah]['url_git'],'name':data[jumlah]['name'],'requirement':get_url_requirement}
+			'url_git':data[jumlah]['url_git'],'name':data[jumlah]['name'],'requirement':get_url_requirement,\
+			'requirement':get_url_requirement}
 			return output
 		else:
 			pass
 	return output
+
 def install_git_(url=None):
 	os.chdir('modules/')
 	if url == None:

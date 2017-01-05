@@ -4,7 +4,6 @@ import os
 import sys
 from flask_script import Server, Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-#from openedoo.core.db.db_tables import Base
 from openedoo.core.db import query
 from openedoo import app,db
 from openedoo import config
@@ -14,6 +13,8 @@ from openedoo.core.libs.get_modul import *
 import shutil
 import time
 import git
+from openedoo.core.libs.get_requirement import *
+
 
 manager = Manager(app)
 
@@ -23,7 +24,7 @@ def delete_module(name):
     file = open("{direktory}/route.py".format(direktory=BASE),"r+")
     readfile = file.readlines()
     file.seek(0)
-    delete = ("\n \nfrom openedoo.{module} import {module}".format(module=name))
+    #delete = ("\n \nfrom openedoo.{module} import {module}".format(module=name))
     for line in readfile:
         if str(name) not in line:
             file.writelines(line)
@@ -91,6 +92,7 @@ class Modules:
     def installed():
         """print all modul has installed"""
         data = open("manifest.json","r")
+        #print database_table("module_member")
         data_json  = json.loads(data.read())
         if data_json['installed_module'] == []:
             return "no module hasn't installed"
@@ -162,8 +164,10 @@ class Modules:
 
             install_git_(url=url)
 
-            
+            print name
             time.sleep(0.2)
+            print database_table(module_name=name)
+
             data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
             requirement_json = json.loads(data_requirement.read())
             add_manifest(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
@@ -180,6 +184,7 @@ class Modules:
             except Exception as e:
                 print "Error Writing __init__.py"
         except Exception as e:
+            print e
             print "Module not found"
             #a = Module()
             delete_module(name)
