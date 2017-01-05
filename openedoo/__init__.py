@@ -31,7 +31,7 @@ try:
 except Exception as e:
 	#print e
 	app.config.from_object(config.Development)
-	pp.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db = SQLAlchemy(app)
 	from openedoo import tables
 
