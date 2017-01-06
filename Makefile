@@ -1,5 +1,5 @@
 IMAGE_NAME := aksaramaya/openedoo
-IMAGE_TAG := 0.1
+IMAGE_TAG := 0.3
 
 .PHONY: all clean build push
 

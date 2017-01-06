@@ -4,10 +4,7 @@ from flask import g
 from flask import Response
 from flask import abort
 
-def blueprint(name,init):
-	blueprint = Blueprint(name,init)
-	return blueprint
-
+blueprint = Blueprint
 response = Response
 request = request
 redirect = redirect

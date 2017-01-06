@@ -49,6 +49,7 @@ def check_modul_requirement(url=None):
 	data = json.loads(data)
 	return data
 
+
 def find_modul(modul_name=None):
 	if modul_name is None:
 		return "your field is null"
@@ -65,11 +66,13 @@ def find_modul(modul_name=None):
 			except Exception as e:
 				return e
 			output = {'url':data[jumlah]['url'],'url_requirement':data[jumlah]['url_requirement'],\
-			'url_git':data[jumlah]['url_git'],'name':data[jumlah]['name'],'requirement':get_url_requirement}
+			'url_git':data[jumlah]['url_git'],'name':data[jumlah]['name'],'requirement':get_url_requirement,\
+			'requirement':get_url_requirement}
 			return output
 		else:
 			pass
 	return output
+
 def install_git_(url=None):
 	os.chdir('modules/')
 	if url == None:
@@ -94,7 +97,7 @@ def install_git(url=None,directory=None,name_modul=None):
 	except Exception:
 		message = {"message":"install failed"}
 	return message
-def add_version(name_module=None,version_modul=None,url=None):
+def add_manifest(name_module=None,version_modul=None,url=None):
 	if name_module == None :
 		return "please insert your name_module"
 	if version_modul == None :
@@ -112,7 +115,7 @@ def add_version(name_module=None,version_modul=None,url=None):
 			json.dump(data_json, data_file)
 	except Exception as e:
 		return e
-def del_version(name_module=None):
+def del_manifest(name_module=None):
 	filename = 'manifest.json'
 	if name_module == None:
 		return "please insert your modul name"
@@ -130,3 +133,43 @@ def del_version(name_module=None):
 		else:
 			pass
 	return "modul has deleted"
+
+def create_requirement(name_module=None,version_module=None,url_endpoint=None,requirement=None,comment=None,url=None):
+	if comment is None:
+		comment = "my module name is {name}".format(name=name_module)
+	if requirement is None:
+		requirement = "openedoo_core"
+	if name_module==None:
+		return "please insert name module"
+	if version_module is None:
+		version_module = "0.1.0"
+	if url_endpoint is None:
+		url_endpoint = {'url_endpoint':''.format(url=name_module),'type':'function'}
+	else:
+		url_endpoint = {'url_endpoint':url_endpoint,'type':'end_point'}
+	data_json = {"name":name_module,
+	"version": version_module,
+	"requirement":requirement,
+	"pip_library":[],
+	"comment":comment,
+	"type":url_endpoint['type'],
+	"url":url,
+	"url_endpoint":url_endpoint['url_endpoint']}
+	filename = 'requirement.json'
+	with open('modules/{folder}/{filename}'.format(folder=name_module,filename=filename),'w') as data_file:
+		json.dump(data_json, data_file)
+	return "module has created"
+
+def check_update_official():
+	filename = 'manifest.json'
+	with open(filename,'r') as data_file:
+		data_json = json.loads(data_file.read())
+	#return data_json
+	number_akhir = len(data_json['installed_module'])
+	number_awal = 0
+	for number_awal in xrange(number_awal,number_akhir):
+		jumlah = (number_awal+1)-1
+		name_installed = data_json['installed_module'][jumlah]
+		data_git = find_modul(name_installed['name'])
+		if StrictVersion(name_installed['version']) < StrictVersion(data_git['requirement']['version']):
+			print "{name} update available {version}".format(name=name_installed['name'],version=data_git['requirement']['version'])

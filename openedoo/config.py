@@ -5,13 +5,14 @@ try:
 	with open('config.json') as data_file:
 		data_json = json.loads(data_file.read())
 except Exception as e:
-	print "please replace config.json with your configuration for example config.json.example"
+	print "please replace config.json.example with your configuration to config.json"
 	with open('config.json.example') as data_file:
 		data_json = json.loads(data_file.read())
 
 class config(object):
 	DEBUG = True
 	TESTING = False
+	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	CSRF_ENABLED = True
 	SQLALCHEMY_DATABASE_URI = ('{engine}://{username}:{password}@{host}:{port}/{db_name}'.format(\
 		engine=data_json['db']['db_engine'],\
