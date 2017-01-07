@@ -58,7 +58,7 @@ $ docker-compose exec od python manage.py create "test"
 ```bash
 $ docker-compose stop od
 $ docker-compose run od bash
-[from_od]$ python manage.py create "test"
-[from_od]$ python manage.py remove test
-[from_od]$ python manage.py install https://github.com/openedoo/module_hello
+[from_od]$ openedoo module create -n "test"
+[from_od]$ opendoo module remove test
+[from_od]$ opendoo module install https://github.com/openedoo/module_hello
 ```
