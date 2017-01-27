@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.permanent_session_lifetime = timedelta(minutes=10)
+#app.permanent_session_lifetime = timedelta(minutes=10)
 #db = SQLAlchemy(app)
 
 try:
