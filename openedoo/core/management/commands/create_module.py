@@ -3,6 +3,9 @@ from openedoo.core.libs.get_requirement import *
 import time
 import sys
 
+BASE_DIR = os.path.dirname(os.path.realpath(__name__))
+BASE = os.path.join(BASE_DIR, 'openedoo')
+
 class Create(Command):
     help_args = ('-h', '--help')
     help = "Create Module"
