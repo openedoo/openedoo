@@ -6,3 +6,19 @@ app.register_blueprint(core, url_prefix='/')
  
 
  
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
