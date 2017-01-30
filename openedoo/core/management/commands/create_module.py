@@ -3,13 +3,16 @@ from openedoo.core.libs.get_requirement import *
 import time
 import sys
 
-class Create(Command):
+BASE_DIR = os.path.dirname(os.path.realpath(__name__))
+BASE = os.path.join(BASE_DIR, 'openedoo')
 
+class Create(Command):
+    help_args = ('-h', '--help')
+    help = "Create Module"
     option_list = (
         Option("-r","--remote", dest='remote_git', help='remote git url'),
         Option("-n","--name", required=True, dest='name', help='module name')
     )
-
     def create_file_init(self,dir=None, file=None, apps=None):
         try:
             with open(os.path.join(dir, file), "a") as f:

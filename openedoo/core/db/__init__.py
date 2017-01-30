@@ -40,7 +40,7 @@ class Query(object):
 			return list1
 		except Exception as e:
 			return False
-			
+
 	def update_db(self,tables,column,value_column,dict_update):
 		'''for update row in tables'''
 		#namatable = namatable

@@ -5,6 +5,10 @@ import time
 import shutil
 
 class Update(Command):
+
+    help_args = ('-h', '--help')
+    help = "Update your module app"
+
     option_list = (
         Option("-n","--name", required=True, dest='name', help='module name'),
     )

@@ -6,8 +6,14 @@ import time
 import shutil
 
 delete_module = Delete()
+BASE_DIR = os.path.dirname(os.path.realpath(__name__))
+BASE = os.path.join(BASE_DIR, 'openedoo')
 
 class Install(Command):
+
+    help_args = ('-h', '--help')
+    help = "Install Module from git"
+
     def __init__(self, default_url=None):
         self.default_url=default_url
 
@@ -15,8 +21,8 @@ class Install(Command):
         return [
             Option(dest='url', default=self.default_url),
         ]
+
     def run(self, url):
-        """ Install module from your git """
         try:
             if os.path.isfile('modules/__init__.py') is False:
                 os.mkdir('modules')

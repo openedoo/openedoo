@@ -5,6 +5,9 @@ import shutil
 
 class Delete(Command):
 
+    help_args = ('-h', '--help')
+    help = "Delete your module app"
+
     def __init__(self, default_name=None):
         self.default_name=default_name
 
