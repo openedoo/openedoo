@@ -15,7 +15,7 @@ import time
 import git
 from openedoo.core.libs.get_requirement import *
 from commands.module import Modules
-import argparse
+from commands.gunicornserver import GunicornServer
 
 query = Query()
 
@@ -27,6 +27,7 @@ class Management(object):
     manager.add_command('run', Server())
     manager.add_command('shell', Shell())
     manager.add_command('db', MigrateCommand)
+    manager.add_command('gunicornserver', GunicornServer())
 
     manager.add_command('module', Modules.module)
 
