@@ -3,25 +3,21 @@ from openedoo.core.libs.get_requirement import *
 import sys
 import time
 import shutil
+from delete_module import Delete
+from create_module import Create
+from install_module import Install
+from update_module import Update
 
-BASE_DIR = os.path.dirname(os.path.realpath(__name__))
-BASE = os.path.join(BASE_DIR, 'openedoo')
+
 
 class Modules(Command):
     module = Manager(usage="Manage application modules")
 
-    from delete_module import Delete
     module.add_command('remove', Delete())
-
-    from create_module import Create
     module.add_command('create', Create())
-
-    from install_module import Install
     module.add_command('install', Install())
-
-    from update_module import Update
     module.add_command('update', Update())
-    
+
     @module.command
     def available():
         """ Check Module Available """

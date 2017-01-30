@@ -22,7 +22,6 @@ manager = Manager(app, usage="Openedoo Command Line", with_default_commands=Fals
 
 
 class Management(object):
-
     manager.help_args = ('-?', '--help')
     manager.add_command('run', Server())
     manager.add_command('shell', Shell())
