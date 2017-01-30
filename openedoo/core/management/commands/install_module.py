@@ -1,8 +1,11 @@
 from flask_script import Command, Option
 from openedoo.core.libs.get_requirement import *
+from delete_module import Delete
 import sys
 import time
 import shutil
+
+delete_module = Delete()
 
 class Install(Command):
     def __init__(self, default_url=None):
@@ -54,5 +57,5 @@ class Install(Command):
             print e
             print "Module not found"
             #a = Module()
-            delete_module(name)
+            delete_module.delete_module(name)
             del_manifest(name_module=name)

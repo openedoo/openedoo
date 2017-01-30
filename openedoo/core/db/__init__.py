@@ -16,7 +16,7 @@ metadata = MetaData(bind=engine)
 auto_map = automap_base()
 
 
-class query(object):
+class Query(object):
 	def __init__(self):
 		self = "welcome to help menu"
 

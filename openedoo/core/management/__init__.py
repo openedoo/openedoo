@@ -4,7 +4,7 @@ import os
 import sys
 from flask_script import Server, Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-from openedoo.core.db import query
+from openedoo.core.db import Query as query
 from openedoo import app,db
 from openedoo import config
 import unittest
