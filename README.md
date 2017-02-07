@@ -1,7 +1,15 @@
 # WELCOME TO OPENEDOO [![Build Status](https://travis-ci.org/openedoo/openedoo.svg?branch=master)](https://travis-ci.org/openedoo/openedoo)
 
 ![N|Solid](http://openedoo.org/images/openedoo.svg)
+## openedoo-beta in pip
+```
+pip install openedoo
 
+and run in your terminal
+
+openedoo install
+
+```
 ## how to use
 
 ```bash

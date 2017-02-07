@@ -1,5 +1,5 @@
 #from flask import Flask,abort
-from openedoo.core.libs import *
+from openedoo_core import *
 import json
 import config
 from datetime import timedelta
@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.permanent_session_lifetime = timedelta(minutes=10)
+#app.permanent_session_lifetime = timedelta(minutes=10)
 #db = SQLAlchemy(app)
 
 try:

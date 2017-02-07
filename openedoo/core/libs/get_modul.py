@@ -116,23 +116,26 @@ def add_manifest(name_module=None,version_modul=None,url=None):
 	except Exception as e:
 		return e
 def del_manifest(name_module=None):
-	filename = 'manifest.json'
-	if name_module == None:
-		return "please insert your modul name"
-	with open(filename,'r') as data_file:
-		data_json = json.loads(data_file.read())
-	number_akhir = len(data_json['installed_module'])
-	number_awal = 0
-	for number_awal in xrange(number_awal,number_akhir):
-		jumlah = (number_awal+1)-1
-		if name_module == data_json['installed_module'][jumlah]['name_module']:
-			os.remove(filename)
-			del data_json['installed_module'][jumlah]
-			with open(filename,'w') as data_file:
-				json.dump(data_json, data_file)
-		else:
-			pass
-	return "modul has deleted"
+	try:
+		filename = 'manifest.json'
+		if name_module == None:
+			return "please insert your modul name"
+		with open(filename,'r') as data_file:
+			data_json = json.loads(data_file.read())
+		number_akhir = len(data_json['installed_module'])
+		number_awal = 0
+		for number_awal in xrange(number_awal,number_akhir):
+			jumlah = (number_awal+1)-1
+			if name_module == data_json['installed_module'][jumlah]['name_module']:
+				os.remove(filename)
+				del data_json['installed_module'][jumlah]
+				with open(filename,'w') as data_file:
+					json.dump(data_json, data_file)
+			else:
+				pass
+		return "modul has deleted"
+	except Exception as e:
+		pass
 
 def create_requirement(name_module=None,version_module=None,url_endpoint=None,requirement=None,comment=None,url=None):
 	if comment is None:

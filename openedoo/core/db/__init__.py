@@ -16,7 +16,7 @@ metadata = MetaData(bind=engine)
 auto_map = automap_base()
 
 
-class query(object):
+class Query(object):
 	def __init__(self):
 		self = "welcome to help menu"
 
@@ -40,7 +40,7 @@ class query(object):
 			return list1
 		except Exception as e:
 			return False
-			
+
 	def update_db(self,tables,column,value_column,dict_update):
 		'''for update row in tables'''
 		#namatable = namatable
