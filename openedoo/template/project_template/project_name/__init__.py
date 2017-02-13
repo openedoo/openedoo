@@ -1,15 +1,9 @@
-#from flask import Flask,abort
-#from openedoo_core import *
 import json
-import openedoo.config
+import config
 from datetime import timedelta
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
 app = Flask(__name__)
-
-#app.permanent_session_lifetime = timedelta(minutes=10)
-#db = SQLAlchemy(app)
 
 try:
 	with open('config.json') as data_file:
@@ -28,13 +22,12 @@ try:
 	db = SQLAlchemy(app)
 	from openedoo import tables
 
-
 except Exception as e:
-	#print e
-	app.config.from_object(config.Development)
+    app.config.from_object(config.Development)
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db = SQLAlchemy(app)
-	from openedoo import tables
 
-import route
-import error
+    from .%(project_name)s import tables
+
+from .%(project_name)s import route
+from .%(project_name)s import error
