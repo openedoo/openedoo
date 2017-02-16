@@ -96,5 +96,11 @@ class Query(object):
 		sql = text('DROP TABLE IF EXISTS {name_table};'.format(name_table=name_table))
 		result = engine.execute(sql)
 		return result
+	def query(self,query=None):
+    	if query == None:
+			return "query syntax is None"
+    	result = engine.execute(query)
+		return result
+    	
 
 #print drop_table(database_name)
