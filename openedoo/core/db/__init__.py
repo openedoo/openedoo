@@ -97,10 +97,10 @@ class Query(object):
 		result = engine.execute(sql)
 		return result
 	def query(self,query=None):
-    	if query == None:
+		if query == None:
 			return "query syntax is None"
-    	result = engine.execute(query)
+		result = engine.execute(query)
 		return result
-    	
+
 
 #print drop_table(database_name)
