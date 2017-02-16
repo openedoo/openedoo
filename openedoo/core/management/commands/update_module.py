@@ -17,5 +17,7 @@ class Update(Command):
             directory = ('modules/{name}/'.format(name=name))
             git_update = git.cmd.Git(directory)
             print git_update.pull()
+            #print "your update successfully"
         except Exception as e:
+            print e
             return e
