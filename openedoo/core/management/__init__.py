@@ -32,7 +32,7 @@ class Management(object):
     manager.add_command('db', MigrateCommand)
     manager.add_command('gunicornserver', GunicornServer())
     manager.add_command('module', Modules.module)
-    manager.add_command('create', CreateModule())
+    #manager.add_command('create', CreateModule())
 
     def migrate():
         #query.drop_table('alembic_version')

@@ -5,6 +5,7 @@ import time
 import shutil
 from delete_module import Delete
 from create_module_app import CreateModule
+from create_module import Create
 from install_module import Install
 from update_module import Update
 
@@ -14,7 +15,7 @@ class Modules(Command):
     module = Manager(usage="Manage application modules")
 
     module.add_command('remove', Delete())
-    module.add_command('create', CreateModule())
+    module.add_command('create', Create())
     module.add_command('install', Install())
     module.add_command('update', Update())
 

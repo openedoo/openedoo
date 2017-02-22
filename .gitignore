@@ -11,4 +11,3 @@ manifest.json
 route.py
 dist/
 Openedoo_cli.egg-info
-tables.py

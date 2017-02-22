@@ -1,0 +1,10 @@
+{
+  "comment": "my module name is %(app_name)s",
+  "requirement": "openedoo_core",
+  "version": "0.1.0",
+  "pip_library": [],
+  "name": "%(app_name)s",
+  "url": null,
+  "url_endpoint": "/%(app_name)s",
+  "type": "end_point"
+}
