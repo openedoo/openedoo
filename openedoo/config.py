@@ -1,12 +1,15 @@
 import os
 import json
 
+DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+file_config = os.path.join(DIR, 'config.json.example')
+
 try:
 	with open('config.json') as data_file:
 		data_json = json.loads(data_file.read())
 except Exception as e:
 	print "please replace config.json.example with your configuration to config.json"
-	with open('config.json.example') as data_file:
+	with open(file_config) as data_file:
 		data_json = json.loads(data_file.read())
 
 class config(object):

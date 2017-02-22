@@ -18,7 +18,7 @@ class Delete(Command):
 
     def delete_module(self,name):
         try:
-            file = open("{direktory}/route.py".format(direktory=BASE),"r+")
+            file = open("{directory}/route.py".format(directory=BASE),"r+")
             readfile = file.readlines()
             file.seek(0)
             #delete = ("\n \nfrom openedoo.{module} import {module}".format(module=name))
@@ -27,10 +27,10 @@ class Delete(Command):
                     file.writelines(line)
             file.truncate()
             file.close()
-            print BASE_DIR
+            
             shutil.rmtree('{dir_file}/modules/{name}'.format(dir_file=BASE_DIR,name=name))
 
-            file = open("{direktory}/tables.py".format(direktory=BASE),"r+")
+            file = open("{directory}/tables.py".format(directory=BASE),"r+")
             readfile = file.readlines()
             file.seek(0)
             #delete = ("\n \nfrom openedoo.{module} import {module}".format(module=name))

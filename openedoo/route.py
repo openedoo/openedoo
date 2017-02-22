@@ -1,7 +1,8 @@
 from openedoo import app
-
 from openedoo.core import core
-app.register_blueprint(core, url_prefix='/')
 
 
 
+
+from modules.a import a
+app.register_blueprint(a, url_prefix='/a')
