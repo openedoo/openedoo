@@ -4,7 +4,8 @@ from delete_module import Delete
 import sys
 import time
 import shutil
-
+import threading
+from waiting_animated import animated
 delete_module = Delete()
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
 BASE = os.path.join(BASE_DIR, 'openedoo')
@@ -22,7 +23,7 @@ class Install(Command):
             Option(dest='url', default=self.default_url),
         ]
 
-    def run(self, url):
+    def process(self, url):
         try:
             if os.path.isfile('modules/__init__.py') is False:
                 os.mkdir('modules')
@@ -40,7 +41,6 @@ class Install(Command):
 
             install_git_(url=url)
 
-            print name
             time.sleep(0.2)
 
             data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
@@ -64,3 +64,22 @@ class Install(Command):
             #a = Module()
             delete_module.delete_module(name)
             del_manifest(name_module=name)
+    def animated(self):
+        animated()
+
+    def worker(self,url):
+        self.process(url)
+
+    def run(self,url):
+        words = url.split('/')
+        if '.' in words[-1]:
+            word = words[-1].split('.')
+            name = word[0]
+        else:
+            name = words[-1]
+        print "installing {name}".format(name=name)
+        t = threading.Thread(name='animated', target=self.animated())
+        w = threading.Thread(name='worker', target=self.worker(url=url))
+        t.start()
+        w.start()
+

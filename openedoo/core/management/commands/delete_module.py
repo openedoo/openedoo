@@ -3,6 +3,9 @@ import os
 from openedoo.core.libs.get_requirement import *
 import shutil
 
+BASE_DIR = os.path.dirname(os.path.realpath(__name__))
+BASE = os.path.join(BASE_DIR, 'openedoo')
+
 class Delete(Command):
 
     help_args = ('-h', '--help')
