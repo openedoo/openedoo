@@ -42,7 +42,6 @@ class Install(Command):
 
             print name
             time.sleep(0.2)
-            print database_table(module_name=name)
 
             data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
             requirement_json = json.loads(data_requirement.read())
