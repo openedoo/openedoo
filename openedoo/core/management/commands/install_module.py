@@ -6,6 +6,7 @@ import time
 import shutil
 import threading
 from waiting_animated import animated
+
 delete_module = Delete()
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
 BASE = os.path.join(BASE_DIR, 'openedoo')
@@ -23,26 +24,19 @@ class Install(Command):
             Option(dest='url', default=self.default_url),
         ]
 
-    def process(self, url):
+    def _install_git(self,url):
         try:
-            if os.path.isfile('modules/__init__.py') is False:
-                os.mkdir('modules')
-                open(os.path.join('modules', '__init__.py'), "a")
-
-            words = url.split('/')
-            if '.' in words[-1]:
-                word = words[-1].split('.')
-                name = word[0]
-            else:
-                name = words[-1]
-
-            if os.path.exists('modules/{name}'.format(name=name)):
-                return "module exist"
-
             install_git_(url=url)
+            return True
+        except Exception as e:
+            delete_module.delete_module(name)
+            print e
+            return False
 
-            time.sleep(0.2)
-
+    def _check_requirement(self,url,name):
+        if self._install_git(url=url) is False:
+            return "Failed install"
+        try:
             data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
             requirement_json = json.loads(data_requirement.read())
             add_manifest(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
@@ -59,11 +53,25 @@ class Install(Command):
             except Exception as e:
                 print "Error Writing __init__.py"
         except Exception as e:
-            print e
             print "Module not found"
-            #a = Module()
             delete_module.delete_module(name)
             del_manifest(name_module=name)
+            
+    def process(self,url):
+        if os.path.isfile('modules/__init__.py') is False:
+            os.mkdir('modules')
+            open(os.path.join('modules', '__init__.py'), "a")
+
+        words = url.split('/')
+        if '.' in words[-1]:
+            word = words[-1].split('.')
+            name = word[0]
+        else:
+            name = words[-1]
+        if os.path.exists('modules/{name}'.format(name=name)):
+            return False
+        self._check_requirement(url,name)
+
     def animated(self):
         animated()
 
