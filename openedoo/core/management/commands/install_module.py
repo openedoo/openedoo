@@ -6,6 +6,7 @@ import time
 import shutil
 import threading
 from waiting_animated import animated
+import pip
 
 delete_module = Delete()
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
@@ -24,9 +25,17 @@ class Install(Command):
             Option(dest='url', default=self.default_url),
         ]
 
+    def _install_pip(self,package):
+        try:
+            print "this is need superuser access"
+            pip.main(['install', package])
+        except Exception as e:
+            print "please install pip"
+
     def _install_git(self,url,name):
         try:
             install_git_(url=url)
+
             return True
         except Exception as e:
             delete_module.delete_module(name)
@@ -38,9 +47,12 @@ class Install(Command):
             dependency_module = []
             data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
             requirement_json = json.loads(data_requirement.read())
+            print requirement_json['pip_library']
             for dependency in requirement_json['requirement']:
                 dependency_module.append(dependency)
             add_manifest(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
+            for pip_package in requirement_json['pip_library']:
+                self._install_pip(pip_package)
 
             try:
                 with open(os.path.join(BASE, "route.py"), "a") as f:
@@ -80,10 +92,8 @@ class Install(Command):
             dependency = self._check_requirement(url,name)
             try:
                 for x in dependency:
-                    print x['url']
                     self.process(x['url'])
             except:
-                pass
                 return "Error"
 
     def animated(self):
