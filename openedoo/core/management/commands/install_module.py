@@ -24,7 +24,7 @@ class Install(Command):
             Option(dest='url', default=self.default_url),
         ]
 
-    def _install_git(self,url):
+    def _install_git(self,url,name):
         try:
             install_git_(url=url)
             return True
@@ -34,12 +34,14 @@ class Install(Command):
             return False
 
     def _check_requirement(self,url,name):
-        if self._install_git(url=url) is False:
-            return "Failed install"
         try:
+            dependency_module = []
             data_requirement = open("modules/{direktory}/requirement.json".format(direktory=name),"r")
             requirement_json = json.loads(data_requirement.read())
+            for dependency in requirement_json['requirement']:
+                dependency_module.append(dependency)
             add_manifest(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
+
             try:
                 with open(os.path.join(BASE, "route.py"), "a") as f:
                     f.write("\nfrom modules.{module_folder} import {module}".format(\
@@ -50,13 +52,15 @@ class Install(Command):
                         url_endpoint=requirement_json['url_endpoint']))
                     f.close()
                     print "Module installed"
+                    return dependency_module
             except Exception as e:
                 print "Error Writing __init__.py"
         except Exception as e:
+            print e
             print "Module not found"
             delete_module.delete_module(name)
             del_manifest(name_module=name)
-            
+
     def process(self,url):
         if os.path.isfile('modules/__init__.py') is False:
             os.mkdir('modules')
@@ -70,7 +74,17 @@ class Install(Command):
             name = words[-1]
         if os.path.exists('modules/{name}'.format(name=name)):
             return False
-        self._check_requirement(url,name)
+        if self._install_git(url=url,name=name) is False:
+            return "Failed install"
+        else:
+            dependency = self._check_requirement(url,name)
+            try:
+                for x in dependency:
+                    print x['url']
+                    self.process(x['url'])
+            except:
+                pass
+                return "Error"
 
     def animated(self):
         animated()
@@ -88,6 +102,6 @@ class Install(Command):
         print "installing {name}".format(name=name)
         t = threading.Thread(name='animated', target=self.animated())
         w = threading.Thread(name='worker', target=self.worker(url=url))
-        t.start()
         w.start()
+        t.start()
 
