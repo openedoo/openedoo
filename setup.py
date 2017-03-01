@@ -9,7 +9,8 @@ setup (
 	   'flask',
        'flask-script',
 	],
+    scripts=['openedoo/bin/openedoo.py'],
     entry_points={'console_scripts': [
-        'openedoo = openedoo.core.libs.command:main',
+        'openedoo = openedoo.core.management:openedoo_cli',
     ]},
 )
