@@ -8,9 +8,14 @@ try:
 	with open('config.json') as data_file:
 		data_json = json.loads(data_file.read())
 except Exception as e:
-	print "please replace config.json.example with your configuration to config.json"
-	with open(file_config) as data_file:
-		data_json = json.loads(data_file.read())
+	try:
+		print "please replace config.json.example with your configuration to config.json"
+		with open(file_config) as data_file:
+			data_json = json.loads(data_file.read())
+	except:
+		data_json = {"db":{"db_engine": "mysql","db_id": "your_username","db_password" : "your_password","db_host" : "localhost","db_port" : "3306","db_name" : "db_openedoo","db_prefix" : "openedoo"},"config": "Development","secret_key" : "aksaramaya_openedoo"}
+
+
 
 class config(object):
 	DEBUG = True
