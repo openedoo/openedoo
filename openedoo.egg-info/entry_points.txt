@@ -1,3 +1,0 @@
-[console_scripts]
-openedoo = openedoo.core.management:openedoo_cli
-
