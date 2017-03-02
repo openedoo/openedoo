@@ -51,10 +51,10 @@ class Management(object):
         manager.run()
 
 class OpenedooCli(object):
-    manager.help_args = ('-?', '--help')
+    od.help_args = ('-?', '--help')
     od.add_command('install', Install())
 
-    def execute():
+    def execute(self):
         od.run()
 
 def execute_cli():

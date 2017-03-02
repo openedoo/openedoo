@@ -3,6 +3,7 @@ from flask import Flask
 from flask import g
 from flask import Response
 from flask import abort
+from flask_sqlalchemy import SQLAlchemy
 
 request = request
 redirect = redirect

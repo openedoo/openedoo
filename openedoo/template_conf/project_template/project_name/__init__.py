@@ -2,7 +2,7 @@ import json
 import config
 from datetime import timedelta
 from flask import Flask
-
+from openedoo.core.libs import SQLAlchemy
 app = Flask(__name__)
 
 try:
@@ -23,9 +23,10 @@ try:
 	from openedoo import tables
 
 except Exception as e:
+	''' Ini openedoo broh!!! '''
 	app.config.from_object(config.Development)
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db = SQLAlchemy(app)
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+	db = SQLAlchemy(app)
 
 	from .%(project_name)s import tables
 

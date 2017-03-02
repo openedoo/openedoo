@@ -109,5 +109,5 @@ class CreateModule(Command):
 
     def get_tmp(self, tmp_path):
         if tmp_path is None:
-            return os.path.join(openedoo.__path__[0], "template",  "module_template")
+            return os.path.join(openedoo.__path__[0], "template_conf",  "module_template")
         raise Exception("error in template: " + tmp_path)

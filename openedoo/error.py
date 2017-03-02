@@ -1,5 +1,5 @@
 
-from core.libs import response
+from openedoo.core.libs import response
 from openedoo.core.libs import abort
 from openedoo import app
 import json

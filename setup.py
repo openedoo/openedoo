@@ -1,7 +1,7 @@
-
+from setuptools import setup, find_packages
+import os
 import sys
 from distutils.sysconfig import get_python_lib
-from setuptools import setup, find_packages
 
 overlay_warning = False
 if "install" in sys.argv:
@@ -17,20 +17,65 @@ if "install" in sys.argv:
             # command is run, so it's more likely to be seen.
             overlay_warning = True
             break
+
+EXCLUDE_FROM_PACKAGES = ['openedoo.template_conf.project_template',
+                         'openedoo.template_conf.module_template',
+                         'openedoo.bin']
+
 setup (
-    name='Openedoo-cli',
-    version='0.1',
-    py_modules=['openedoo'],
-    install_requires=[
-	   'flask',
-       'flask-script',
-	],
+    name='openedoo',
+    version='1.0.2.0',
+    url='http://openedoo.org',
+    author='Openedoo Official',
     license='MIT',
-    packages=find_packages(),
-    package_dir={'openedoo':'openedoo'},
+    packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
     include_package_data=True,
-    scripts=['openedoo/bin/openedoo.py'],
+    scripts=['openedoo/bin/openedoo-cli.py'],
     entry_points={'console_scripts': [
         'openedoo = openedoo.core.management:openedoo_cli',
     ]},
+    install_requires=[
+	   'flask',
+       'flask-script',
+       'openedoo-script-test',
+       'sqlalchemy',
+       'MySQL-python',
+       'redis',
+       'Werkzeug',
+       'itsdangerous',
+       'click',
+       'Jinja2',
+       'alembic',
+       'flask-migrate',
+       'Flask-Script',
+       'GitPython',
+       'gitdb2',
+       'smmap2'
+	],
+    zip_safe=False,
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Software Development :: Libraries :: Python Modules'
+    ],
 )
+
+if overlay_warning:
+    sys.stderr.write("""
+========
+WARNING!
+========
+You have just installed Openedoo over top of an existing
+installation, without removing it first. Because of this,
+your install may now include extraneous files from a
+previous version that have since been removed from
+Django. This is known to cause a variety of problems. You
+should manually remove the
+%(existing_path)s
+directory and re-install Openedoo.
+""" % {"existing_path": existing_path})
