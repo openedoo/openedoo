@@ -1,7 +1,8 @@
 from openedoo.core.libs.get_modul import *
+from openedoo.core.management.create_module_app import get_root_project
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
-BASE = os.path.join(BASE_DIR, 'openedoo')
+BASE = BASE = os.path.join(BASE_DIR, get_root_project())
 
 def database_table(module_name=None):
 	if module_name is None:
@@ -20,6 +21,7 @@ def database_table(module_name=None):
 			f.close()
 		return "database inserted"
 	except Exception as e:
+		print e
 		return "module doesn't have database"
 
 def get_database(module_name=None):

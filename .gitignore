@@ -13,3 +13,5 @@ dist/
 Openedoo_cli.egg-info
 openedoo_cli.egg-info
 tables.py
+openedoo.egg-info/
+

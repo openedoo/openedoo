@@ -1,4 +1,4 @@
-from .%(project_name)s import app
+from %(project_name)s import app
 from openedoo.core.libs import response
 from openedoo.core import abort
 import json
