@@ -20,15 +20,14 @@ try:
 
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db = SQLAlchemy(app)
-	from openedoo import tables
+	from .%(project_name)s import tables
 
 except Exception as e:
-	''' Ini openedoo broh!!! '''
 	app.config.from_object(config.Development)
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db = SQLAlchemy(app)
 
-	from .%(project_name)s import tables
+	from %(project_name)s import tables
 
-from .%(project_name)s import route
-from .%(project_name)s import error
+from %(project_name)s import route
+from %(project_name)s import error

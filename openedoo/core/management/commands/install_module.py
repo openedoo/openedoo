@@ -91,6 +91,8 @@ class Install(Command):
             return "Failed install"
         else:
             dependency = self._check_requirement(url,name)
+            print "database_table"
+            print database_table(name)
             try:
                 for x in dependency:
                     self.process(x['url'])

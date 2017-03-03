@@ -24,11 +24,13 @@ EXCLUDE_FROM_PACKAGES = ['openedoo.template_conf.project_template',
 
 setup (
     name='openedoo',
-    version='1.0.2.2',
+    version='1.1.0.3',
     url='http://openedoo.org',
     author='Openedoo Official',
     license='MIT',
     packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
+    description=('openedoo is backend service for education base on flask'),
+    long_description = open('README.rst').read(),
     include_package_data=True,
     scripts=['openedoo/bin/openedoo-cli.py'],
     entry_points={'console_scripts': [
@@ -37,7 +39,6 @@ setup (
     install_requires=[
 	   'flask',
        'flask-script',
-       'openedoo-script-test',
        'sqlalchemy',
        'MySQL-python',
        'redis',
