@@ -21,25 +21,17 @@ from commands.create_module_app import CreateModule
 
 query = Query()
 
+#manager = Manager(app, usage="Openedoo Command Line", with_default_commands=False)
 manager = Manager(app, usage="Openedoo Command Line", with_default_commands=False)
 od = Manager(app, usage="Openedoo Command Line", with_default_commands=False)
-
+manager.help_args = ('-?', '--help')
+manager.add_command('run', Server())
+manager.add_command('shell', Shell())
+manager.add_command('db', MigrateCommand)
+manager.add_command('gunicornserver', GunicornServer())
+manager.add_command('module', Modules.module)
 
 class Management(object):
-    manager.help_args = ('-?', '--help')
-    manager.add_command('run', Server())
-    manager.add_command('shell', Shell())
-    manager.add_command('db', MigrateCommand)
-    manager.add_command('gunicornserver', GunicornServer())
-    manager.add_command('module', Modules.module)
-    #manager.add_command('create', CreateModule())
-
-    def migrate():
-        #query.drop_table('alembic_version')
-        query.create_database(config.database_name)
-        migrate = Migrate(app, db)
-        return migrate
-    migrate = migrate()
 
     @manager.command
     def test():
@@ -60,7 +52,6 @@ class OpenedooCli(object):
 def execute_cli():
     manage = Management()
     manage.execute()
-
 def openedoo_cli():
     manage = OpenedooCli()
     manage.execute()

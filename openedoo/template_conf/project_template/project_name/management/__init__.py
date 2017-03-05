@@ -5,8 +5,8 @@ import sys
 from flask_script import Server, Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 from openedoo.core.db import Query
-from openedoo import app,db
-from openedoo import config
+from %(project_name)s import app,db
+from %(project_name)s import config
 import unittest
 import json
 from openedoo.core.libs.get_modul import *
@@ -30,7 +30,6 @@ manager.add_command('shell', Shell())
 manager.add_command('db', MigrateCommand)
 manager.add_command('gunicornserver', GunicornServer())
 manager.add_command('module', Modules.module)
-#manager.add_command('create', CreateModule())
 
 class Management(object):
     @manager.command
@@ -48,11 +47,10 @@ class OpenedooCli(object):
 
     def execute(self):
         od.run()
-
+        
 def execute_cli():
     manage = Management()
     manage.execute()
-
 def openedoo_cli():
     manage = OpenedooCli()
     manage.execute()

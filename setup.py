@@ -24,7 +24,7 @@ EXCLUDE_FROM_PACKAGES = ['openedoo.template_conf.project_template',
 
 setup (
     name='openedoo',
-    version='1.1.0.3',
+    version='1.1.0.5',
     url='http://openedoo.org',
     author='Openedoo Official',
     license='MIT',
