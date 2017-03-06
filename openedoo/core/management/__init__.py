@@ -5,7 +5,7 @@ import sys
 from flask_script import Server, Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 from openedoo.core.db import Query
-from openedoo import app,db
+from openedoo import db
 from openedoo import config
 import unittest
 import json
@@ -20,6 +20,15 @@ from commands.install_openedoo import Install
 from commands.create_module_app import CreateModule
 
 query = Query()
+
+def app(app=None):
+    if app == None:
+        from openedoo import app
+        return app
+    else:
+        return app
+
+app = app()
 
 manager = Manager(app, usage="Openedoo Command Line", with_default_commands=False)
 od = Manager(app, usage="Openedoo Command Line", with_default_commands=False)
