@@ -1,5 +1,5 @@
 from openedoo.core.libs.get_modul import *
-from openedoo.core.management.create_module_app import get_root_project
+from openedoo.core.management.commands.create_module_app import get_root_project
 
 BASE_DIR = os.path.dirname(os.path.realpath(__name__))
 BASE = BASE = os.path.join(BASE_DIR, get_root_project())

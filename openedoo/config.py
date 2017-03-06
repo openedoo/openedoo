@@ -1,5 +1,6 @@
 import os
 import json
+from openedoo import app
 
 DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 file_config = os.path.join(DIR, 'config.json.example')

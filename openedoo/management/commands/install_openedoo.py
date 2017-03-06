@@ -9,11 +9,6 @@ class Install(Command):
 
     def __init__(self):
         pass
-    '''
-    option_list = (
-        Option("-n", "--name", dest='name', help='project name', required=True),
-    )
-    '''
     def run(self):
         """Create your project with openedoo"""
 

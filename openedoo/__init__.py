@@ -1,7 +1,6 @@
 #from flask import Flask,abort
 #from openedoo_core import *
 import json
-import openedoo.config
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
@@ -12,6 +11,7 @@ app = Flask(__name__)
 #db = SQLAlchemy(app)
 
 try:
+	import openedoo.config
 	with open('config.json') as data_file:
 		data_json = json.loads(data_file.read())
 

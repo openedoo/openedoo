@@ -20,13 +20,6 @@ from commands.install_openedoo import Install
 from commands.create_module_app import CreateModule
 from openedoo import config
 
-SQLALCHEMY_DATABASE_URI = config.SQLALCHEMY_DATABASE_URI
-database_name = config.database_name
-DB_URI = config.DB_URI
-
-#print SQLALCHEMY_DATABASE_URI
-#print database_name
-#print DB_URI
 
 query = Query(SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DATABASE_URI,database_name=database_name,db_uri=DB_URI)
 
@@ -52,7 +45,7 @@ class Management(object):
         manager.run()
     def migrate():
         #query.drop_table('alembic_version')
-        query.create_database(database_name)
+        query.create_database(config.database_name)
         migrate = Migrate(app, db)
         return migrate
 
