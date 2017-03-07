@@ -21,7 +21,7 @@ from commands.create_module_app import CreateModule
 from openedoo import config
 
 
-query = Query(SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DATABASE_URI,database_name=database_name,db_uri=DB_URI)
+query = Query()
 
 #manager = Manager(app, usage="Openedoo Command Line", with_default_commands=False)
 manager = Manager(app, usage="Openedoo Command Line", with_default_commands=False)
