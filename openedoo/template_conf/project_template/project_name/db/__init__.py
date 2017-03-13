@@ -19,7 +19,7 @@ auto_map = automap_base()
 
 class Query(object):
 	def __init__(self,SQLALCHEMY_DATABASE_URI=None,database_name=None,db_uri=None):
-		print "db engine"
+		"db engine"
 		#SQLALCHEMY_DATABASE_URI = sql_uri
 		#self.config_uri = db_uri
 		#self.engine = create_engine(SQLALCHEMY_DATABASE_URI)
