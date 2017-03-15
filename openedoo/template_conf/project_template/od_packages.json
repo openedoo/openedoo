@@ -1,0 +1,4 @@
+{
+  "project_name":"%(project_name)s",
+  "project_root":"%(project_name)s"
+}

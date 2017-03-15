@@ -1,7 +1,6 @@
-
+from %(project_name)s import app
 from openedoo.core.libs import response
-from openedoo.core.libs import abort
-from openedoo import app
+from openedoo.core import abort
 import json
 
 

@@ -1,12 +1,11 @@
-
 import json
+import config
 from datetime import timedelta
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from openedoo.core.libs import SQLAlchemy
 app = Flask(__name__)
 
 try:
-	import openedoo.config
 	with open('config.json') as data_file:
 		data_json = json.loads(data_file.read())
 
@@ -21,13 +20,14 @@ try:
 
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db = SQLAlchemy(app)
-	from openedoo import tables
+	import tables
 
 except Exception as e:
 	app.config.from_object(config.Development)
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db = SQLAlchemy(app)
-	from openedoo import tables
+
+	import tables
 
 import route
 import error

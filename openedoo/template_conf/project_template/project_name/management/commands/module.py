@@ -15,7 +15,7 @@ class Modules(Command):
     module = Manager(usage="Manage application modules")
 
     module.add_command('remove', Delete())
-    module.add_command('create', Create())
+    module.add_command('create', CreateModule())
     module.add_command('install', Install())
     module.add_command('update', Update())
 

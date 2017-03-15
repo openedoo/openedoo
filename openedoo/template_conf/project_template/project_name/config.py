@@ -1,6 +1,5 @@
 import os
 import json
-from openedoo import app
 
 DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 file_config = os.path.join(DIR, 'config.json.example')
@@ -15,8 +14,6 @@ except Exception as e:
 			data_json = json.loads(data_file.read())
 	except:
 		data_json = {"db":{"db_engine": "mysql","db_id": "your_username","db_password" : "your_password","db_host" : "localhost","db_port" : "3306","db_name" : "db_openedoo","db_prefix" : "openedoo"},"config": "Development","secret_key" : "aksaramaya_openedoo"}
-
-
 
 class config(object):
 	DEBUG = True

@@ -7,27 +7,29 @@ import json
 from datetime import datetime, date
 
 ##table declaration
-from openedoo import config
+from %(project_name)s import config
+
+config_uri = config.DB_URI
+engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
+database_name = config.database_name
+Base = declarative_base()
+metadata = MetaData(bind=engine)
+auto_map = automap_base()
+
 
 class Query(object):
 	def __init__(self,SQLALCHEMY_DATABASE_URI=None,database_name=None,db_uri=None):
+		"db engine"
 		#SQLALCHEMY_DATABASE_URI = sql_uri
 		#self.config_uri = db_uri
 		#self.engine = create_engine(SQLALCHEMY_DATABASE_URI)
 		#self.database_name = database_name
-		config_uri = config.DB_URI
-		self.engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
-		self.database_name = config.database_name
-		self.Base = declarative_base()
-		self.metadata = MetaData(bind=self.engine)
-		self.auto_map = automap_base()
-
 	def select_db(self,tables,column,page=0,page_size=None,**value_column):
 		'''equvalent with select * from tables where column = value_column, this didn't support with order by or join table'''
 		try:
 			session = sessionmaker()
-			session.configure(bind=self.engine)
-	 		self.Base.metadata.create_all(self.engine)
+			session.configure(bind=engine)
+	 		Base.metadata.create_all(engine)
 			s = session()
 			if ('value' in value_column):
 				kueridb = s.query(tables).filter(column == value_column['value'])
@@ -47,45 +49,45 @@ class Query(object):
 		'''for update row in tables'''
 		#namatable = namatable
 		session = sessionmaker()
-		session.configure(bind=self.engine)
- 		self.Base.metadata.create_all(self.engine)
+		session.configure(bind=engine)
+ 		Base.metadata.create_all(engine)
 		s = session()
 		try:
 			s.query(tables).filter(column==value_column).update(dict_update)
 			s.commit()
-			self.engine.dispose()
+			engine.dispose()
 			return True
 		except Exception as e:
 			return e
 	def delete_db(self,tables,data):
 		try:
 			session = sessionmaker()
-			session.configure(bind=self.engine)
-			self.Base.metadata.create_all(self.engine)
+			session.configure(bind=engine)
+			Base.metadata.create_all(engine)
 			s = session()
-			self.Base.metadata.create_all(self.engine)
+			Base.metadata.create_all(engine)
 			jack = s.query(tables).get(data)
 			s.delete(jack)
 			s.commit()
-			self.engine.dispose()
+			engine.dispose()
 			return True
 		except Exception as e:
 			return False
 
 	def insert_db(self,new):
 		try:
-			Session = sessionmaker(bind=self.engine)
+			Session = sessionmaker(bind=engine)
 			session = Session()
-			self.Base.metadata.create_all(self.engine)
+			Base.metadata.create_all(engine)
 			session.add(new)
 			session.commit()
-			self.engine.dispose()
+			engine.dispose()
 			return True
 		except Exception as e:
 			return False
 	def create_database(self,database_name):
 		try:
-			engine_new = create_engine(self.config_uri)
+			engine_new = create_engine(config_uri)
 			connection_engine = engine_new.connect()
 			connection_engine.execute("commit")
 			connection_engine.execute("create database {database}".format(database=database_name))
@@ -96,8 +98,21 @@ class Query(object):
 			return message
 	def drop_table(self,name_table):
 		sql = text('DROP TABLE IF EXISTS {name_table};'.format(name_table=name_table))
-		result = self.engine.execute(sql)
+		result = engine.execute(sql)
 		return result
+	def version(self):
+		query = 'SELECT VERSION()'
+		connection = create_engine(config_uri).connect()
+		result = connection.execute(query)
+		for value in result:
+			return value
+	def query(self,query=None):
+		if query == None:
+			return "query syntax is None"
+		connection = create_engine(config_uri).connect()
+		result = connection.execute(query)
+		for value in result:
+			return value
 	def version(self):
 		query = 'SELECT VERSION()'
 		connection = create_engine(self.config_uri).connect()
