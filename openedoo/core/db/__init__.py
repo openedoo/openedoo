@@ -102,12 +102,18 @@ class Query(object):
 		query = 'SELECT VERSION()'
 		connection = create_engine(self.config_uri).connect()
 		result = connection.execute(query)
+		data = []
 		for value in result:
-			return value
-	def query(self,query=None):
+			row = dict(value)
+			data.append(row)
+		return data
+	def raw(self,query=None):
 		if query == None:
 			return "query syntax is None"
 		connection = create_engine(self.config_uri).connect()
 		result = connection.execute(query)
+		data = []
 		for value in result:
-			return value
+			row = dict(value)
+			data.append(row)
+		return data
