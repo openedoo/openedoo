@@ -17,9 +17,9 @@ from openedoo.core.libs.get_requirement import *
 from commands.module import Modules
 from commands.gunicornserver import GunicornServer
 from commands.install_openedoo import Install
+from commands.version import Version
 from commands.create_module_app import CreateModule
 from openedoo import config
-
 
 query = Query()
 
@@ -52,6 +52,7 @@ class Management(object):
     migrate = migrate()
 
 class OpenedooCli(object):
+    od.version = ('version', Version())
     od.help_args = ('-?', '--help')
     od.add_command('install', Install())
 
@@ -59,7 +60,8 @@ class OpenedooCli(object):
         od.run()
 
 def execute_cli():
-    manage = Management()
+    #manage = Management()
+    manage = OpenedooCli()
     manage.execute()
 
 def openedoo_cli():
