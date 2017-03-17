@@ -18,6 +18,7 @@ from commands.module import Modules
 from commands.gunicornserver import GunicornServer
 from commands.install_openedoo import Install
 from commands.version import Version
+from commands.testing_openedoo import Testing
 from commands.create_module_app import CreateModule
 from openedoo import config
 
@@ -52,9 +53,11 @@ class Management(object):
     migrate = migrate()
 
 class OpenedooCli(object):
-    od.version = ('version', Version())
+
     od.help_args = ('-?', '--help')
     od.add_command('install', Install())
+    od.add_command('version', Version())
+    od.add_command('test', Version())
 
     def execute(self):
         od.run()
