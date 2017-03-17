@@ -99,6 +99,7 @@ class Query(object):
 	def drop_table(self,name_table):
 		sql = text('DROP TABLE IF EXISTS {name_table};'.format(name_table=name_table))
 		result = engine.execute(sql)
+		engine.dispose()
 		return result
 	def version(self):
 		query = 'SELECT VERSION()'
@@ -108,6 +109,7 @@ class Query(object):
 		for value in result:
 			row = dict(value)
 			data.append(row)
+			connection.close()
 		return data
 	def raw(self,query=None):
 		if query == None:
@@ -118,4 +120,5 @@ class Query(object):
 		for value in result:
 			row = dict(value)
 			data.append(row)
+			connection.close()
 		return data
