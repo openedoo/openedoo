@@ -100,7 +100,7 @@ class Query(object):
 		return result
 	def version(self):
 		query = 'SELECT VERSION()'
-		connection = create_engine(self.config_uri).connect()
+		connection = create_engine(config_uri).connect()
 		result = connection.execute(query)
 		data = []
 		for value in result:
@@ -110,7 +110,7 @@ class Query(object):
 	def raw(self,query=None):
 		if query == None:
 			return "query syntax is None"
-		connection = create_engine(self.config_uri).connect()
+		connection = create_engine(config_uri).connect()
 		result = connection.execute(query)
 		data = []
 		for value in result:

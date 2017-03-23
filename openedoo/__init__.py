@@ -3,6 +3,8 @@ import json
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from .db import Query
+
 app = Flask(__name__)
 
 try:
