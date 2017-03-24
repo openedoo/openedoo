@@ -3,6 +3,8 @@ import config
 from datetime import timedelta
 from flask import Flask
 from openedoo.core.libs import SQLAlchemy
+from .db import Query
+
 app = Flask(__name__)
 
 try:

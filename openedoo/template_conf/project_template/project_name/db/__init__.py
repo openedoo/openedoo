@@ -99,36 +99,26 @@ class Query(object):
 	def drop_table(self,name_table):
 		sql = text('DROP TABLE IF EXISTS {name_table};'.format(name_table=name_table))
 		result = engine.execute(sql)
+		engine.dispose()
 		return result
 	def version(self):
 		query = 'SELECT VERSION()'
 		connection = create_engine(config_uri).connect()
 		result = connection.execute(query)
-		for value in result:
-			return value
-	def query(self,query=None):
-		if query == None:
-			return "query syntax is None"
-		connection = create_engine(config_uri).connect()
-		result = connection.execute(query)
-		for value in result:
-			return value
-	def version(self):
-		query = 'SELECT VERSION()'
-		connection = create_engine(self.config_uri).connect()
-		result = connection.execute(query)
 		data = []
 		for value in result:
 			row = dict(value)
 			data.append(row)
+			connection.close()
 		return data
 	def raw(self,query=None):
 		if query == None:
 			return "query syntax is None"
-		connection = create_engine(self.config_uri).connect()
+		connection = create_engine(config_uri).connect()
 		result = connection.execute(query)
 		data = []
 		for value in result:
 			row = dict(value)
 			data.append(row)
+			connection.close()
 		return data
