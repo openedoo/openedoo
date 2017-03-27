@@ -51,7 +51,8 @@ setup (
        'Flask-Script',
        'GitPython',
        'gitdb2',
-       'smmap2'
+       'smmap2',
+       'pyserial'
 	],
     zip_safe=False,
     classifiers=[
