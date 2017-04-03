@@ -54,7 +54,9 @@ class Install(Command):
             add_manifest(name_module=requirement_json['name'],version_modul=requirement_json['version'],url=url)
             for pip_package in requirement_json['pip_library']:
                 self._install_pip(pip_package)
-
+            if requirement_json['type'] == 'plugin':
+                print 'Module installed'
+                return
             try:
                 with open(os.path.join(BASE, "route.py"), "a") as f:
                     f.write("\nfrom modules.{module_folder} import {module}".format(\

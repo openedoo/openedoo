@@ -63,8 +63,8 @@ class OpenedooCli(object):
         od.run()
 
 def execute_cli():
-    #manage = Management()
-    manage = OpenedooCli()
+    manage = Management()
+    #manage = OpenedooCli()
     manage.execute()
 
 def openedoo_cli():

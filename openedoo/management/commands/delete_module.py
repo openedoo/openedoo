@@ -44,6 +44,7 @@ class Delete(Command):
             file.truncate()
             file.close()
         except Exception as e:
+            shutil.rmtree('{dir_file}/modules/{name}'.format(dir_file=BASE_DIR,name=name))
             print e
 
     def run(self, name):
