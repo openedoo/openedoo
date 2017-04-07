@@ -112,8 +112,11 @@ class Query(object):
 			return "query syntax is None"
 		connection = create_engine(config_uri).connect()
 		result = connection.execute(query)
-		data = []
-		for value in result:
-			row = dict(value)
-			data.append(row)
-		return data
+		try:
+			data = []
+			for value in result:
+				row = dict(value)
+				data.append(row)
+			return data
+		except:
+			return {'query':'database has change'}
