@@ -22,7 +22,7 @@ def alchemyencoder(obj):
         return float(obj)
 
 def query(query):
-	"""output json """
+    """output json """
     connection = create_engine(config_uri).connect()
     res = connection.execute(query)
 
