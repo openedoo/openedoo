@@ -23,7 +23,7 @@ def alchemyencoder(obj):
 
 def query(query):
     """output json """
-    connection = create_engine(config_uri).connect()
+    connection = engine.connect()
     res = connection.execute(query)
 
     # use special handler for dates and decimals
