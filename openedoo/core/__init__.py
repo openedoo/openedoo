@@ -5,7 +5,7 @@ core = blueprint('newbot_member', __name__)
 
 import json
 
-@core.route('/')
+@core.route('/hello')
 def newbot():
 	default_route = {'name' : "openedoo",'version': "0.1.0",'wiki': "https://github.com/openedoo/openedoo/wiki"}
 	data = json.dumps(default_route)
