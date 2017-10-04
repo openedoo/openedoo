@@ -30,6 +30,8 @@ class UnitTest(Command):
                 tests = test_loader.discover(module)
                 return test_runner.run(tests)
             tests = test_loader.discover(module+"."+module_name)
-            return test_runner.run(tests)
+            print (test_runner.run(tests))
+            return "Done"
         except Exception as e:
+            # print "error"
             print e
