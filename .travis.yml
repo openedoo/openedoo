@@ -5,8 +5,9 @@ python:
 before_install:
     - pip install pytest pytest-cov
     - pip install -r requirements.txt
+    - python manage.py module unittest -a
 
 # command to install dependencies
-install: "python manage.py module unittest -a"
+install: "python manage.py test"
 
 script: python manage.py test
