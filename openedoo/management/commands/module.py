@@ -8,7 +8,7 @@ from create_module_app import CreateModule
 from create_module import Create
 from install_module import Install
 from update_module import Update
-
+from unittest_module import UnitTest
 
 
 class Modules(Command):
@@ -18,6 +18,7 @@ class Modules(Command):
     module.add_command('create', Create())
     module.add_command('install', Install())
     module.add_command('update', Update())
+    module.add_command('unittest', UnitTest())
 
     @module.command
     def available():
